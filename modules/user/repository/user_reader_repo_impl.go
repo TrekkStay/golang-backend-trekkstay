@@ -6,19 +6,19 @@ import (
 	database "trekkstay/pkgs/db"
 )
 
-type UserReaderRepositoryImpl struct {
+type userReaderRepositoryImpl struct {
 	db database.Database
 }
 
-var _ userReaderRepository = (*UserReaderRepositoryImpl)(nil)
+var _ UserReaderRepository = (*userReaderRepositoryImpl)(nil)
 
-func NewUserReaderRepository(db database.Database) *UserReaderRepositoryImpl {
-	return &UserReaderRepositoryImpl{
+func NewUserReaderRepository(db database.Database) UserReaderRepository {
+	return &userReaderRepositoryImpl{
 		db: db,
 	}
 }
 
-func (repo UserReaderRepositoryImpl) FindUserByCondition(ctx context.Context,
+func (repo userReaderRepositoryImpl) FindUserByCondition(ctx context.Context,
 	condition map[string]interface{}) (*entity.UserEntity, error) {
 	var userEntity entity.UserEntity
 

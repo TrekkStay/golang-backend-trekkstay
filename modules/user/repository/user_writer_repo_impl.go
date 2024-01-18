@@ -6,30 +6,30 @@ import (
 	database "trekkstay/pkgs/db"
 )
 
-type UserWriterRepositoryImpl struct {
+type userWriterRepositoryImpl struct {
 	db database.Database
 }
 
-var _ userWriterRepository = (*UserWriterRepositoryImpl)(nil)
+var _ UserWriterRepository = (*userWriterRepositoryImpl)(nil)
 
-func NewUserWriterRepository(db database.Database) *UserWriterRepositoryImpl {
-	return &UserWriterRepositoryImpl{
+func NewUserWriterRepository(db database.Database) UserWriterRepository {
+	return &userWriterRepositoryImpl{
 		db: db,
 	}
 }
 
-func (repo UserWriterRepositoryImpl) InsertUser(ctx context.Context, userEntity entity.UserEntity) error {
+func (repo userWriterRepositoryImpl) InsertUser(ctx context.Context, userEntity entity.UserEntity) error {
 	return repo.db.Executor.
 		Create(&userEntity).Error
 }
 
-func (repo UserWriterRepositoryImpl) DeleteUser(ctx context.Context, userId string) error {
+func (repo userWriterRepositoryImpl) DeleteUser(ctx context.Context, userId string) error {
 	return repo.db.Executor.
 		Where("id = ?", userId).
 		Delete(&entity.UserEntity{}).Error
 }
 
-func (repo UserWriterRepositoryImpl) UpdateUser(ctx context.Context, userEntity entity.UserEntity) error {
+func (repo userWriterRepositoryImpl) UpdateUser(ctx context.Context, userEntity entity.UserEntity) error {
 	return repo.db.Executor.
 		Model(&entity.UserEntity{}).
 		Where("id = ? OR email = ?", userEntity.Id, userEntity.Email).
