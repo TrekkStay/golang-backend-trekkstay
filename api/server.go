@@ -5,17 +5,29 @@ import (
 	"trekkstay/api/routes"
 	"trekkstay/config"
 	"trekkstay/config/models"
+	database "trekkstay/pkgs/db"
 	"trekkstay/pkgs/transport/http/server"
 )
 
 func NewServer() (*server.HTTPServer, error) {
 	appConfig := config.LoadConfig(&models.AppConfig{}).(*models.AppConfig)
-	//dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
+	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
+
+	connection := database.Connection{
+		SSLMode:  database.Disable,
+		Host:     dbConfig.DBHost,
+		Port:     dbConfig.DBPort,
+		Database: dbConfig.DBName,
+		User:     dbConfig.DBUserName,
+		Password: dbConfig.DBPassword,
+	}
+
+	_ = database.InitDatabase(connection)
 
 	s := server.NewHTTPServer(
 		server.AddName(appConfig.ServiceName),
 		server.AddPort(appConfig.ServicePort),
-		server.SetGracefulShutdownTimeout(3*time.Second),
+		server.SetGracefulShutdownTimeout(time.Duration(appConfig.ServiceTimeout)),
 	)
 
 	s.AddRoutes(routes.InitRoutes())

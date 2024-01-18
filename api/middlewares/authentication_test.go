@@ -40,7 +40,7 @@ func TestAuthentication(t *testing.T) {
 	app := gin.Default()
 	app.Use(Recover())
 	app.Use(Authentication())
-	app.GET("/auth-test", func(c *gin.Context) {
+	app.GET("/user-test", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Authenticated",
 		})
