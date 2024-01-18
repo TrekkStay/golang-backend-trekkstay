@@ -4,11 +4,13 @@ import (
 	"flag"
 	"os"
 	"strconv"
+	"trekkstay/api"
 	"trekkstay/pkgs/log"
+	"trekkstay/pkgs/transport/http/server"
 )
 
 var (
-	configPath = flag.String("conf", "./env/dev.prod", "application config path")
+	configPath = flag.String("conf", "./env/dev.env", "application config path")
 	migration  = flag.Bool("migrate", false, "migrate database")
 )
 
@@ -27,4 +29,6 @@ func init() {
 
 func main() {
 	log.JsonLogger.Info("Starting server...")
+
+	server.MustRun(api.NewServer())
 }

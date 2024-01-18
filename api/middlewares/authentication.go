@@ -2,9 +2,10 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
-	"os"
 	"strings"
 	"trekkstay/api/middlewares/constant"
+	"trekkstay/config"
+	"trekkstay/config/models"
 	"trekkstay/core"
 	"trekkstay/pkgs/jwt"
 )
@@ -41,8 +42,8 @@ func extractTokenFromHeader(header string) (*string, error) {
 // - A function that takes a *gin.Context parameter.
 func Authentication() func(ctx *gin.Context) {
 	return func(c *gin.Context) {
-		secretKey := os.Getenv("CONFIG_JWT_SECRET_KEY")
-		jwtProvider := jwt.NewJWT(secretKey)
+		jwtConfig := config.LoadConfig(&models.JWTConfig{}).(*models.JWTConfig)
+		jwtProvider := jwt.NewJWT(jwtConfig.JWTSecretKey)
 
 		// Extract token from header
 		token, err := extractTokenFromHeader(c.GetHeader("Authorization"))
