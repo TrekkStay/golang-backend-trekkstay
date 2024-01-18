@@ -5,6 +5,6 @@ type AppConfig struct {
 	Version        string `mapstructure:"VERSION"`
 	ServiceName    string `mapstructure:"SERVICE_NAME"`
 	ServiceHost    string `mapstructure:"SERVICE_HOST"`
-	ServicePort    uint   `mapstructure:"SERVICE_PORT"`
-	ServiceTimeout uint   `mapstructure:"SERVICE_TIMEOUT"`
+	ServicePort    int    `mapstructure:"SERVICE_PORT"`
+	ServiceTimeout int    `mapstructure:"SERVICE_TIMEOUT"`
 }
