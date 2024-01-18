@@ -43,8 +43,6 @@ func NewHTTPServer(options ...Option) *HTTPServer {
 }
 
 func (s *HTTPServer) Run() {
-	gin.SetMode(gin.DebugMode)
-
 	// Request ID middleware
 	s.Middlewares = append(s.Middlewares, middleware.RequestID())
 	s.Middlewares = append(s.Middlewares, middleware.Recover())
