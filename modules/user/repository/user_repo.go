@@ -5,7 +5,7 @@ import (
 	"trekkstay/modules/user/domain/entity"
 )
 
-type userWriRepository interface {
+type userReaderRepository interface {
 	FindUserByCondition(ctx context.Context, condition map[string]interface{}) (*entity.UserEntity, error)
 }
 
@@ -16,16 +16,16 @@ type userWriterRepository interface {
 }
 
 type UserRepository struct {
-	userWriRepository
+	userReaderRepository
 	userWriterRepository
 }
 
 func NewUserRepository(
-	userReaderRepository userWriRepository,
+	userReaderRepository userReaderRepository,
 	userWriterRepository userWriterRepository,
 ) *UserRepository {
 	return &UserRepository{
-		userWriRepository:    userReaderRepository,
+		userReaderRepository: userReaderRepository,
 		userWriterRepository: userWriterRepository,
 	}
 }

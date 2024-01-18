@@ -10,7 +10,7 @@ type UserReaderRepositoryImpl struct {
 	db database.Database
 }
 
-var _ userWriRepository = (*UserReaderRepositoryImpl)(nil)
+var _ userReaderRepository = (*UserReaderRepositoryImpl)(nil)
 
 func NewUserReaderRepository(db database.Database) *UserReaderRepositoryImpl {
 	return &UserReaderRepositoryImpl{
