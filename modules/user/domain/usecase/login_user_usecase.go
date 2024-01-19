@@ -49,7 +49,7 @@ func (useCase loginUserUseCaseImpl) ExecLoginUser(ctx context.Context,
 	}
 
 	// Check if password is correct
-	if err := useCase.hashAlgo.ComparePasswords(userEntity.Password, []byte(userEntity.Password)); err != nil {
+	if err := useCase.hashAlgo.ComparePasswords(user.Password, []byte(userEntity.Password)); err != nil {
 		log.JsonLogger.Error("ExecLoginUser.password_not_match",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
