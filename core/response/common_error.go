@@ -6,7 +6,7 @@ func ErrFieldValidationFailed(err error) *ErrorResponse {
 	return NewErrorResponse(
 		http.StatusBadRequest,
 		err,
-		"field validation error",
+		err.Error(),
 		"ERR_FIELD_VALIDATION",
 	)
 }

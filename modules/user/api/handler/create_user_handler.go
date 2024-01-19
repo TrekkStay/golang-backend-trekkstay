@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"log/slog"
 	"net/http"
 	res "trekkstay/core/response"
@@ -40,7 +42,21 @@ func (h *userHandler) HandleCreateUser(c *gin.Context) {
 			slog.String("request_id", c.Request.Context().Value("X-Request-ID").(string)),
 		)
 
-		panic(res.ErrFieldValidationFailed(err))
+		var validationErrors validator.ValidationErrors
+		if errors.As(err, &validationErrors) {
+			for _, e := range validationErrors {
+				if e.Field() == "Password" {
+					panic(res.ErrFieldValidationFailed(errors.New("password too weak")))
+				}
+
+				if e.Field() == "Phone" {
+					panic(res.ErrFieldValidationFailed(errors.New("invalid phone number")))
+				}
+			}
+
+			// If no field matched, return default error
+			panic(res.ErrFieldValidationFailed(err))
+		}
 	}
 
 	// Create user
