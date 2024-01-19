@@ -35,6 +35,7 @@ func NewServer() (*server.HTTPServer, error) {
 	)
 
 	requestValidator := utils.NewValidator()
+	hashAlgo := utils.NewHashAlgo()
 
 	// User Repository
 	userRepoReader := userRepo.NewUserReaderRepository(*db)
@@ -42,7 +43,7 @@ func NewServer() (*server.HTTPServer, error) {
 
 	srv := &routes.RouteHandler{
 		UserHandler: userHandler.NewUserHandler(requestValidator,
-			userUseCase.NewCreateUserUseCase(userRepoReader, userRepoWriter),
+			userUseCase.NewCreateUserUseCase(hashAlgo, userRepoReader, userRepoWriter),
 		),
 	}
 

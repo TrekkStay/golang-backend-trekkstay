@@ -2,7 +2,13 @@ package utils
 
 import "golang.org/x/crypto/bcrypt"
 
-func HashAndSalt(pwd []byte) (string, error) {
+type HashAlgo struct{}
+
+func NewHashAlgo() HashAlgo {
+	return HashAlgo{}
+}
+
+func (HashAlgo) HashAndSalt(pwd []byte) (string, error) {
 	// Use GenerateFromPassword to hash & salt pwd
 	// MinCost is just an integer constant provided by the bcrypt
 	// package along with DefaultCost & MaxCost.
@@ -18,7 +24,7 @@ func HashAndSalt(pwd []byte) (string, error) {
 }
 
 // ComparePasswords check hash and plain string is valid
-func ComparePasswords(hashedPwd string, plainPwd []byte) error {
+func (HashAlgo) ComparePasswords(hashedPwd string, plainPwd []byte) error {
 	// Since we'll be getting the hashed password from the DB it
 	// will be a string, so we'll need to convert it to a byte slice
 	byteHash := []byte(hashedPwd)

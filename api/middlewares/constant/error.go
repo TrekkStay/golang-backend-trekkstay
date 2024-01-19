@@ -31,3 +31,12 @@ func ErrInternal(err error) *res.ErrorResponse {
 		"ERR_INTERNAL",
 	)
 }
+
+func ErrEmailNotFound(err error) *res.ErrorResponse {
+	return res.NewErrorResponse(
+		http.StatusNotFound,
+		err,
+		"email not found",
+		"ERR_EMAIL_NOT_FOUND",
+	)
+}

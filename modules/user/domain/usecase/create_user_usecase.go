@@ -6,7 +6,6 @@ import (
 	"trekkstay/modules/user/constant"
 	"trekkstay/modules/user/domain/entity"
 	"trekkstay/pkgs/log"
-	"trekkstay/utils"
 )
 
 type CreateUserUseCase interface {
@@ -14,14 +13,17 @@ type CreateUserUseCase interface {
 }
 
 type createUserUseCaseImpl struct {
+	hashAlgo   HashAlgo
 	readerRepo userReaderRepository
 	writerRepo userWriterRepository
 }
 
 var _ CreateUserUseCase = (*createUserUseCaseImpl)(nil)
 
-func NewCreateUserUseCase(readerRepo userReaderRepository, writerRepo userWriterRepository) CreateUserUseCase {
+func NewCreateUserUseCase(hashAlgo HashAlgo, readerRepo userReaderRepository,
+	writerRepo userWriterRepository) CreateUserUseCase {
 	return &createUserUseCaseImpl{
+		hashAlgo:   hashAlgo,
 		readerRepo: readerRepo,
 		writerRepo: writerRepo,
 	}
@@ -53,7 +55,7 @@ func (useCase createUserUseCaseImpl) ExecCreateUser(ctx context.Context, userEnt
 	}
 
 	// Hash password
-	hashedPassword, err := utils.HashAndSalt([]byte(userEntity.Password))
+	hashedPassword, err := useCase.hashAlgo.HashAndSalt([]byte(userEntity.Password))
 	if err != nil {
 		log.JsonLogger.Error("ExecCreateEmp.hash_password",
 			slog.Any("error", err.Error()),
