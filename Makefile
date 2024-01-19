@@ -30,3 +30,7 @@ run_prod:
 
 run_dev:
 	@GIN_MODE=debug go run cmd/trekkstay/main.go -conf=./env/dev.env -migrate=true
+
+#### ----------------------- Swagger command configuration ----------------------- ####
+gen_swagger:
+	swag init -g cmd/trekkstay/main.go

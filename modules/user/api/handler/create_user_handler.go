@@ -10,6 +10,17 @@ import (
 	"trekkstay/pkgs/log"
 )
 
+// HandleCreateUser	godoc
+// @Summary      Register new user
+// @Description  Register new user
+// @Tags         User
+// @Produce      json
+// @Param        CreateUserReq  body	req.CreateUserReq  true  "CreateUserReq JSON"
+// @Success      200 {object}  	res.SuccessResponse
+// @failure		 400 {object} 	res.ErrorResponse
+// @failure		 500 {object} 	res.ErrorResponse
+// @Router       /api/v1/user/signup [post]
+// @Security     JWT
 func (h *userHandler) HandleCreateUser(c *gin.Context) {
 	// Bind request
 	var createUserReq req.CreateUserReq

@@ -1,0 +1,86 @@
+basePath: /
+definitions:
+  req.CreateUserReq:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  res.ErrorResponse:
+    properties:
+      error_key:
+        type: string
+      log:
+        type: string
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  res.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+host: localhost:8888
+info:
+  contact:
+    email: support@trekkstay.com
+    name: Trekkstay Team
+    url: https://www.trekkstay.com
+  description: API system for Trekkstay - Hotel Booking System
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://swagger.io/
+  title: Trekkstay API - V1
+  version: v1.0
+paths:
+  /api/v1/user/signup:
+    post:
+      description: Register new user
+      parameters:
+      - description: CreateUserReq JSON
+        in: body
+        name: CreateUserReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Register new user
+      tags:
+      - User
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

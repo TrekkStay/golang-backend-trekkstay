@@ -1,7 +1,6 @@
 package api
 
 import (
-	"github.com/go-playground/validator/v10"
 	"time"
 	"trekkstay/api/routes"
 	"trekkstay/config"
@@ -11,6 +10,7 @@ import (
 	userRepo "trekkstay/modules/user/repository"
 	database "trekkstay/pkgs/db"
 	"trekkstay/pkgs/transport/http/server"
+	"trekkstay/utils"
 )
 
 func NewServer() (*server.HTTPServer, error) {
@@ -34,7 +34,7 @@ func NewServer() (*server.HTTPServer, error) {
 		server.SetGracefulShutdownTimeout(time.Duration(appConfig.ServiceTimeout)),
 	)
 
-	requestValidator := validator.New()
+	requestValidator := utils.NewValidator()
 
 	// User Repository
 	userRepoReader := userRepo.NewUserReaderRepository(*db)
