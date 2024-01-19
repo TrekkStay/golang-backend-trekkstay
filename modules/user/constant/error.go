@@ -22,3 +22,12 @@ func ErrorInternalServerError(err error) error {
 		"ERR_INTERNAL_SERVER_ERROR",
 	)
 }
+
+func ErrorPhoneAlreadyExists(err error) error {
+	return res.NewErrorResponse(
+		http.StatusBadRequest,
+		err,
+		"phone already exists",
+		"ERR_PHONE_ALREADY_EXISTS",
+	)
+}

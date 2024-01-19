@@ -1,10 +1,14 @@
 package api
 
 import (
+	"github.com/go-playground/validator/v10"
 	"time"
 	"trekkstay/api/routes"
 	"trekkstay/config"
 	"trekkstay/config/models"
+	userHandler "trekkstay/modules/user/api/handler"
+	userUseCase "trekkstay/modules/user/domain/usecase"
+	userRepo "trekkstay/modules/user/repository"
 	database "trekkstay/pkgs/db"
 	"trekkstay/pkgs/transport/http/server"
 )
@@ -22,7 +26,7 @@ func NewServer() (*server.HTTPServer, error) {
 		Password: dbConfig.DBPassword,
 	}
 
-	_ = database.InitDatabase(connection)
+	db := database.InitDatabase(connection)
 
 	s := server.NewHTTPServer(
 		server.AddName(appConfig.ServiceName),
@@ -30,8 +34,20 @@ func NewServer() (*server.HTTPServer, error) {
 		server.SetGracefulShutdownTimeout(time.Duration(appConfig.ServiceTimeout)),
 	)
 
-	s.AddRoutes(routes.InitRoutes())
-	s.AddGroupRoutes(routes.InitGroupRoutes())
+	requestValidator := validator.New()
+
+	// User Repository
+	userRepoReader := userRepo.NewUserReaderRepository(*db)
+	userRepoWriter := userRepo.NewUserWriterRepository(*db)
+
+	srv := &routes.RouteHandler{
+		UserHandler: userHandler.NewUserHandler(requestValidator,
+			userUseCase.NewCreateUserUseCase(userRepoReader, userRepoWriter),
+		),
+	}
+
+	s.AddRoutes(srv.InitRoutes())
+	s.AddGroupRoutes(srv.InitGroupRoutes())
 
 	return s, nil
 }
