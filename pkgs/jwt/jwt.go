@@ -16,7 +16,7 @@ func NewJWT(secret string) *JWT {
 	return &JWT{secret: secret}
 }
 
-func (j *JWT) Generate(payload map[string]interface{}, expiry uint) (map[string]interface{}, error) {
+func (j *JWT) Generate(payload map[string]interface{}, expiry int) (map[string]interface{}, error) {
 	jwtPayload, err := json.Marshal(payload)
 	if err != nil {
 		return nil, constant.ErrCannotMarshalPayload

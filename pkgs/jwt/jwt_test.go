@@ -16,7 +16,6 @@ func TestValidateToken(t *testing.T) {
 		// Create a valid token
 		claims := jwt.MapClaims{
 			"user_id": "123",
-			"type":    "access",
 		}
 		jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 		tokenString, _ := jwtToken.SignedString([]byte("secret"))
@@ -49,9 +48,8 @@ func TestGenerateToken(t *testing.T) {
 	t.Run("Generate token with valid data and expiry", func(t *testing.T) {
 		payload := map[string]interface{}{
 			"user_id": "user1",
-			"type":    "access",
 		}
-		expiry := uint(3600)
+		expiry := 3600
 
 		token, err := provider.Generate(payload, expiry)
 
@@ -63,7 +61,7 @@ func TestGenerateToken(t *testing.T) {
 		if token["token"] == "" {
 			t.Errorf("Expected non-empty token, got empty token")
 		}
-		if token["expiry"].(uint) != expiry {
+		if token["expiry"] != expiry {
 			t.Errorf("Expected expiry %d, got %d", expiry, token["expiry"])
 		}
 		if token["created_at"].(time.Time).IsZero() {
@@ -74,7 +72,7 @@ func TestGenerateToken(t *testing.T) {
 	// Test case 2: Generate token with empty data and expiry
 	t.Run("Generate token with empty data and expiry", func(t *testing.T) {
 		payload := map[string]interface{}{}
-		expiry := uint(0)
+		expiry := 0
 
 		token, err := provider.Generate(payload, expiry)
 
@@ -86,7 +84,7 @@ func TestGenerateToken(t *testing.T) {
 		if token["token"] == "" {
 			t.Errorf("Expected non-empty token, got empty token")
 		}
-		if token["expiry"].(uint) != expiry {
+		if token["expiry"] != expiry {
 			t.Errorf("Expected expiry %d, got %d", expiry, token["expiry"])
 		}
 		if token["created_at"].(time.Time).IsZero() {
