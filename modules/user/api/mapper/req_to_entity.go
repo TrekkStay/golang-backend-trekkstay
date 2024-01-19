@@ -14,3 +14,10 @@ func ConvertCreateUserReqToUserEntity(req req.CreateUserReq) entity.UserEntity {
 		Status:   entity.UNVERIFIED.Value(),
 	}
 }
+
+func ConvertLoginUserReqToUserEntity(req req.LoginUserReq) entity.UserEntity {
+	return entity.UserEntity{
+		Email:    req.Email,
+		Password: req.Password,
+	}
+}

@@ -12,21 +12,21 @@ import (
 	"trekkstay/pkgs/log"
 )
 
-// HandleCreateUser	godoc
-// @Summary      Register new user
-// @Description  Register new user
+// HandleLoginUser HandleCreateUser	godoc
+// @Summary      Login user
+// @Description  Login user by email and password
 // @Tags         User
 // @Produce      json
-// @Param        CreateUserReq  body	req.CreateUserReq  true  "CreateUserReq JSON"
+// @Param        LoginUserReq  body	req.LoginUserReq  true  "LoginUserReq JSON"
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/user/signup [post]
-func (h *userHandler) HandleCreateUser(c *gin.Context) {
+// @Router       /api/v1/user/login [post]
+func (h *userHandler) HandleLoginUser(c *gin.Context) {
 	// Bind request
-	var createUserReq req.CreateUserReq
-	if err := c.ShouldBindJSON(&createUserReq); err != nil {
-		log.JsonLogger.Error("HandleCreateUser.bind_json",
+	var loginUserReq req.LoginUserReq
+	if err := c.ShouldBindJSON(&loginUserReq); err != nil {
+		log.JsonLogger.Error("HandleLoginUser.bind_json",
 			slog.String("error", err.Error()),
 			slog.String("request_id", c.Request.Context().Value("X-Request-ID").(string)),
 		)
@@ -35,8 +35,8 @@ func (h *userHandler) HandleCreateUser(c *gin.Context) {
 	}
 
 	// Validate request
-	if err := h.requestValidator.Struct(&createUserReq); err != nil {
-		log.JsonLogger.Error("HandleCreateUser.validate_request",
+	if err := h.requestValidator.Struct(&loginUserReq); err != nil {
+		log.JsonLogger.Error("HandleLoginUser.validate_request",
 			slog.String("error", err.Error()),
 			slog.String("request_id", c.Request.Context().Value("X-Request-ID").(string)),
 		)
@@ -44,12 +44,8 @@ func (h *userHandler) HandleCreateUser(c *gin.Context) {
 		var validationErrors validator.ValidationErrors
 		if errors.As(err, &validationErrors) {
 			for _, e := range validationErrors {
-				if e.Field() == "Password" {
-					panic(res.ErrFieldValidationFailed(errors.New("password too weak")))
-				}
-
-				if e.Field() == "Phone" {
-					panic(res.ErrFieldValidationFailed(errors.New("invalid phone number")))
+				if e.Field() == "Email" {
+					panic(res.ErrFieldValidationFailed(errors.New("invalid email")))
 				}
 			}
 
@@ -58,11 +54,15 @@ func (h *userHandler) HandleCreateUser(c *gin.Context) {
 		}
 	}
 
-	// Create user
-	if err := h.createUserUseCase.ExecCreateUser(c.Request.Context(),
-		mapper.ConvertCreateUserReqToUserEntity(createUserReq)); err != nil {
+	// Login user
+	user, err := h.loginUserUseCase.ExecLoginUser(c.Request.Context(),
+		mapper.ConvertLoginUserReqToUserEntity(loginUserReq))
+	if err != nil {
 		panic(err)
 	}
 
-	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", nil))
+	// Convert user entity to response
+	userResponse := mapper.CovertUserEntityToLoginUserRes(*user)
+
+	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", userResponse))
 }

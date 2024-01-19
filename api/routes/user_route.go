@@ -14,6 +14,11 @@ func (r *RouteHandler) userRoute() route.GroupRoute {
 				Method:  method.POST,
 				Handler: r.UserHandler.HandleCreateUser,
 			},
+			{
+				Path:    "/login",
+				Method:  method.POST,
+				Handler: r.UserHandler.HandleLoginUser,
+			},
 		},
 	}
 }
