@@ -13,7 +13,7 @@ type LoginUserUseCase interface {
 }
 
 type loginUserUseCaseImpl struct {
-	jwt              JWT
+	tokenProvider    TokenProvider
 	accessTokenTime  int
 	refreshTokenTime int
 	hashAlgo         HashAlgo
@@ -22,10 +22,10 @@ type loginUserUseCaseImpl struct {
 
 var _ LoginUserUseCase = (*loginUserUseCaseImpl)(nil)
 
-func NewLoginUserUseCase(jwt JWT, accessTokenTime int, refreshTokenTime int,
+func NewLoginUserUseCase(tokenProvider TokenProvider, accessTokenTime int, refreshTokenTime int,
 	hashAlgo HashAlgo, readerRepo userReaderRepository) LoginUserUseCase {
 	return &loginUserUseCaseImpl{
-		jwt:              jwt,
+		tokenProvider:    tokenProvider,
 		accessTokenTime:  accessTokenTime,
 		refreshTokenTime: refreshTokenTime,
 		hashAlgo:         hashAlgo,
@@ -59,7 +59,7 @@ func (useCase loginUserUseCaseImpl) ExecLoginUser(ctx context.Context,
 	}
 
 	// Generate access token
-	accessToken, err := useCase.jwt.Generate(
+	accessToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
 			"id": user.Id,
 		},
@@ -75,7 +75,7 @@ func (useCase loginUserUseCaseImpl) ExecLoginUser(ctx context.Context,
 	}
 
 	// Generate refresh token
-	refreshToken, err := useCase.jwt.Generate(
+	refreshToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
 			"id": user.Id,
 		},

@@ -6,13 +6,16 @@ import (
 	"trekkstay/modules/user/domain/entity"
 )
 
-type mockUserReaderRepository struct {
+// mockTokenProvider implements TokenProvider interface
+type mockTokenProvider struct{}
+
+func (m mockTokenProvider) Generate(payload map[string]interface{}, expiry int) (map[string]interface{}, error) {
+	return map[string]interface{}{
+		"token": "token_generated",
+	}, nil
 }
 
-type mockUserWriterRepository struct{}
-
-type mockJWT struct{}
-
+// mockHashAlgo implements HashAlgo interface
 type mockHashAlgo struct {
 }
 
@@ -24,11 +27,8 @@ func (m mockHashAlgo) ComparePasswords(hashedPwd string, plainPwd []byte) error 
 	return nil
 }
 
-func (m mockJWT) Generate(payload map[string]interface{}, expiry int) (map[string]interface{}, error) {
-	return map[string]interface{}{
-		"token": "token_generated",
-	}, nil
-}
+// mockUserWriterRepository implements userWriterRepository interface
+type mockUserWriterRepository struct{}
 
 func (m mockUserWriterRepository) InsertUser(ctx context.Context, userEntity entity.UserEntity) error {
 	if userEntity.Email == "existedemail@example.com" {
@@ -52,6 +52,10 @@ func (m mockUserWriterRepository) UpdateUser(ctx context.Context, userEntity ent
 	}
 
 	return errors.New("user not found")
+}
+
+// mockUserReaderRepository implements userReaderRepository interface
+type mockUserReaderRepository struct {
 }
 
 func (m mockUserReaderRepository) FindUserByCondition(ctx context.Context,

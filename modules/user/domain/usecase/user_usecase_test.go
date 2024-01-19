@@ -45,10 +45,10 @@ func TestCreateUserUseCase(t *testing.T) {
 
 func TestLoginUserUseCase(t *testing.T) {
 	userReaderRepo := mockUserReaderRepository{}
-	jwt := mockJWT{}
+	tokenProvider := mockTokenProvider{}
 	hashAlgo := mockHashAlgo{}
 
-	useCase := NewLoginUserUseCase(jwt, 1, 1, hashAlgo, userReaderRepo)
+	useCase := NewLoginUserUseCase(tokenProvider, 1, 1, hashAlgo, userReaderRepo)
 
 	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 

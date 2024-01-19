@@ -15,7 +15,7 @@ type userWriterRepository interface {
 	UpdateUser(ctx context.Context, userEntity entity.UserEntity) error
 }
 
-type JWT interface {
+type TokenProvider interface {
 	Generate(payload map[string]interface{}, expiry int) (map[string]interface{}, error)
 }
 
