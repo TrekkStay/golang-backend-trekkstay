@@ -43,7 +43,6 @@ func TestInsertUser(t *testing.T) {
 			Status:   gofakeit.RandomString([]string{entity.ACTIVE.Value(), entity.UNVERIFIED.Value(), entity.BLOCKED.Value()}),
 			OTP:      "123456",
 			Password: gofakeit.Password(true, true, true, false, false, 10),
-			Salt:     gofakeit.RandomString([]string{"salt1", "salt2", "salt3"}),
 		})
 
 		assert.Nil(t, err)
@@ -57,7 +56,6 @@ func TestInsertUser(t *testing.T) {
 			Status:   gofakeit.RandomString([]string{entity.ACTIVE.Value(), entity.UNVERIFIED.Value(), entity.BLOCKED.Value()}),
 			OTP:      "123456",
 			Password: gofakeit.Password(true, true, true, false, false, 10),
-			Salt:     gofakeit.RandomString([]string{"salt1", "salt2", "salt3"}),
 		})
 
 		// insert duplicate user
@@ -68,7 +66,6 @@ func TestInsertUser(t *testing.T) {
 			Status:   gofakeit.RandomString([]string{entity.ACTIVE.Value(), entity.UNVERIFIED.Value(), entity.BLOCKED.Value()}),
 			OTP:      "123456",
 			Password: gofakeit.Password(true, true, true, false, false, 10),
-			Salt:     gofakeit.RandomString([]string{"salt1", "salt2", "salt3"}),
 		})
 
 		assert.NotNil(t, err)
@@ -104,7 +101,6 @@ func TestUpdateUser(t *testing.T) {
 			Status:   gofakeit.RandomString([]string{entity.ACTIVE.Value(), entity.UNVERIFIED.Value(), entity.BLOCKED.Value()}),
 			OTP:      "123456",
 			Password: gofakeit.Password(true, true, true, false, false, 10),
-			Salt:     gofakeit.RandomString([]string{"salt1", "salt2", "salt3"}),
 		})
 
 		err := userRepo.UpdateUser(context.Background(), entity.UserEntity{
@@ -114,7 +110,6 @@ func TestUpdateUser(t *testing.T) {
 			Status:   gofakeit.RandomString([]string{entity.ACTIVE.Value(), entity.UNVERIFIED.Value(), entity.BLOCKED.Value()}),
 			OTP:      "123456",
 			Password: gofakeit.Password(true, true, true, false, false, 10),
-			Salt:     gofakeit.RandomString([]string{"salt1", "salt2", "salt3"}),
 		})
 
 		assert.Nil(t, err)
@@ -153,7 +148,6 @@ func TestDeleteUser(t *testing.T) {
 			Status:   gofakeit.RandomString([]string{entity.ACTIVE.Value(), entity.UNVERIFIED.Value(), entity.BLOCKED.Value()}),
 			OTP:      "123456",
 			Password: gofakeit.Password(true, true, true, false, false, 10),
-			Salt:     gofakeit.RandomString([]string{"salt1", "salt2", "salt3"}),
 		})
 
 		err := userRepo.DeleteUser(context.Background(), "3a1d7b7f-1eeb-41d2-9d9e-4cce3785ee01")

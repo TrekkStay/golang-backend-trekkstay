@@ -10,7 +10,6 @@ type UserEntity struct {
 	Status      string `json:"status" gorm:"not null;default:unverified"`
 	OTP         string `json:"-" gorm:"default:null"`
 	Password    string `json:"-" gorm:"not null;"`
-	Salt        string `json:"-" gorm:"not null;"`
 }
 
 func (UserEntity) TableName() string {

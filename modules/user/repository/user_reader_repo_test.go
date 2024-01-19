@@ -40,7 +40,6 @@ func TestFindUserByCondition(t *testing.T) {
 		Status:   entity.ACTIVE.Value(),
 		OTP:      "123456",
 		Password: "password",
-		Salt:     "salt",
 	})
 
 	t.Run("find user by email", func(t *testing.T) {
