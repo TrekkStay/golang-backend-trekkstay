@@ -40,3 +40,12 @@ func ErrEmailNotFound(err error) *res.ErrorResponse {
 		"ERR_EMAIL_NOT_FOUND",
 	)
 }
+
+func ErrEmailOrPasswordInvalid(err error) *res.ErrorResponse {
+	return res.NewErrorResponse(
+		http.StatusUnauthorized,
+		err,
+		"email or password invalid",
+		"ERR_EMAIL_OR_PASSWORD_INVALID",
+	)
+}

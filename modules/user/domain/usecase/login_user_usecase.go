@@ -55,7 +55,7 @@ func (useCase loginUserUseCaseImpl) ExecLoginUser(ctx context.Context,
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
-		return nil, constant.ErrInternal(err)
+		return nil, constant.ErrEmailOrPasswordInvalid(err)
 	}
 
 	// Generate access token
