@@ -7,30 +7,35 @@ import (
 	"html/template"
 	"net/smtp"
 	"strings"
-	"trekkstay/config"
 	"trekkstay/config/models"
 )
 
-type MailConfig struct {
+type Mailer struct {
+	mailConfig *models.MailConfig
+}
+
+func NewMailer(mailConfig *models.MailConfig) *Mailer {
+	return &Mailer{mailConfig: mailConfig}
+}
+
+type Config struct {
 	MailFrom   string
 	MailServer string
 	MailPort   int
 	MailPass   string
 }
 
-func Init() MailConfig {
-	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
-
-	return MailConfig{
-		MailFrom:   mailConfig.MailFrom,
-		MailServer: mailConfig.MailServer,
-		MailPort:   mailConfig.MailPort,
-		MailPass:   mailConfig.MailPass,
+func (m *Mailer) Init() Config {
+	return Config{
+		MailFrom:   m.mailConfig.MailFrom,
+		MailServer: m.mailConfig.MailServer,
+		MailPort:   m.mailConfig.MailPort,
+		MailPass:   m.mailConfig.MailPass,
 	}
 }
 
-func SendMail(to, subject, templatePath string, data interface{}) error {
-	cfg := Init()
+func (m *Mailer) SendMail(to, subject, templatePath string, data interface{}) error {
+	cfg := m.Init()
 
 	if len(to) == 0 || len(subject) == 0 || len(templatePath) == 0 {
 		return errors.New("to, subject, templatePath can not empty")
@@ -50,7 +55,7 @@ func SendMail(to, subject, templatePath string, data interface{}) error {
 	messages = append(messages, body+"\r")
 
 	msg := []byte(strings.Join(messages, "\n"))
-	mailAuth := fmt.Sprintf("%s:%d", cfg.MailServer, cfg.MailPort) //465 - 587
+	mailAuth := fmt.Sprintf("%s:%d", cfg.MailServer, cfg.MailPort)
 
 	err = smtp.SendMail(mailAuth,
 		smtp.PlainAuth("", cfg.MailFrom, cfg.MailPass, cfg.MailServer), cfg.MailFrom, []string{to}, msg)
