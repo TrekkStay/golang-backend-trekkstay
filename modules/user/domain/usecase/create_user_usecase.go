@@ -62,7 +62,7 @@ func (useCase createUserUseCaseImpl) ExecCreateUser(ctx context.Context, userEnt
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
-		return constant.ErrorInternalServerError(err)
+		return constant.ErrorHashPassword(err)
 	}
 	userEntity.Password = hashedPassword
 

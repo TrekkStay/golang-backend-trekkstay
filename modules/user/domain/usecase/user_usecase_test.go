@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"trekkstay/core"
 	"trekkstay/modules/user/domain/entity"
 )
 
@@ -60,5 +61,24 @@ func TestLoginUserUseCase(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.NotNil(t, userEntity)
+	})
+}
+
+func TestChangePasswordUseCase(t *testing.T) {
+	userReaderRepo := mockUserReaderRepository{}
+	userWriterRepo := mockUserWriterRepository{}
+	hashAlgo := mockHashAlgo{}
+
+	useCase := NewChangePasswordUseCase(hashAlgo, userReaderRepo, userWriterRepo)
+
+	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
+	ctx = context.WithValue(ctx, core.CurrentRequesterKey, core.RestRequester{
+		Id: "1234567890",
+	})
+
+	t.Run("change password successfully", func(t *testing.T) {
+		err := useCase.ExecChangePassword(ctx, "password", "new-password")
+
+		assert.Nil(t, err)
 	})
 }

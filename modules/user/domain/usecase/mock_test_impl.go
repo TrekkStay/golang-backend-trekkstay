@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"errors"
+	"trekkstay/core"
 	"trekkstay/modules/user/domain/entity"
 )
 
@@ -51,6 +52,10 @@ func (m mockUserWriterRepository) UpdateUser(ctx context.Context, userEntity ent
 		return nil
 	}
 
+	if userEntity.Id == "1234567890" {
+		return nil
+	}
+
 	return errors.New("user not found")
 }
 
@@ -70,6 +75,15 @@ func (m mockUserReaderRepository) FindUserByCondition(ctx context.Context,
 	if condition["phone"] == "12345678900" {
 		return &entity.UserEntity{
 			Phone: "12345678900",
+		}, nil
+	}
+
+	if condition["id"] == "1234567890" {
+		return &entity.UserEntity{
+			Entity: core.Entity{
+				Id: "1234567890",
+			},
+			Password: "password",
 		}, nil
 	}
 
