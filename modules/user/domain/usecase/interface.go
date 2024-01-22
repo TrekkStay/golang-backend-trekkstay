@@ -23,3 +23,7 @@ type HashAlgo interface {
 	HashAndSalt(pwd []byte) (string, error)
 	ComparePasswords(hashedPwd string, plainPwd []byte) error
 }
+
+type Mailer interface {
+	SendMail(to, subject, templatePath string, data interface{}) error
+}

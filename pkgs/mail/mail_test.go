@@ -21,7 +21,7 @@ func TestSend(t *testing.T) {
 	t.Run("all parameters are valid", func(t *testing.T) {
 		err := mailer.SendMail("thanhanphan17@gmail.com", "New Password",
 			"../../templates/forgot_password_template.html", map[string]interface{}{
-				"Password": "123456",
+				"password": "123456",
 			})
 
 		assert.NoError(t, err)

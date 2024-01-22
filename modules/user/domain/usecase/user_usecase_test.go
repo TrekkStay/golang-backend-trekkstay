@@ -82,3 +82,19 @@ func TestChangePasswordUseCase(t *testing.T) {
 		assert.Nil(t, err)
 	})
 }
+
+func TestForgotPasswordUseCase(t *testing.T) {
+	userReaderRepo := mockUserReaderRepository{}
+	userWriterRepo := mockUserWriterRepository{}
+	mailer := mockMailer{}
+
+	useCase := NewForgotPasswordUseCase(mailer, userReaderRepo, userWriterRepo)
+
+	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
+
+	t.Run("forgot password successfully", func(t *testing.T) {
+		err := useCase.ExecuteForgotPassword(ctx, "existedemail@example.com")
+
+		assert.Nil(t, err)
+	})
+}

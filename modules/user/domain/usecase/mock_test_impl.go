@@ -89,3 +89,10 @@ func (m mockUserReaderRepository) FindUserByCondition(ctx context.Context,
 
 	return nil, errors.New("user not found")
 }
+
+// mockMailer implements Mailer interface
+type mockMailer struct{}
+
+func (m mockMailer) SendMail(to, subject, templatePath string, data interface{}) error {
+	panic("implement me")
+}
