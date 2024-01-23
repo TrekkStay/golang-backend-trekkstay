@@ -15,7 +15,7 @@ import (
 // @Description  Forgot password and send new password to email
 // @Tags         User
 // @Produce      json
-// @Param        ChangePasswordReq  body	req.ChangePasswordReq  true  "ChangePasswordReq JSON"
+// @Param        ForgotPasswordReq  body	req.ForgotPasswordReq  true  "ForgotPasswordReq JSON"
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse

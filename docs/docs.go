@@ -26,6 +26,11 @@ const docTemplate = `{
     "paths": {
         "/api/v1/user/change-password": {
             "post": {
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
                 "description": "Change password",
                 "produces": [
                     "application/json"
@@ -79,12 +84,12 @@ const docTemplate = `{
                 "summary": "Forgot password",
                 "parameters": [
                     {
-                        "description": "ChangePasswordReq JSON",
-                        "name": "ChangePasswordReq",
+                        "description": "ForgotPasswordReq JSON",
+                        "name": "ForgotPasswordReq",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/req.ChangePasswordReq"
+                            "$ref": "#/definitions/req.ForgotPasswordReq"
                         }
                     }
                 ],
@@ -231,6 +236,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "req.ForgotPasswordReq": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
                     "type": "string"
                 }
             }
