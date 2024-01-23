@@ -1,6 +1,8 @@
 package core
 
-const CurrentRequesterKey = ""
+const CurrentRequesterKeyString = ""
+
+type CurrentRequesterKeyStruct struct{}
 
 type Requester interface {
 	GetUserId() string

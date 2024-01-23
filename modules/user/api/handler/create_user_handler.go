@@ -18,7 +18,7 @@ import (
 // @Tags         User
 // @Produce      json
 // @Param        CreateUserReq  body	req.CreateUserReq  true  "CreateUserReq JSON"
-// @Success      200 {object}  	res.SuccessResponse
+// @Success      201 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /api/v1/user/signup [post]
@@ -64,5 +64,5 @@ func (h *userHandler) HandleCreateUser(c *gin.Context) {
 		panic(err)
 	}
 
-	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", nil))
+	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", nil))
 }

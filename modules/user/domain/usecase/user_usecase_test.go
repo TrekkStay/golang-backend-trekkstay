@@ -72,7 +72,7 @@ func TestChangePasswordUseCase(t *testing.T) {
 	useCase := NewChangePasswordUseCase(hashAlgo, userReaderRepo, userWriterRepo)
 
 	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-	ctx = context.WithValue(ctx, core.CurrentRequesterKey, core.RestRequester{
+	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
 		Id: "1234567890",
 	})
 

@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  req.ChangePasswordReq:
+    properties:
+      new_pwd:
+        type: string
+      old_pwd:
+        type: string
+    required:
+    - new_pwd
+    - old_pwd
+    type: object
   req.CreateUserReq:
     properties:
       email:
@@ -58,6 +68,62 @@ info:
   title: Trekkstay API - V1
   version: v1.0
 paths:
+  /api/v1/user/change-password:
+    post:
+      description: Change password
+      parameters:
+      - description: ChangePasswordReq JSON
+        in: body
+        name: ChangePasswordReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.ChangePasswordReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: Change password
+      tags:
+      - User
+  /api/v1/user/forgot-password:
+    post:
+      description: Forgot password and send new password to email
+      parameters:
+      - description: ChangePasswordReq JSON
+        in: body
+        name: ChangePasswordReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.ChangePasswordReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: Forgot password
+      tags:
+      - User
   /api/v1/user/login:
     post:
       description: Login user by email and password
@@ -99,8 +165,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/res.SuccessResponse'
         "400":

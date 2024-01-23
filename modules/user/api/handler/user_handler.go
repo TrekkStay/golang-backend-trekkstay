@@ -9,22 +9,30 @@ import (
 type UserHandler interface {
 	HandleCreateUser(c *gin.Context)
 	HandleLoginUser(c *gin.Context)
+	HandleChangePassword(c *gin.Context)
+	HandleForgotPassword(c *gin.Context)
 }
 
 type userHandler struct {
-	requestValidator  *validator.Validate
-	createUserUseCase usecase.CreateUserUseCase
-	loginUserUseCase  usecase.LoginUserUseCase
+	requestValidator      *validator.Validate
+	createUserUseCase     usecase.CreateUserUseCase
+	loginUserUseCase      usecase.LoginUserUseCase
+	changePasswordUseCase usecase.ChangePasswordUseCase
+	forgotPasswordUseCase usecase.ForgotPasswordUseCase
 }
 
 func NewUserHandler(
 	requestValidator *validator.Validate,
 	createUserUseCase usecase.CreateUserUseCase,
 	loginUserUseCase usecase.LoginUserUseCase,
+	changePasswordUseCase usecase.ChangePasswordUseCase,
+	forgotPasswordUseCase usecase.ForgotPasswordUseCase,
 ) UserHandler {
 	return &userHandler{
-		requestValidator:  requestValidator,
-		createUserUseCase: createUserUseCase,
-		loginUserUseCase:  loginUserUseCase,
+		requestValidator:      requestValidator,
+		createUserUseCase:     createUserUseCase,
+		loginUserUseCase:      loginUserUseCase,
+		changePasswordUseCase: changePasswordUseCase,
+		forgotPasswordUseCase: forgotPasswordUseCase,
 	}
 }

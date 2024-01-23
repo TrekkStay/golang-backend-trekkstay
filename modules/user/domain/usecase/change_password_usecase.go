@@ -32,7 +32,7 @@ func NewChangePasswordUseCase(hashAlgo HashAlgo, readerRepo userReaderRepository
 func (c changePasswordUseCaseImpl) ExecChangePassword(ctx context.Context, oldPwd, newPwd string) error {
 	// Find user by id
 	user, err := c.readerRepo.FindUserByCondition(ctx, map[string]interface{}{
-		"id": ctx.Value(core.CurrentRequesterKey).(core.Requester).GetUserId(),
+		"id": ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester).GetUserId(),
 	})
 	if err != nil {
 		log.JsonLogger.Error("ExecChangePassword.find_user_by_id",

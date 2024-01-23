@@ -58,7 +58,7 @@ func Authentication() func(ctx *gin.Context) {
 		}
 
 		// Set requester information in context
-		c.Set(core.CurrentRequesterKey, core.RestRequester{
+		c.Set(core.CurrentRequesterKeyString, core.RestRequester{
 			Id: payload.UserId,
 		})
 

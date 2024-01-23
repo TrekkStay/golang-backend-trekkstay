@@ -2,7 +2,6 @@ package jwt
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 	"trekkstay/pkgs/jwt/constant"
 
@@ -52,8 +51,6 @@ func (j *JWT) Generate(payload map[string]interface{}, expiry int) (map[string]i
 }
 
 func (j *JWT) Validate(tokenString string) (*constant.JWTPayload, error) {
-	fmt.Println("TOKENNNNNNNNN", tokenString)
-	fmt.Println("SECRET", j.secret)
 	// Parse the token with the secret key.
 	secretKey := []byte(j.secret)
 	jwtToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

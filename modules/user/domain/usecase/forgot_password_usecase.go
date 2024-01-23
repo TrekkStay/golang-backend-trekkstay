@@ -16,15 +16,18 @@ type ForgotPasswordUseCase interface {
 
 type forgotPasswordUseCase struct {
 	mailer     Mailer
+	hashAlgo   HashAlgo
 	readerRepo userReaderRepository
 	writerRepo userWriterRepository
 }
 
 var _ ForgotPasswordUseCase = (*forgotPasswordUseCase)(nil)
 
-func NewForgotPasswordUseCase(mailer Mailer, readerRepo userReaderRepository, writerRepo userWriterRepository) ForgotPasswordUseCase {
+func NewForgotPasswordUseCase(mailer Mailer, hashAlgo HashAlgo,
+	readerRepo userReaderRepository, writerRepo userWriterRepository) ForgotPasswordUseCase {
 	return &forgotPasswordUseCase{
 		mailer:     mailer,
+		hashAlgo:   hashAlgo,
 		readerRepo: readerRepo,
 		writerRepo: writerRepo,
 	}
@@ -32,7 +35,7 @@ func NewForgotPasswordUseCase(mailer Mailer, readerRepo userReaderRepository, wr
 
 func generateRandomPassword(length int) (string, error) {
 	password := make([]byte, length)
-	printableChars := []byte("!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
+	printableChars := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+")
 
 	for i := range password {
 		randomIndex, err := rand.Int(rand.Reader, big.NewInt(int64(len(printableChars))))
@@ -60,22 +63,33 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 
 	// Random password
 	newPwd, _ := generateRandomPassword(8)
-	user.Password = newPwd
 
-	// Send email
-	//go func() {
-	err = f.mailer.SendMail(user.Email, "Forgot password", utils.GetWorkingDirectory()+
-		"/templates/forgot_password_template.html", map[string]interface{}{
-		"password": newPwd,
-	})
-
+	// Hash new password
+	hashedPassword, err := f.hashAlgo.HashAndSalt([]byte(newPwd))
 	if err != nil {
-		log.JsonLogger.Error("forgotPasswordUseCase.Execute.send_mail",
-			slog.Any("error", err.Error()),
+		log.JsonLogger.Error("ExecChangePassword.hash_password",
+			slog.String("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
+
+		return constant.ErrorHashPassword(err)
 	}
-	//}()
+	user.Password = hashedPassword
+
+	// Send email
+	go func() {
+		err = f.mailer.SendMail(user.Email, "Forgot password", utils.GetWorkingDirectory()+
+			"/templates/forgot_password_template.html", map[string]interface{}{
+			"password": newPwd,
+		})
+
+		if err != nil {
+			log.JsonLogger.Error("forgotPasswordUseCase.Execute.send_mail",
+				slog.Any("error", err.Error()),
+				slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+			)
+		}
+	}()
 
 	if err := f.writerRepo.UpdateUser(ctx, *user); err != nil {
 		log.JsonLogger.Error("forgotPasswordUseCase.Execute.update_user",

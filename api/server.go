@@ -10,6 +10,7 @@ import (
 	userRepo "trekkstay/modules/user/repository"
 	database "trekkstay/pkgs/db"
 	"trekkstay/pkgs/jwt"
+	"trekkstay/pkgs/mail"
 	"trekkstay/pkgs/transport/http/server"
 	"trekkstay/utils"
 )
@@ -18,6 +19,7 @@ func NewServer() (*server.HTTPServer, error) {
 	appConfig := config.LoadConfig(&models.AppConfig{}).(*models.AppConfig)
 	jwtConfig := config.LoadConfig(&models.JWTConfig{}).(*models.JWTConfig)
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
+	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
 
 	connection := database.Connection{
 		SSLMode:  database.Disable,
@@ -39,6 +41,7 @@ func NewServer() (*server.HTTPServer, error) {
 	requestValidator := utils.NewValidator()
 	hashAlgo := utils.NewHashAlgo()
 	jwtToken := jwt.NewJWT(jwtConfig.JWTSecretKey)
+	mailer := mail.NewMailer(mailConfig)
 
 	// User Repository
 	userRepoReader := userRepo.NewUserReaderRepository(*db)
@@ -49,6 +52,8 @@ func NewServer() (*server.HTTPServer, error) {
 			userUseCase.NewCreateUserUseCase(hashAlgo, userRepoReader, userRepoWriter),
 			userUseCase.NewLoginUserUseCase(jwtToken, jwtConfig.AccessTokenExpiry,
 				jwtConfig.RefreshTokenExpiry, hashAlgo, userRepoReader),
+			userUseCase.NewChangePasswordUseCase(hashAlgo, userRepoReader, userRepoWriter),
+			userUseCase.NewForgotPasswordUseCase(mailer, hashAlgo, userRepoReader, userRepoWriter),
 		),
 	}
 
