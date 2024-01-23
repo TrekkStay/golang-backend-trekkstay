@@ -2,10 +2,11 @@ package jwt
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 	"trekkstay/pkgs/jwt/constant"
 
-	jwt "github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type JWT struct {
@@ -29,9 +30,9 @@ func (j *JWT) Generate(payload map[string]interface{}, expiry int) (map[string]i
 
 	// Generate the JWT token
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": data.UserId,                                         // Set the user id in the token
-		"exp":     time.Now().Add(time.Second * time.Duration(expiry)), // Set the expiry time
-		"iat":     time.Now().Unix(),                                   // Set the token creation time
+		"user_id": data.UserId,                                                // Set the user id in the token
+		"exp":     time.Now().Add(time.Second * time.Duration(expiry)).Unix(), // Set the expiry time
+		"iat":     time.Now().Unix(),                                          // Set the token creation time
 	})
 
 	// Sign the token with the secret key
@@ -51,6 +52,8 @@ func (j *JWT) Generate(payload map[string]interface{}, expiry int) (map[string]i
 }
 
 func (j *JWT) Validate(tokenString string) (*constant.JWTPayload, error) {
+	fmt.Println("TOKENNNNNNNNN", tokenString)
+	fmt.Println("SECRET", j.secret)
 	// Parse the token with the secret key.
 	secretKey := []byte(j.secret)
 	jwtToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

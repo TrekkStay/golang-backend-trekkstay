@@ -16,6 +16,8 @@ func TestValidateToken(t *testing.T) {
 		// Create a valid token
 		claims := jwt.MapClaims{
 			"user_id": "123",
+			"exp":     time.Now().Add(time.Second * time.Duration(50)).Unix(), // Set the expiry time
+			"iat":     time.Now().Unix(),                                      // Set the token creation time
 		}
 		jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 		tokenString, _ := jwtToken.SignedString([]byte("secret"))
