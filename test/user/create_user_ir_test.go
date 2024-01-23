@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"sync"
 	"testing"
+	"time"
 	"trekkstay/config"
 	"trekkstay/config/models"
 	"trekkstay/modules/user/domain/entity"
@@ -26,12 +27,17 @@ func TestIRCreateUser(t *testing.T) {
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
 	connection := database.Connection{
-		SSLMode:  database.Disable,
-		Host:     dbConfig.DBHost,
-		Port:     dbConfig.DBPort,
-		Database: dbConfig.DBName,
-		User:     dbConfig.DBUserName,
-		Password: dbConfig.DBPassword,
+		SSLMode:               database.Disable,
+		Host:                  dbConfig.DBHost,
+		Port:                  dbConfig.DBPort,
+		Database:              dbConfig.DBName,
+		User:                  dbConfig.DBUserName,
+		Password:              dbConfig.DBPassword,
+		MaxIdleConnections:    dbConfig.MaxIdleConnections,
+		MaxOpenConnections:    dbConfig.MaxOpenConnections,
+		ConnectionMaxIdleTime: time.Duration(dbConfig.ConnectionMaxIdleTime),
+		ConnectionMaxLifeTime: time.Duration(dbConfig.ConnectionMaxLifeTime),
+		ConnectionTimeout:     time.Duration(dbConfig.ConnectionTimeout),
 	}
 
 	db := database.InitDatabase(connection)
@@ -46,7 +52,7 @@ func TestIRCreateUser(t *testing.T) {
 
 	var wg sync.WaitGroup
 
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 50000; i++ {
 		wg.Add(1)
 
 		go func() {

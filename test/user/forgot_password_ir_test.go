@@ -11,6 +11,7 @@ import (
 	"trekkstay/modules/user/repository"
 	database "trekkstay/pkgs/db"
 	"trekkstay/pkgs/mail"
+	"trekkstay/utils"
 )
 
 func TestIRForgotPassword(t *testing.T) {
@@ -36,8 +37,9 @@ func TestIRForgotPassword(t *testing.T) {
 	userReaderRepo := repository.NewUserReaderRepository(*db)
 	userWriterRepo := repository.NewUserWriterRepository(*db)
 	mailer := mail.NewMailer(mailConfig)
+	hashAlgo := utils.NewHashAlgo()
 
-	forgotPasswordUseCase := usecase.NewForgotPasswordUseCase(mailer, userReaderRepo, userWriterRepo)
+	forgotPasswordUseCase := usecase.NewForgotPasswordUseCase(mailer, hashAlgo, userReaderRepo, userWriterRepo)
 
 	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 

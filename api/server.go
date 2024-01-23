@@ -22,12 +22,16 @@ func NewServer() (*server.HTTPServer, error) {
 	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
 
 	connection := database.Connection{
-		SSLMode:  database.Disable,
-		Host:     dbConfig.DBHost,
-		Port:     dbConfig.DBPort,
-		Database: dbConfig.DBName,
-		User:     dbConfig.DBUserName,
-		Password: dbConfig.DBPassword,
+		SSLMode:               database.Disable,
+		Host:                  dbConfig.DBHost,
+		Port:                  dbConfig.DBPort,
+		Database:              dbConfig.DBName,
+		User:                  dbConfig.DBUserName,
+		Password:              dbConfig.DBPassword,
+		MaxIdleConnections:    dbConfig.MaxIdleConnections,
+		MaxOpenConnections:    dbConfig.MaxOpenConnections,
+		ConnectionMaxIdleTime: time.Duration(dbConfig.ConnectionMaxIdleTime),
+		ConnectionMaxLifeTime: time.Duration(dbConfig.ConnectionMaxLifeTime),
 	}
 
 	db := database.InitDatabase(connection)
