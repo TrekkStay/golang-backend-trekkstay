@@ -87,8 +87,9 @@ func TestForgotPasswordUseCase(t *testing.T) {
 	userReaderRepo := mockUserReaderRepository{}
 	userWriterRepo := mockUserWriterRepository{}
 	mailer := mockMailer{}
+	HashAlgo := mockHashAlgo{}
 
-	useCase := NewForgotPasswordUseCase(mailer, userReaderRepo, userWriterRepo)
+	useCase := NewForgotPasswordUseCase(mailer, HashAlgo, userReaderRepo, userWriterRepo)
 
 	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 
