@@ -6,18 +6,18 @@ import (
 	database "trekkstay/pkgs/db"
 )
 
-type regionReaderRepoImpl struct {
+type regionReaderRepositoryImpl struct {
 	db database.Database
 }
 
-var _ RegionReaderRepository = (*regionReaderRepoImpl)(nil)
+var _ RegionReaderRepository = (*regionReaderRepositoryImpl)(nil)
 
 func NewRegionReaderRepository(db database.Database) RegionReaderRepository {
-	return &regionReaderRepoImpl{db: db}
+	return &regionReaderRepositoryImpl{db: db}
 }
 
 // ListProvinces implements RegionReaderRepository.
-func (repo *regionReaderRepoImpl) ListProvinces(_ context.Context) ([]entity.ProvinceEntity, error) {
+func (repo *regionReaderRepositoryImpl) ListProvinces(_ context.Context) ([]entity.ProvinceEntity, error) {
 	var provinces []entity.ProvinceEntity
 
 	if err := repo.db.Executor.Find(&provinces).Error; err != nil {
@@ -28,7 +28,7 @@ func (repo *regionReaderRepoImpl) ListProvinces(_ context.Context) ([]entity.Pro
 }
 
 // ListDistricts implements RegionReaderRepository.
-func (repo *regionReaderRepoImpl) ListDistricts(_ context.Context, provinceCode string) ([]entity.DistrictEntity, error) {
+func (repo *regionReaderRepositoryImpl) ListDistricts(_ context.Context, provinceCode string) ([]entity.DistrictEntity, error) {
 	var districts []entity.DistrictEntity
 
 	if err := repo.db.Executor.Where("province_code = ?", provinceCode).Find(&districts).Error; err != nil {
@@ -39,7 +39,7 @@ func (repo *regionReaderRepoImpl) ListDistricts(_ context.Context, provinceCode 
 }
 
 // ListWards implements RegionReaderRepository.
-func (repo *regionReaderRepoImpl) ListWards(_ context.Context, districtCode string) ([]entity.WardEntity, error) {
+func (repo *regionReaderRepositoryImpl) ListWards(_ context.Context, districtCode string) ([]entity.WardEntity, error) {
 	var wards []entity.WardEntity
 
 	if err := repo.db.Executor.Where("district_code = ?", districtCode).Find(&wards).Error; err != nil {

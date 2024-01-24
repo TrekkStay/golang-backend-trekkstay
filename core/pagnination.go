@@ -50,21 +50,14 @@ func (p *Pagination) GetSort() string {
 	return p.Sort
 }
 
-// Paginate takes a value, pagination parameters, and a database connection and
-// returns a function that performs pagination on the given database query.
-func Paginate(value interface{}, pagination *Pagination, db *gorm.DB) func(db *gorm.DB) *gorm.DB {
-	// Get the total number of rows
+func Paginate(pagination *Pagination, txCountTotalRows *gorm.DB) func(db *gorm.DB) *gorm.DB {
 	var totalRows int64
-	db.Model(value).Count(&totalRows)
-
-	// Calculate the total number of pages
+	txCountTotalRows.Count(&totalRows)
 	totalPages := int(math.Ceil(float64(totalRows) / float64(pagination.GetLimit())))
 
-	// Update the pagination object with total pages and total rows
 	pagination.TotalPages = totalPages
 	pagination.TotalRows = totalRows
 
-	// Return a function that performs pagination on the database query
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Offset(pagination.GetOffset()).
 			Limit(pagination.GetLimit()).

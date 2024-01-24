@@ -18,7 +18,7 @@ func NewUserReaderRepository(db database.Database) UserReaderRepository {
 	}
 }
 
-func (repo userReaderRepositoryImpl) FindUserByCondition(ctx context.Context,
+func (repo userReaderRepositoryImpl) FindUserByCondition(_ context.Context,
 	condition map[string]interface{}) (*entity.UserEntity, error) {
 	var userEntity entity.UserEntity
 
