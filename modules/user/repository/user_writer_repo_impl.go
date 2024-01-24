@@ -18,18 +18,18 @@ func NewUserWriterRepository(db database.Database) UserWriterRepository {
 	}
 }
 
-func (repo userWriterRepositoryImpl) InsertUser(ctx context.Context, userEntity entity.UserEntity) error {
+func (repo userWriterRepositoryImpl) InsertUser(_ context.Context, userEntity entity.UserEntity) error {
 	return repo.db.Executor.
 		Create(&userEntity).Error
 }
 
-func (repo userWriterRepositoryImpl) DeleteUser(ctx context.Context, userId string) error {
+func (repo userWriterRepositoryImpl) DeleteUser(_ context.Context, userId string) error {
 	return repo.db.Executor.
 		Where("id = ?", userId).
 		Delete(&entity.UserEntity{}).Error
 }
 
-func (repo userWriterRepositoryImpl) UpdateUser(ctx context.Context, userEntity entity.UserEntity) error {
+func (repo userWriterRepositoryImpl) UpdateUser(_ context.Context, userEntity entity.UserEntity) error {
 	return repo.db.Executor.
 		Model(&entity.UserEntity{}).
 		Where("id = ? OR email = ?", userEntity.Id, userEntity.Email).
