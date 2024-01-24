@@ -5,9 +5,14 @@ import (
 	"trekkstay/api/routes"
 	"trekkstay/config"
 	"trekkstay/config/models"
+	regionHandler "trekkstay/modules/region/api/handler"
 	userHandler "trekkstay/modules/user/api/handler"
 	userUseCase "trekkstay/modules/user/domain/usecase"
 	userRepo "trekkstay/modules/user/repository"
+
+	regionUseCase "trekkstay/modules/region/domain/usecase"
+	regionRepo "trekkstay/modules/region/repository"
+
 	database "trekkstay/pkgs/db"
 	"trekkstay/pkgs/jwt"
 	"trekkstay/pkgs/mail"
@@ -51,6 +56,9 @@ func NewServer() (*server.HTTPServer, error) {
 	userRepoReader := userRepo.NewUserReaderRepository(*db)
 	userRepoWriter := userRepo.NewUserWriterRepository(*db)
 
+	// Region Repository
+	regionRepoReader := regionRepo.NewRegionReaderRepository(*db)
+
 	srv := &routes.RouteHandler{
 		UserHandler: userHandler.NewUserHandler(requestValidator,
 			userUseCase.NewCreateUserUseCase(hashAlgo, userRepoReader, userRepoWriter),
@@ -58,6 +66,11 @@ func NewServer() (*server.HTTPServer, error) {
 				jwtConfig.RefreshTokenExpiry, hashAlgo, userRepoReader),
 			userUseCase.NewChangePasswordUseCase(hashAlgo, userRepoReader, userRepoWriter),
 			userUseCase.NewForgotPasswordUseCase(mailer, hashAlgo, userRepoReader, userRepoWriter),
+		),
+		RegionHandler: regionHandler.NewRegionHandler(
+			regionUseCase.NewListProvinceUseCase(regionRepoReader),
+			regionUseCase.NewListDistrictUseCase(regionRepoReader),
+			regionUseCase.NewListWardUseCase(regionRepoReader),
 		),
 	}
 

@@ -7,8 +7,8 @@ definitions:
       old_pwd:
         type: string
     required:
-      - new_pwd
-      - old_pwd
+    - new_pwd
+    - old_pwd
     type: object
   req.CreateUserReq:
     properties:
@@ -21,16 +21,16 @@ definitions:
       phone:
         type: string
     required:
-      - email
-      - full_name
-      - password
+    - email
+    - full_name
+    - password
     type: object
   req.ForgotPasswordReq:
     properties:
       email:
         type: string
     required:
-      - email
+    - email
     type: object
   req.LoginUserReq:
     properties:
@@ -39,8 +39,8 @@ definitions:
       password:
         type: string
     required:
-      - email
-      - password
+    - email
+    - password
     type: object
   res.ErrorResponse:
     properties:
@@ -55,7 +55,7 @@ definitions:
     type: object
   res.SuccessResponse:
     properties:
-      data: { }
+      data: {}
       message:
         type: string
       status_code:
@@ -75,18 +75,93 @@ info:
   title: Trekkstay API - V1
   version: v1.0
 paths:
+  /api/v1/region/list-district:
+    get:
+      description: List all districts of a province
+      parameters:
+      - description: Province code
+        in: query
+        name: province_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: List districts
+      tags:
+      - Region
+  /api/v1/region/list-province:
+    get:
+      description: List all provinces
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: List provinces
+      tags:
+      - Region
+  /api/v1/region/list-ward:
+    get:
+      description: List all wards of a district
+      parameters:
+      - description: District code
+        in: query
+        name: district_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: List wards
+      tags:
+      - Region
   /api/v1/user/change-password:
     post:
       description: Change password
       parameters:
-        - description: ChangePasswordReq JSON
-          in: body
-          name: ChangePasswordReq
-          required: true
-          schema:
-            $ref: '#/definitions/req.ChangePasswordReq'
+      - description: ChangePasswordReq JSON
+        in: body
+        name: ChangePasswordReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.ChangePasswordReq'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -101,22 +176,22 @@ paths:
           schema:
             $ref: '#/definitions/res.ErrorResponse'
       security:
-        - jwt: [ ]
+      - jwt: []
       summary: Change password
       tags:
-        - User
+      - User
   /api/v1/user/forgot-password:
     post:
       description: Forgot password and send new password to email
       parameters:
-        - description: ForgotPasswordReq JSON
-          in: body
-          name: ForgotPasswordReq
-          required: true
-          schema:
-            $ref: '#/definitions/req.ForgotPasswordReq'
+      - description: ForgotPasswordReq JSON
+        in: body
+        name: ForgotPasswordReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.ForgotPasswordReq'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -132,19 +207,19 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Forgot password
       tags:
-        - User
+      - User
   /api/v1/user/login:
     post:
       description: Login user by email and password
       parameters:
-        - description: LoginUserReq JSON
-          in: body
-          name: LoginUserReq
-          required: true
-          schema:
-            $ref: '#/definitions/req.LoginUserReq'
+      - description: LoginUserReq JSON
+        in: body
+        name: LoginUserReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.LoginUserReq'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -160,19 +235,19 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Login user
       tags:
-        - User
+      - User
   /api/v1/user/signup:
     post:
       description: Register new user
       parameters:
-        - description: CreateUserReq JSON
-          in: body
-          name: CreateUserReq
-          required: true
-          schema:
-            $ref: '#/definitions/req.CreateUserReq'
+      - description: CreateUserReq JSON
+        in: body
+        name: CreateUserReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateUserReq'
       produces:
-        - application/json
+      - application/json
       responses:
         "201":
           description: Created
@@ -188,7 +263,7 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Register new user
       tags:
-        - User
+      - User
 securityDefinitions:
   JWT:
     in: header
