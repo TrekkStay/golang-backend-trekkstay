@@ -24,7 +24,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/region/list-district": {
+        "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
                 "produces": [
@@ -65,7 +65,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/region/list-province": {
+        "/region/list-province": {
             "get": {
                 "description": "List all provinces",
                 "produces": [
@@ -97,7 +97,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/region/list-ward": {
+        "/region/list-ward": {
             "get": {
                 "description": "List all wards of a district",
                 "produces": [
@@ -138,7 +138,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/change-password": {
+        "/user/change-password": {
             "post": {
                 "security": [
                     {
@@ -186,7 +186,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/forgot-password": {
+        "/user/forgot-password": {
             "post": {
                 "description": "Forgot password and send new password to email",
                 "produces": [
@@ -229,7 +229,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/login": {
+        "/user/login": {
             "post": {
                 "description": "Login user by email and password",
                 "produces": [
@@ -272,7 +272,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/signup": {
+        "/user/signup": {
             "post": {
                 "description": "Register new user",
                 "produces": [
@@ -421,11 +421,11 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "v1.0",
+	Version:          "v0.0.1",
 	Host:             "localhost:8888",
-	BasePath:         "/",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "Trekkstay API - V1",
+	Title:            "Trekkstay - Hotel Booking System API",
 	Description:      "API system for Trekkstay - Hotel Booking System",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

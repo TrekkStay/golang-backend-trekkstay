@@ -13,7 +13,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/region/list-province [get]
+// @Router       /region/list-province [get]
 func (r regionHandler) HandleListProvince(c *gin.Context) {
 	provinces, err := r.listProvinceUseCase.ExecuteListProvince(c.Request.Context())
 

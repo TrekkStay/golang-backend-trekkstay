@@ -14,7 +14,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/region/list-district [get]
+// @Router       /region/list-district [get]
 func (r regionHandler) HandleListDistrict(c *gin.Context) {
 	provinceCode := c.Query("province_code")
 	districts, err := r.listDistrictUseCase.ExecuteListDistrict(c.Request.Context(), provinceCode)

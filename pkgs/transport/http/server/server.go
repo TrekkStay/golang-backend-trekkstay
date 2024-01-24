@@ -94,9 +94,9 @@ func (s *HTTPServer) Run() {
 		if err := hs.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.JsonLogger.Error(err.Error())
 			os.Exit(1)
-		} else {
-			log.JsonLogger.Info("Server has graceful shutdown completely")
 		}
+
+		log.JsonLogger.Info("Server has graceful shutdown completely")
 	}()
 
 	<-idleConnectionClosed

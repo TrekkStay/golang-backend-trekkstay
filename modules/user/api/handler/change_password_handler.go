@@ -22,7 +22,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/user/change-password [post]
+// @Router       /user/change-password [post]
 // @Security 	jwt
 func (h *userHandler) HandleChangePassword(c *gin.Context) {
 	// Bind request

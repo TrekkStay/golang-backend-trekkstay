@@ -1,4 +1,4 @@
-basePath: /
+basePath: /api/v1
 definitions:
   req.ChangePasswordReq:
     properties:
@@ -72,10 +72,10 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: https://swagger.io/
-  title: Trekkstay API - V1
-  version: v1.0
+  title: Trekkstay - Hotel Booking System API
+  version: v0.0.1
 paths:
-  /api/v1/region/list-district:
+  /region/list-district:
     get:
       description: List all districts of a province
       parameters:
@@ -102,7 +102,7 @@ paths:
       summary: List districts
       tags:
       - Region
-  /api/v1/region/list-province:
+  /region/list-province:
     get:
       description: List all provinces
       produces:
@@ -123,7 +123,7 @@ paths:
       summary: List provinces
       tags:
       - Region
-  /api/v1/region/list-ward:
+  /region/list-ward:
     get:
       description: List all wards of a district
       parameters:
@@ -150,7 +150,7 @@ paths:
       summary: List wards
       tags:
       - Region
-  /api/v1/user/change-password:
+  /user/change-password:
     post:
       description: Change password
       parameters:
@@ -180,7 +180,7 @@ paths:
       summary: Change password
       tags:
       - User
-  /api/v1/user/forgot-password:
+  /user/forgot-password:
     post:
       description: Forgot password and send new password to email
       parameters:
@@ -208,7 +208,7 @@ paths:
       summary: Forgot password
       tags:
       - User
-  /api/v1/user/login:
+  /user/login:
     post:
       description: Login user by email and password
       parameters:
@@ -236,7 +236,7 @@ paths:
       summary: Login user
       tags:
       - User
-  /api/v1/user/signup:
+  /user/signup:
     post:
       description: Register new user
       parameters:

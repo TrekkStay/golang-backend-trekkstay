@@ -14,7 +14,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/region/list-ward [get]
+// @Router       /region/list-ward [get]
 func (r regionHandler) HandleListWard(c *gin.Context) {
 	districtCode := c.Query("district_code")
 	wards, err := r.listWardUseCase.ExecuteListWard(c.Request.Context(), districtCode)

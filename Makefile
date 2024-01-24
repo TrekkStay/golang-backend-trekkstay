@@ -25,10 +25,10 @@ install_pgadmin:
 
 # - configPath: path to the configuration environment file
 # - migrate: true or false (run database migration)
-run_prod:
+prod:
 	@GIN_MODE=release go run cmd/trekkstay/main.go -conf=${configPath} -migrate=${migrate}
 
-run_dev:
+dev:
 	@GIN_MODE=debug go run cmd/trekkstay/main.go -conf=./env/dev.env -migrate=true
 
 #### ----------------------- Swagger command configuration ----------------------- ####

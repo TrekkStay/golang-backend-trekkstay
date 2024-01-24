@@ -19,7 +19,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/user/forgot-password [post]
+// @Router       /user/forgot-password [post]
 func (h *userHandler) HandleForgotPassword(c *gin.Context) {
 	// Bind request
 	var forgotPasswordReq req.ForgotPasswordReq

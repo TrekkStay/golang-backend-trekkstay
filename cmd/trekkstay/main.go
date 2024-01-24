@@ -27,8 +27,8 @@ func init() {
 	}
 }
 
-// @title							Trekkstay API - V1
-// @version        					v1.0
+// @title							Trekkstay - Hotel Booking System API
+// @version        					v0.0.1
 // @description     				API system for Trekkstay - Hotel Booking System
 // @termsOfService  				https://swagger.io/
 
@@ -40,12 +40,11 @@ func init() {
 // @license.url   					https://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host      						localhost:8888
-// @BasePath  						/
+// @BasePath  						/api/v1
 // @securitydefinitions.apikey  	JWT
 // @in                          	header
 // @name                        	Authorization
 func main() {
 	log.JsonLogger.Info("Starting server...")
-
 	server.MustRun(api.NewServer())
 }

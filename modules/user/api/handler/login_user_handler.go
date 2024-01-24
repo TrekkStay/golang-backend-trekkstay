@@ -21,7 +21,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/user/login [post]
+// @Router       /user/login [post]
 func (h *userHandler) HandleLoginUser(c *gin.Context) {
 	// Bind request
 	var loginUserReq req.LoginUserReq

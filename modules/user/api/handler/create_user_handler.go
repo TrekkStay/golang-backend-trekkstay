@@ -21,7 +21,7 @@ import (
 // @Success      201 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /api/v1/user/signup [post]
+// @Router       /user/signup [post]
 func (h *userHandler) HandleCreateUser(c *gin.Context) {
 	// Bind request
 	var createUserReq req.CreateUserReq

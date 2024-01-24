@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "API system for Trekkstay - Hotel Booking System",
-        "title": "Trekkstay API - V1",
+        "title": "Trekkstay - Hotel Booking System API",
         "termsOfService": "https://swagger.io/",
         "contact": {
             "name": "Trekkstay Team",
@@ -13,12 +13,12 @@
             "name": "Apache 2.0",
             "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "v1.0"
+        "version": "v0.0.1"
     },
     "host": "localhost:8888",
-    "basePath": "/",
+    "basePath": "/api/v1",
     "paths": {
-        "/api/v1/region/list-district": {
+        "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
                 "produces": [
@@ -59,7 +59,7 @@
                 }
             }
         },
-        "/api/v1/region/list-province": {
+        "/region/list-province": {
             "get": {
                 "description": "List all provinces",
                 "produces": [
@@ -91,7 +91,7 @@
                 }
             }
         },
-        "/api/v1/region/list-ward": {
+        "/region/list-ward": {
             "get": {
                 "description": "List all wards of a district",
                 "produces": [
@@ -132,7 +132,7 @@
                 }
             }
         },
-        "/api/v1/user/change-password": {
+        "/user/change-password": {
             "post": {
                 "security": [
                     {
@@ -180,7 +180,7 @@
                 }
             }
         },
-        "/api/v1/user/forgot-password": {
+        "/user/forgot-password": {
             "post": {
                 "description": "Forgot password and send new password to email",
                 "produces": [
@@ -223,7 +223,7 @@
                 }
             }
         },
-        "/api/v1/user/login": {
+        "/user/login": {
             "post": {
                 "description": "Login user by email and password",
                 "produces": [
@@ -266,7 +266,7 @@
                 }
             }
         },
-        "/api/v1/user/signup": {
+        "/user/signup": {
             "post": {
                 "description": "Register new user",
                 "produces": [
