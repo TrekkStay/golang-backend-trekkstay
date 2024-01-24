@@ -140,7 +140,7 @@ func TestDeleteUser(t *testing.T) {
 	t.Run("should delete user", func(t *testing.T) {
 		_ = userRepo.InsertUser(context.Background(), entity.UserEntity{
 			Entity: core.Entity{
-				Id: "3a1d7b7f-1eeb-41d2-9d9e-4cce3785ee01",
+				ID: "3a1d7b7f-1eeb-41d2-9d9e-4cce3785ee01",
 			},
 			FullName: gofakeit.Name(),
 			Email:    "testuser@example.com",

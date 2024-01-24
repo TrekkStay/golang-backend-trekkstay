@@ -35,7 +35,8 @@ func (useCase createUserUseCaseImpl) ExecCreateUser(ctx context.Context, userEnt
 		"email": userEntity.Email,
 	})
 	if user != nil {
-		log.JsonLogger.Error("ExecCreateEmp.email_already_exists",
+		log.JsonLogger.Error("ExecCreateUser.email_already_exists",
+			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
@@ -47,7 +48,8 @@ func (useCase createUserUseCaseImpl) ExecCreateUser(ctx context.Context, userEnt
 		"phone": userEntity.Phone,
 	})
 	if user != nil {
-		log.JsonLogger.Error("ExecCreateEmp.phone_already_exists",
+		log.JsonLogger.Error("ExecCreateUser.phone_already_exists",
+			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
@@ -57,7 +59,7 @@ func (useCase createUserUseCaseImpl) ExecCreateUser(ctx context.Context, userEnt
 	// Hash password
 	hashedPassword, err := useCase.hashAlgo.HashAndSalt([]byte(userEntity.Password))
 	if err != nil {
-		log.JsonLogger.Error("ExecCreateEmp.hash_password",
+		log.JsonLogger.Error("ExecCreateUser.hash_password",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
@@ -69,7 +71,7 @@ func (useCase createUserUseCaseImpl) ExecCreateUser(ctx context.Context, userEnt
 	// Insert user
 	err = useCase.writerRepo.InsertUser(ctx, userEntity)
 	if err != nil {
-		log.JsonLogger.Error("ExecCreateEmp.insert_user",
+		log.JsonLogger.Error("ExecCreateUser.insert_user",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)

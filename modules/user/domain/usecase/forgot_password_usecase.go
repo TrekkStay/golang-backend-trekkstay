@@ -53,7 +53,7 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 		"email": email,
 	})
 	if err != nil {
-		log.JsonLogger.Error("forgotPasswordUseCase.Execute.find_user_by_email",
+		log.JsonLogger.Error("ExecuteForgotPassword.find_user_by_email",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
@@ -67,7 +67,7 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 	// Hash new password
 	hashedPassword, err := f.hashAlgo.HashAndSalt([]byte(newPwd))
 	if err != nil {
-		log.JsonLogger.Error("ExecChangePassword.hash_password",
+		log.JsonLogger.Error("ExecuteForgotPassword.hash_password",
 			slog.String("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
@@ -84,7 +84,7 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 		})
 
 		if err != nil {
-			log.JsonLogger.Error("forgotPasswordUseCase.Execute.send_mail",
+			log.JsonLogger.Error("ExecuteForgotPassword.send_mail",
 				slog.Any("error", err.Error()),
 				slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 			)
@@ -92,7 +92,7 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 	}()
 
 	if err := f.writerRepo.UpdateUser(ctx, *user); err != nil {
-		log.JsonLogger.Error("forgotPasswordUseCase.Execute.update_user",
+		log.JsonLogger.Error("ExecuteForgotPassword.update_user",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)

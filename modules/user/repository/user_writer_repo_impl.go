@@ -23,15 +23,15 @@ func (repo userWriterRepositoryImpl) InsertUser(_ context.Context, userEntity en
 		Create(&userEntity).Error
 }
 
-func (repo userWriterRepositoryImpl) DeleteUser(_ context.Context, userId string) error {
+func (repo userWriterRepositoryImpl) DeleteUser(_ context.Context, userID string) error {
 	return repo.db.Executor.
-		Where("id = ?", userId).
+		Where("id = ?", userID).
 		Delete(&entity.UserEntity{}).Error
 }
 
 func (repo userWriterRepositoryImpl) UpdateUser(_ context.Context, userEntity entity.UserEntity) error {
 	return repo.db.Executor.
 		Model(&entity.UserEntity{}).
-		Where("id = ? OR email = ?", userEntity.Id, userEntity.Email).
+		Where("id = ? OR email = ?", userEntity.ID, userEntity.Email).
 		Updates(&userEntity).Error
 }

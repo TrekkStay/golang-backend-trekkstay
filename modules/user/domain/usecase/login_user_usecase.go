@@ -61,7 +61,7 @@ func (useCase loginUserUseCaseImpl) ExecLoginUser(ctx context.Context,
 	// Generate access token
 	accessToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
-			"user_id": user.Id,
+			"user_id": user.ID,
 		},
 		useCase.accessTokenTime,
 	)
@@ -77,7 +77,7 @@ func (useCase loginUserUseCaseImpl) ExecLoginUser(ctx context.Context,
 	// Generate refresh token
 	refreshToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
-			"user_id": user.Id,
+			"user_id": user.ID,
 		},
 		useCase.refreshTokenTime,
 	)

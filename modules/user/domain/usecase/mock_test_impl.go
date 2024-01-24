@@ -52,7 +52,7 @@ func (m mockUserWriterRepository) UpdateUser(ctx context.Context, userEntity ent
 		return nil
 	}
 
-	if userEntity.Id == "1234567890" {
+	if userEntity.ID == "1234567890" {
 		return nil
 	}
 
@@ -81,7 +81,7 @@ func (m mockUserReaderRepository) FindUserByCondition(ctx context.Context,
 	if condition["id"] == "1234567890" {
 		return &entity.UserEntity{
 			Entity: core.Entity{
-				Id: "1234567890",
+				ID: "1234567890",
 			},
 			Password: "password",
 		}, nil

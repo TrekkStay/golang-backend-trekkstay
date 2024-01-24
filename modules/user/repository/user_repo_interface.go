@@ -11,6 +11,6 @@ type UserReaderRepository interface {
 
 type UserWriterRepository interface {
 	InsertUser(ctx context.Context, userEntity entity.UserEntity) error
-	DeleteUser(ctx context.Context, userId string) error
+	DeleteUser(ctx context.Context, userID string) error
 	UpdateUser(ctx context.Context, userEntity entity.UserEntity) error
 }
