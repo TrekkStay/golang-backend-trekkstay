@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"trekkstay/modules/user/domain/entity"
-	database "trekkstay/pkgs/db"
+	database "trekkstay/pkgs/dbs/postgres"
 )
 
 type userWriterRepositoryImpl struct {

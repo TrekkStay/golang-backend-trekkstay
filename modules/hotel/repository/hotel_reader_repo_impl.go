@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 	"trekkstay/core"
 	"trekkstay/modules/hotel/domain/entity"
-	database "trekkstay/pkgs/db"
+	database "trekkstay/pkgs/dbs/postgres"
 )
 
 type hotelReaderRepositoryImpl struct {

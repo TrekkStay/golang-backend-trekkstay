@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"trekkstay/modules/region/domain/entity"
-	database "trekkstay/pkgs/db"
+	database "trekkstay/pkgs/dbs/postgres"
 )
 
 type regionReaderRepositoryImpl struct {

@@ -10,7 +10,7 @@ import (
 	userHandler "trekkstay/modules/user/api/handler"
 	userUseCase "trekkstay/modules/user/domain/usecase"
 	userRepo "trekkstay/modules/user/repository"
-	database "trekkstay/pkgs/db"
+	database "trekkstay/pkgs/dbs/postgres"
 	"trekkstay/pkgs/jwt"
 	"trekkstay/pkgs/mail"
 	"trekkstay/pkgs/transport/http/route"

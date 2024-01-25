@@ -14,7 +14,7 @@ import (
 	"trekkstay/modules/user/domain/entity"
 	"trekkstay/modules/user/domain/usecase"
 	"trekkstay/modules/user/repository"
-	database "trekkstay/pkgs/db"
+	"trekkstay/pkgs/dbs/postgres"
 	"trekkstay/utils"
 )
 
@@ -26,8 +26,8 @@ func TestIRCreateUser(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:               database.Disable,
+	connection := postgres.Connection{
+		SSLMode:               postgres.Disable,
 		Host:                  dbConfig.DBHost,
 		Port:                  dbConfig.DBPort,
 		Database:              dbConfig.DBName,
@@ -40,7 +40,7 @@ func TestIRCreateUser(t *testing.T) {
 		ConnectionTimeout:     time.Duration(dbConfig.ConnectionTimeout),
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	userReaderRepo := repository.NewUserReaderRepository(*db)
 	userWriterRepo := repository.NewUserWriterRepository(*db)

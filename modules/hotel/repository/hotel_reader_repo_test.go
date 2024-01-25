@@ -9,7 +9,7 @@ import (
 	"trekkstay/config"
 	"trekkstay/config/models"
 	"trekkstay/modules/hotel/domain/entity"
-	database "trekkstay/pkgs/db"
+	"trekkstay/pkgs/dbs/postgres"
 )
 
 func TestFindHotelByID(t *testing.T) {
@@ -20,8 +20,8 @@ func TestFindHotelByID(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -29,7 +29,7 @@ func TestFindHotelByID(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	repo := NewHotelRepoReader(*db)
 
@@ -49,8 +49,8 @@ func TestPagingHotel(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -58,7 +58,7 @@ func TestPagingHotel(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	repo := NewHotelRepoReader(*db)
 
@@ -78,8 +78,8 @@ func TestFindRooms(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -87,7 +87,7 @@ func TestFindRooms(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 	repo := NewHotelRepoReader(*db)
 
 	hotelID := "25de6985-31b1-4f0d-82dd-25513bcb511b"

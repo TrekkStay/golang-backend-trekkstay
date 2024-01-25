@@ -8,7 +8,7 @@ import (
 	"trekkstay/config"
 	"trekkstay/config/models"
 	"trekkstay/modules/user/domain/entity"
-	database "trekkstay/pkgs/db"
+	"trekkstay/pkgs/dbs/postgres"
 )
 
 func TestFindUserByCondition(t *testing.T) {
@@ -19,8 +19,8 @@ func TestFindUserByCondition(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -28,7 +28,7 @@ func TestFindUserByCondition(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	userReaderRepo := NewUserReaderRepository(*db)
 	userWriterRepo := NewUserWriterRepository(*db)

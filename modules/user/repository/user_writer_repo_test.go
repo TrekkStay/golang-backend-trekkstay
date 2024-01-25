@@ -10,8 +10,7 @@ import (
 	"trekkstay/config/models"
 	"trekkstay/core"
 	"trekkstay/modules/user/domain/entity"
-
-	database "trekkstay/pkgs/db"
+	"trekkstay/pkgs/dbs/postgres"
 )
 
 func TestInsertUser(t *testing.T) {
@@ -22,8 +21,8 @@ func TestInsertUser(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -31,7 +30,7 @@ func TestInsertUser(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	userRepo := NewUserWriterRepository(*db)
 
@@ -80,8 +79,8 @@ func TestUpdateUser(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -89,7 +88,7 @@ func TestUpdateUser(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	userRepo := NewUserWriterRepository(*db)
 
@@ -124,8 +123,8 @@ func TestDeleteUser(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -133,7 +132,7 @@ func TestDeleteUser(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	userRepo := NewUserWriterRepository(*db)
 

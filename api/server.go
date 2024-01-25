@@ -5,7 +5,7 @@ import (
 	"trekkstay/api/routes"
 	"trekkstay/config"
 	"trekkstay/config/models"
-	database "trekkstay/pkgs/db"
+	"trekkstay/pkgs/dbs/postgres"
 	"trekkstay/pkgs/transport/http/server"
 	"trekkstay/utils"
 )
@@ -14,8 +14,8 @@ func NewServer() (*server.HTTPServer, error) {
 	appConfig := config.LoadConfig(&models.AppConfig{}).(*models.AppConfig)
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:               database.Disable,
+	connection := postgres.Connection{
+		SSLMode:               postgres.Disable,
 		Host:                  dbConfig.DBHost,
 		Port:                  dbConfig.DBPort,
 		Database:              dbConfig.DBName,
@@ -27,7 +27,7 @@ func NewServer() (*server.HTTPServer, error) {
 		ConnectionMaxLifeTime: time.Duration(dbConfig.ConnectionMaxLifeTime),
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	s := server.NewHTTPServer(
 		server.AddName(appConfig.ServiceName),

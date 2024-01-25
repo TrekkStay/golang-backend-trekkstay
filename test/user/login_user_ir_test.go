@@ -12,7 +12,7 @@ import (
 	"trekkstay/modules/user/domain/entity"
 	"trekkstay/modules/user/domain/usecase"
 	"trekkstay/modules/user/repository"
-	database "trekkstay/pkgs/db"
+	"trekkstay/pkgs/dbs/postgres"
 	"trekkstay/pkgs/jwt"
 	"trekkstay/utils"
 )
@@ -26,8 +26,8 @@ func TestIRLoginUser(t *testing.T) {
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 	jwtConfig := config.LoadConfig(&models.JWTConfig{}).(*models.JWTConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -35,7 +35,7 @@ func TestIRLoginUser(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	userReaderRepo := repository.NewUserReaderRepository(*db)
 	userWriterRepo := repository.NewUserWriterRepository(*db)

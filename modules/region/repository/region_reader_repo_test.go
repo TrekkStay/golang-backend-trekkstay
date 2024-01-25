@@ -6,7 +6,7 @@ import (
 	"testing"
 	"trekkstay/config"
 	"trekkstay/config/models"
-	database "trekkstay/pkgs/db"
+	"trekkstay/pkgs/dbs/postgres"
 )
 
 func TestListData(t *testing.T) {
@@ -17,8 +17,8 @@ func TestListData(t *testing.T) {
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
 
-	connection := database.Connection{
-		SSLMode:  database.Disable,
+	connection := postgres.Connection{
+		SSLMode:  postgres.Disable,
 		Host:     dbConfig.DBHost,
 		Port:     dbConfig.DBPort,
 		Database: dbConfig.DBName,
@@ -26,7 +26,7 @@ func TestListData(t *testing.T) {
 		Password: dbConfig.DBPassword,
 	}
 
-	db := database.InitDatabase(connection)
+	db := postgres.InitDatabase(connection)
 
 	repo := NewRegionReaderRepository(*db)
 

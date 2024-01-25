@@ -1,9 +1,9 @@
-package database
+package postgres
 
 import (
 	"os"
 	"strconv"
-	"trekkstay/pkgs/db/migration"
+	"trekkstay/pkgs/dbs/postgres/migration"
 	"trekkstay/pkgs/log"
 
 	"gorm.io/driver/postgres"
