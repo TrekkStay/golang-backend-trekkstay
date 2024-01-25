@@ -17,6 +17,7 @@ func Migration(db *gorm.DB) error {
 		hotel.RoomEntity{},
 		hotel.HotelEmployeeEntity{},
 		hotel.HotelFacilityEntity{},
+		hotel.RoomFacilityEntity{},
 	)
 
 	return err

@@ -7,7 +7,9 @@ type HotelEntity struct {
 	Name          string              `json:"name" gorm:"not null;"`
 	OwnerID       string              `json:"owner_id" gorm:"not null;"`
 	Email         string              `json:"email" gorm:"uniqueIndex;not null;"`
-	Phone         string              `json:"phone" gorm:"uniqueIndex;default:null"`
+	Phone         string              `json:"phone" gorm:"uniqueIndex;not null;"`
+	CheckInTime   string              `json:"check_in_time" gorm:"not null;default:14:00"`
+	CheckOutTime  string              `json:"check_out_time" gorm:"not null;default:12:00"`
 	ProvinceCode  string              `json:"-" gorm:"not null;"`
 	DistrictCode  string              `json:"-" gorm:"not null;"`
 	WardCode      string              `json:"-" gorm:"not null;"`
