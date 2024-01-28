@@ -18,7 +18,7 @@ type HotelWriterRepository interface {
 	InsertHotelEmployee(ctx context.Context, hotelEmp entity.HotelEmployeeEntity) error
 	UpdateHotel(ctx context.Context, hotel entity.HotelEntity) error
 	UpdateRoom(ctx context.Context, room entity.RoomEntity) error
-	UpdateHotelEmployee(hotelEmp entity.HotelEmployeeEntity) error
+	UpdateHotelEmployee(ctx context.Context, hotelEmp entity.HotelEmployeeEntity) error
 	DeleteHotel(ctx context.Context, hotelID string) error
 	DeleteRoom(ctx context.Context, roomID string) error
 	DeleteHotelEmployee(ctx context.Context, employeeID string) error
