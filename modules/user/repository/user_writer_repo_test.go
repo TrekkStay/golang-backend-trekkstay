@@ -8,6 +8,7 @@ import (
 	"testing"
 	"trekkstay/config"
 	"trekkstay/config/models"
+	"trekkstay/core"
 	"trekkstay/modules/user/domain/entity"
 	"trekkstay/pkgs/dbs/postgres"
 )
@@ -137,7 +138,7 @@ func TestDeleteUser(t *testing.T) {
 
 	t.Run("should delete user", func(t *testing.T) {
 		_ = userRepo.InsertUser(context.Background(), entity.UserEntity{
-			BaseEntity: baseentity.BaseEntity{
+			BaseEntity: core.BaseEntity{
 				ID: "3a1d7b7f-1eeb-41d2-9d9e-4cce3785ee01",
 			},
 			FullName: gofakeit.Name(),

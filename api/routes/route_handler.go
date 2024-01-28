@@ -45,6 +45,7 @@ func NewUserHandler(db *database.Database, requestValidator *validator.Validate)
 
 	return userHandler.NewUserHandler(requestValidator,
 		userUseCase.NewCreateUserUseCase(hashAlgo, userRepoReader, userRepoWriter),
+		userUseCase.NewUpdateUserUseCase(userRepoReader, userRepoWriter),
 		userUseCase.NewLoginUserUseCase(jwtToken, jwtConfig.AccessTokenExpiry,
 			jwtConfig.RefreshTokenExpiry, hashAlgo, userRepoReader),
 		userUseCase.NewChangePasswordUseCase(hashAlgo, userRepoReader, userRepoWriter),

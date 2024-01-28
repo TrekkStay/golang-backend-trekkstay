@@ -16,6 +16,14 @@ func (r *RouteHandler) userRoute() route.GroupRoute {
 				Handler: r.UserHandler.HandleCreateUser,
 			},
 			{
+				Path:    "/update",
+				Method:  method.PATCH,
+				Handler: r.UserHandler.HandleUpdateUser,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
+			},
+			{
 				Path:    "/login",
 				Method:  method.POST,
 				Handler: r.UserHandler.HandleLoginUser,

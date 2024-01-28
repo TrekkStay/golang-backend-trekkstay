@@ -21,3 +21,11 @@ func ConvertLoginUserReqToUserEntity(req req.LoginUserReq) entity.UserEntity {
 		Password: req.Password,
 	}
 }
+
+func ConvertUpdateUserReqToUserEntity(req req.UpdateUserReq) entity.UserEntity {
+	return entity.UserEntity{
+		FullName: req.FullName,
+		Email:    req.Email,
+		Phone:    req.Phone,
+	}
+}

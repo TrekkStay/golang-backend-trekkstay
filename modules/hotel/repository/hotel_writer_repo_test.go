@@ -8,6 +8,7 @@ import (
 	"testing"
 	"trekkstay/config"
 	"trekkstay/config/models"
+	"trekkstay/core"
 	"trekkstay/modules/hotel/domain/entity"
 	"trekkstay/pkgs/dbs/postgres"
 )
@@ -178,7 +179,7 @@ func TestUpdateHotel(t *testing.T) {
 
 	t.Run("should update hotel", func(t *testing.T) {
 		err := repo.UpdateHotel(context.Background(), entity.HotelEntity{
-			BaseEntity: baseentity.BaseEntity{
+			BaseEntity: core.BaseEntity{
 				ID: "25de6985-31b1-4f0d-82dd-25513bcb511b",
 			},
 			Name:          gofakeit.Name(),
@@ -236,7 +237,7 @@ func TestUpdateRoom(t *testing.T) {
 
 	t.Run("should update room", func(t *testing.T) {
 		err := repo.UpdateRoom(context.Background(), entity.RoomEntity{
-			BaseEntity: baseentity.BaseEntity{
+			BaseEntity: core.BaseEntity{
 				ID: "e962d40f-5b27-4c7f-9e66-0651e57804f6",
 			},
 			Type:        gofakeit.Name(),
@@ -284,7 +285,7 @@ func TestUpdateHotelEmp(t *testing.T) {
 
 	t.Run("should update hotel employee", func(t *testing.T) {
 		err := repo.UpdateHotelEmployee(context.Background(), entity.HotelEmployeeEntity{
-			BaseEntity: baseentity.BaseEntity{
+			BaseEntity: core.BaseEntity{
 				ID: "d4805d31-4c90-4fd6-8a1a-c7c96b63e54e",
 			},
 			FullName:   gofakeit.Name(),

@@ -44,6 +44,10 @@ func (h *userHandler) HandleCreateUser(c *gin.Context) {
 		var validationErrors validator.ValidationErrors
 		if errors.As(err, &validationErrors) {
 			for _, e := range validationErrors {
+				if e.Field() == "Email" {
+					panic(res.ErrFieldValidationFailed(errors.New("invalid email")))
+				}
+
 				if e.Field() == "Password" {
 					panic(res.ErrFieldValidationFailed(errors.New("password too weak")))
 				}
