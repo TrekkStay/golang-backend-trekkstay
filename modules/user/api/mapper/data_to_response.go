@@ -15,3 +15,10 @@ func CovertUserEntityToLoginUserRes(entity entity.UserEntity) res.LoginUserRes {
 		RefreshToken: entity.RefreshToken,
 	}
 }
+
+func ConvertTokenToResponse(accessToken string, refreshToken string) res.TokenRes {
+	return res.TokenRes{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}
+}

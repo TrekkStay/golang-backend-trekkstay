@@ -5,15 +5,15 @@ const CurrentRequesterKeyString = ""
 type CurrentRequesterKeyStruct struct{}
 
 type Requester interface {
-	GetUserId() string
+	GetUserID() string
 }
 
 var _ Requester = (*RestRequester)(nil)
 
 type RestRequester struct {
-	Id string
+	ID string
 }
 
-func (u RestRequester) GetUserId() string {
-	return u.Id
+func (u RestRequester) GetUserID() string {
+	return u.ID
 }

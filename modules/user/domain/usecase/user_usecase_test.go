@@ -73,7 +73,7 @@ func TestChangePasswordUseCase(t *testing.T) {
 
 	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
-		Id: "1234567890",
+		ID: "1234567890",
 	})
 
 	t.Run("change password successfully", func(t *testing.T) {
@@ -97,5 +97,24 @@ func TestForgotPasswordUseCase(t *testing.T) {
 		err := useCase.ExecuteForgotPassword(ctx, "existedemail@example.com")
 
 		assert.Nil(t, err)
+	})
+}
+
+func TestRefreshTokenUseCase(t *testing.T) {
+	tokenProvider := mockTokenProvider{}
+
+	useCase := NewGetRefreshTokenUseCase(tokenProvider, 1, 1)
+
+	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
+	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
+		ID: "1234567890",
+	})
+
+	t.Run("get refresh token successfully", func(t *testing.T) {
+		accessToken, refreshToken, err := useCase.ExecRefreshToken(ctx)
+
+		assert.Nil(t, err)
+		assert.NotNil(t, accessToken)
+		assert.NotNil(t, refreshToken)
 	})
 }

@@ -12,7 +12,7 @@ import (
 	"trekkstay/pkgs/log"
 )
 
-// HandleLoginUser HandleCreateUser	godoc
+// HandleLoginUser godoc
 // @Summary      Login user
 // @Description  Login user by email and password
 // @Tags         User

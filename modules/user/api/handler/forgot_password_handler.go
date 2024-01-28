@@ -10,7 +10,7 @@ import (
 	"trekkstay/pkgs/log"
 )
 
-// HandleForgotPassword HandleChangePassword HandleCreateUser	godoc
+// HandleForgotPassword godoc
 // @Summary      Forgot password
 // @Description  Forgot password and send new password to email
 // @Tags         User

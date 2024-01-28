@@ -13,7 +13,7 @@ import (
 	"trekkstay/pkgs/log"
 )
 
-// HandleChangePassword HandleCreateUser	godoc
+// HandleChangePassword	godoc
 // @Summary      Change password
 // @Description  Change password
 // @Tags         User
@@ -23,7 +23,7 @@ import (
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /user/change-password [post]
-// @Security 	jwt
+// @Security 	JWT
 func (h *userHandler) HandleChangePassword(c *gin.Context) {
 	// Bind request
 	var changePasswordReq req.ChangePasswordReq

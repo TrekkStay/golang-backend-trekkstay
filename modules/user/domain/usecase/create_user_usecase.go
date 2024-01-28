@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"trekkstay/modules/user/constant"
 	"trekkstay/modules/user/domain/entity"
@@ -36,7 +37,7 @@ func (useCase createUserUseCaseImpl) ExecCreateUser(ctx context.Context, userEnt
 	})
 	if user != nil {
 		log.JsonLogger.Error("ExecCreateUser.email_already_exists",
-			slog.Any("error", err.Error()),
+			slog.Any("error", errors.New("email already exists")),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 

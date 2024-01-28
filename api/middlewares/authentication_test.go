@@ -13,7 +13,7 @@ func Recover() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if err := recover().(error); err != nil {
-				//logger.ErrorF("Panic occurred: %+v\n", err)
+				// logger.ErrorF("Panic occurred: %+v\n", err)
 				log.JsonLogger.Error("Panic occurred: %+v\n", err)
 
 				c.Header("Content-Type", "application/json")

@@ -11,6 +11,7 @@ type UserHandler interface {
 	HandleLoginUser(c *gin.Context)
 	HandleChangePassword(c *gin.Context)
 	HandleForgotPassword(c *gin.Context)
+	HandleRefreshToken(c *gin.Context)
 }
 
 type userHandler struct {
@@ -19,6 +20,7 @@ type userHandler struct {
 	loginUserUseCase      usecase.LoginUserUseCase
 	changePasswordUseCase usecase.ChangePasswordUseCase
 	forgotPasswordUseCase usecase.ForgotPasswordUseCase
+	refreshTokenUseCase   usecase.RefreshTokenUseCase
 }
 
 func NewUserHandler(
@@ -27,6 +29,7 @@ func NewUserHandler(
 	loginUserUseCase usecase.LoginUserUseCase,
 	changePasswordUseCase usecase.ChangePasswordUseCase,
 	forgotPasswordUseCase usecase.ForgotPasswordUseCase,
+	refreshTokenUseCase usecase.RefreshTokenUseCase,
 ) UserHandler {
 	return &userHandler{
 		requestValidator:      requestValidator,
@@ -34,5 +37,6 @@ func NewUserHandler(
 		loginUserUseCase:      loginUserUseCase,
 		changePasswordUseCase: changePasswordUseCase,
 		forgotPasswordUseCase: forgotPasswordUseCase,
+		refreshTokenUseCase:   refreshTokenUseCase,
 	}
 }

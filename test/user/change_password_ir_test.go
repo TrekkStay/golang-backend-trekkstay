@@ -62,7 +62,7 @@ func TestIRChangePassword(t *testing.T) {
 	})
 
 	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
-		Id: "151d3f25-7c4e-4c9a-a3b8-55356ebcfbf56",
+		ID: "151d3f25-7c4e-4c9a-a3b8-55356ebcfbf56",
 	})
 
 	err = changePasswordUseCase.ExecChangePassword(ctx, "1234567890", "123456789012")
