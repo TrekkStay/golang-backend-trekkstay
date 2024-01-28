@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // Copy environment files to the workspace
-                    sh 'sudo cp -r ~/env/ $WORKSPACE/'
+                    sh 'cp -r ~/env/ $WORKSPACE/'
 
                     // Build and push Docker image
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
