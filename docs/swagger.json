@@ -1,451 +1,451 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "API system for Trekkstay - Hotel Booking System",
-        "title": "Trekkstay - Hotel Booking System API",
-        "termsOfService": "https://swagger.io/",
-        "contact": {
-            "name": "Trekkstay Team",
-            "url": "https://www.trekkstay.com",
-            "email": "support@trekkstay.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "v0.0.1"
+  "swagger": "2.0",
+  "info": {
+    "description": "API system for Trekkstay - Hotel Booking System",
+    "title": "Trekkstay - Hotel Booking System API",
+    "termsOfService": "https://swagger.io/",
+    "contact": {
+      "name": "Trekkstay Team",
+      "url": "https://www.trekkstay.com",
+      "email": "support@trekkstay.com"
     },
-    "host": "localhost:8888",
-    "basePath": "/api/v1",
-    "paths": {
-        "/region/list-district": {
-            "get": {
-                "description": "List all districts of a province",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Region"
-                ],
-                "summary": "List districts",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Province code",
-                        "name": "province_code",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/region/list-province": {
-            "get": {
-                "description": "List all provinces",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Region"
-                ],
-                "summary": "List provinces",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/region/list-ward": {
-            "get": {
-                "description": "List all wards of a district",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Region"
-                ],
-                "summary": "List wards",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "District code",
-                        "name": "district_code",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/change-password": {
-            "post": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Change password",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Change password",
-                "parameters": [
-                    {
-                        "description": "ChangePasswordReq JSON",
-                        "name": "ChangePasswordReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/req.ChangePasswordReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/forgot-password": {
-            "post": {
-                "description": "Forgot password and send new password to email",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Forgot password",
-                "parameters": [
-                    {
-                        "description": "ForgotPasswordReq JSON",
-                        "name": "ForgotPasswordReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/req.ForgotPasswordReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/login": {
-            "post": {
-                "description": "Login user by email and password",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Login user",
-                "parameters": [
-                    {
-                        "description": "LoginUserReq JSON",
-                        "name": "LoginUserReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/req.LoginUserReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/refresh-token": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Get new access token and refresh token",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Refresh token",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/signup": {
-            "post": {
-                "description": "Register new user",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Register new user",
-                "parameters": [
-                    {
-                        "description": "CreateUserReq JSON",
-                        "name": "CreateUserReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/req.CreateUserReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/res.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/res.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        }
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "definitions": {
-        "req.ChangePasswordReq": {
-            "type": "object",
-            "required": [
-                "new_pwd",
-                "old_pwd"
-            ],
-            "properties": {
-                "new_pwd": {
-                    "type": "string"
-                },
-                "old_pwd": {
-                    "type": "string"
-                }
+    "version": "v0.0.1"
+  },
+  "host": "localhost:8888",
+  "basePath": "/api/v1",
+  "paths": {
+    "/region/list-district": {
+      "get": {
+        "description": "List all districts of a province",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Region"
+        ],
+        "summary": "List districts",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Province code",
+            "name": "province_code",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
             }
-        },
-        "req.CreateUserReq": {
-            "type": "object",
-            "required": [
-                "email",
-                "full_name",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "full_name": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
             }
-        },
-        "req.ForgotPasswordReq": {
-            "type": "object",
-            "required": [
-                "email"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
             }
-        },
-        "req.LoginUserReq": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "res.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error_key": {
-                    "type": "string"
-                },
-                "log": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
-        },
-        "res.SuccessResponse": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "message": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
-                }
-            }
+          }
         }
+      }
     },
-    "securityDefinitions": {
-        "JWT": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
+    "/region/list-province": {
+      "get": {
+        "description": "List all provinces",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Region"
+        ],
+        "summary": "List provinces",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          }
         }
+      }
+    },
+    "/region/list-ward": {
+      "get": {
+        "description": "List all wards of a district",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Region"
+        ],
+        "summary": "List wards",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "District code",
+            "name": "district_code",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/change-password": {
+      "post": {
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "description": "Change password",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User"
+        ],
+        "summary": "Change password",
+        "parameters": [
+          {
+            "description": "ChangePasswordReq JSON",
+            "name": "ChangePasswordReq",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/req.ChangePasswordReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/forgot-password": {
+      "post": {
+        "description": "Forgot password and send new password to email",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User"
+        ],
+        "summary": "Forgot password",
+        "parameters": [
+          {
+            "description": "ForgotPasswordReq JSON",
+            "name": "ForgotPasswordReq",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/req.ForgotPasswordReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "description": "Login user by email and password",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User"
+        ],
+        "summary": "Login user",
+        "parameters": [
+          {
+            "description": "LoginUserReq JSON",
+            "name": "LoginUserReq",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/req.LoginUserReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/refresh-token": {
+      "get": {
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "description": "Get new access token and refresh token",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User"
+        ],
+        "summary": "Refresh token",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/signup": {
+      "post": {
+        "description": "Register new user",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User"
+        ],
+        "summary": "Register new user",
+        "parameters": [
+          {
+            "description": "CreateUserReq JSON",
+            "name": "CreateUserReq",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/req.CreateUserReq"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/res.SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/res.ErrorResponse"
+            }
+          }
+        }
+      }
     }
+  },
+  "definitions": {
+    "req.ChangePasswordReq": {
+      "type": "object",
+      "required": [
+        "new_pwd",
+        "old_pwd"
+      ],
+      "properties": {
+        "new_pwd": {
+          "type": "string"
+        },
+        "old_pwd": {
+          "type": "string"
+        }
+      }
+    },
+    "req.CreateUserReq": {
+      "type": "object",
+      "required": [
+        "email",
+        "full_name",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "req.ForgotPasswordReq": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "req.LoginUserReq": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "res.ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error_key": {
+          "type": "string"
+        },
+        "log": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "status_code": {
+          "type": "integer"
+        }
+      }
+    },
+    "res.SuccessResponse": {
+      "type": "object",
+      "properties": {
+        "data": {},
+        "message": {
+          "type": "string"
+        },
+        "status_code": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
 }

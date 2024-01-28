@@ -80,7 +80,7 @@ func (m mockUserReaderRepository) FindUserByCondition(ctx context.Context,
 
 	if condition["id"] == "1234567890" {
 		return &entity.UserEntity{
-			Entity: core.Entity{
+			BaseEntity: core.BaseEntity{
 				ID: "1234567890",
 			},
 			Password: "password",

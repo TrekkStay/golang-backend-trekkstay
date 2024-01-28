@@ -103,7 +103,7 @@ func TestForgotPasswordUseCase(t *testing.T) {
 func TestRefreshTokenUseCase(t *testing.T) {
 	tokenProvider := mockTokenProvider{}
 
-	useCase := NewGetRefreshTokenUseCase(tokenProvider, 1, 1)
+	useCase := NewRefreshTokenUseCase(tokenProvider, 1, 1)
 
 	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{

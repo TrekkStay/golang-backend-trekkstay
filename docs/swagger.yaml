@@ -7,8 +7,8 @@ definitions:
       old_pwd:
         type: string
     required:
-    - new_pwd
-    - old_pwd
+      - new_pwd
+      - old_pwd
     type: object
   req.CreateUserReq:
     properties:
@@ -21,16 +21,16 @@ definitions:
       phone:
         type: string
     required:
-    - email
-    - full_name
-    - password
+      - email
+      - full_name
+      - password
     type: object
   req.ForgotPasswordReq:
     properties:
       email:
         type: string
     required:
-    - email
+      - email
     type: object
   req.LoginUserReq:
     properties:
@@ -39,8 +39,8 @@ definitions:
       password:
         type: string
     required:
-    - email
-    - password
+      - email
+      - password
     type: object
   res.ErrorResponse:
     properties:
@@ -55,7 +55,7 @@ definitions:
     type: object
   res.SuccessResponse:
     properties:
-      data: {}
+      data: { }
       message:
         type: string
       status_code:
@@ -79,13 +79,13 @@ paths:
     get:
       description: List all districts of a province
       parameters:
-      - description: Province code
-        in: query
-        name: province_code
-        required: true
-        type: string
+        - description: Province code
+          in: query
+          name: province_code
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -101,12 +101,12 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: List districts
       tags:
-      - Region
+        - Region
   /region/list-province:
     get:
       description: List all provinces
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -122,18 +122,18 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: List provinces
       tags:
-      - Region
+        - Region
   /region/list-ward:
     get:
       description: List all wards of a district
       parameters:
-      - description: District code
-        in: query
-        name: district_code
-        required: true
-        type: string
+        - description: District code
+          in: query
+          name: district_code
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -149,19 +149,19 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: List wards
       tags:
-      - Region
+        - Region
   /user/change-password:
     post:
       description: Change password
       parameters:
-      - description: ChangePasswordReq JSON
-        in: body
-        name: ChangePasswordReq
-        required: true
-        schema:
-          $ref: '#/definitions/req.ChangePasswordReq'
+        - description: ChangePasswordReq JSON
+          in: body
+          name: ChangePasswordReq
+          required: true
+          schema:
+            $ref: '#/definitions/req.ChangePasswordReq'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -176,22 +176,22 @@ paths:
           schema:
             $ref: '#/definitions/res.ErrorResponse'
       security:
-      - JWT: []
+        - JWT: [ ]
       summary: Change password
       tags:
-      - User
+        - User
   /user/forgot-password:
     post:
       description: Forgot password and send new password to email
       parameters:
-      - description: ForgotPasswordReq JSON
-        in: body
-        name: ForgotPasswordReq
-        required: true
-        schema:
-          $ref: '#/definitions/req.ForgotPasswordReq'
+        - description: ForgotPasswordReq JSON
+          in: body
+          name: ForgotPasswordReq
+          required: true
+          schema:
+            $ref: '#/definitions/req.ForgotPasswordReq'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -207,19 +207,19 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Forgot password
       tags:
-      - User
+        - User
   /user/login:
     post:
       description: Login user by email and password
       parameters:
-      - description: LoginUserReq JSON
-        in: body
-        name: LoginUserReq
-        required: true
-        schema:
-          $ref: '#/definitions/req.LoginUserReq'
+        - description: LoginUserReq JSON
+          in: body
+          name: LoginUserReq
+          required: true
+          schema:
+            $ref: '#/definitions/req.LoginUserReq'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -235,12 +235,12 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Login user
       tags:
-      - User
+        - User
   /user/refresh-token:
     get:
       description: Get new access token and refresh token
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -255,22 +255,22 @@ paths:
           schema:
             $ref: '#/definitions/res.ErrorResponse'
       security:
-      - JWT: []
+        - JWT: [ ]
       summary: Refresh token
       tags:
-      - User
+        - User
   /user/signup:
     post:
       description: Register new user
       parameters:
-      - description: CreateUserReq JSON
-        in: body
-        name: CreateUserReq
-        required: true
-        schema:
-          $ref: '#/definitions/req.CreateUserReq'
+        - description: CreateUserReq JSON
+          in: body
+          name: CreateUserReq
+          required: true
+          schema:
+            $ref: '#/definitions/req.CreateUserReq'
       produces:
-      - application/json
+        - application/json
       responses:
         "201":
           description: Created
@@ -286,7 +286,7 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Register new user
       tags:
-      - User
+        - User
 securityDefinitions:
   JWT:
     in: header
