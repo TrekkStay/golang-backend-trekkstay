@@ -48,8 +48,7 @@ func TestIRCreateUser(t *testing.T) {
 
 	useCase := usecase.NewCreateUserUseCase(hashAlgo, userReaderRepo, userWriterRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	var wg sync.WaitGroup
 
 	for i := 0; i < 50000; i++ {

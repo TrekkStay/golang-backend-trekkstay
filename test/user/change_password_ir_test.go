@@ -43,8 +43,7 @@ func TestIRChangePassword(t *testing.T) {
 	createUserUseCase := usecase.NewCreateUserUseCase(hashAlgo, userReaderRepo, userWriterRepo)
 	changePasswordUseCase := usecase.NewChangePasswordUseCase(hashAlgo, userReaderRepo, userWriterRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	_ = createUserUseCase.ExecCreateUser(ctx, entity.UserEntity{
 		BaseEntity: core.BaseEntity{
 			ID: "151d3f25-7c4e-4c9a-a3b8-55356ebcfbf56",

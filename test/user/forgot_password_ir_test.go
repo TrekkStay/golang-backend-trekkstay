@@ -41,8 +41,7 @@ func TestIRForgotPassword(t *testing.T) {
 
 	forgotPasswordUseCase := usecase.NewForgotPasswordUseCase(mailer, hashAlgo, userReaderRepo, userWriterRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	err = forgotPasswordUseCase.ExecuteForgotPassword(ctx, "thanhanphan17@gmail.com")
 
 	assert.Nil(t, err)

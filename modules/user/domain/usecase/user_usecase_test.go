@@ -15,8 +15,7 @@ func TestCreateUserUseCase(t *testing.T) {
 
 	useCase := NewCreateUserUseCase(hashAlgo, userReaderRepo, userWriterRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	t.Run("create user successfully", func(t *testing.T) {
 		err := useCase.ExecCreateUser(ctx, entity.UserEntity{
 			FullName: "Test User",
@@ -51,8 +50,7 @@ func TestLoginUserUseCase(t *testing.T) {
 
 	useCase := NewLoginUserUseCase(tokenProvider, 1, 1, hashAlgo, userReaderRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	t.Run("login user successfully", func(t *testing.T) {
 		userEntity, err := useCase.ExecLoginUser(ctx, entity.UserEntity{
 			Email:    "existedemail@example.com",
@@ -71,7 +69,7 @@ func TestChangePasswordUseCase(t *testing.T) {
 
 	useCase := NewChangePasswordUseCase(hashAlgo, userReaderRepo, userWriterRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
 		ID: "1234567890",
 	})
@@ -91,8 +89,7 @@ func TestForgotPasswordUseCase(t *testing.T) {
 
 	useCase := NewForgotPasswordUseCase(mailer, HashAlgo, userReaderRepo, userWriterRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	t.Run("forgot password successfully", func(t *testing.T) {
 		err := useCase.ExecuteForgotPassword(ctx, "existedemail@example.com")
 
@@ -105,7 +102,7 @@ func TestRefreshTokenUseCase(t *testing.T) {
 
 	useCase := NewRefreshTokenUseCase(tokenProvider, 1, 1)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
 		ID: "1234567890",
 	})

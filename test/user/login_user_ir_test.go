@@ -47,8 +47,7 @@ func TestIRLoginUser(t *testing.T) {
 
 	createUserUseCase := usecase.NewCreateUserUseCase(hashAlgo, userReaderRepo, userWriterRepo)
 
-	ctx := context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-
+	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
 	_ = createUserUseCase.ExecCreateUser(ctx, entity.UserEntity{
 		FullName: gofakeit.Name(),
 		Email:    "testlogin@example.com",
