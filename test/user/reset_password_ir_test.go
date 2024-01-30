@@ -14,7 +14,7 @@ import (
 	"trekkstay/utils"
 )
 
-func TestIRForgotPassword(t *testing.T) {
+func TestIRResetPassword(t *testing.T) {
 	err := os.Setenv("CONFIG_PATH", "../../env/dev.env")
 	if err != nil {
 		return
@@ -39,10 +39,10 @@ func TestIRForgotPassword(t *testing.T) {
 	mailer := mail.NewMailer(mailConfig)
 	hashAlgo := utils.NewHashAlgo()
 
-	forgotPasswordUseCase := usecase.NewForgotPasswordUseCase(mailer, hashAlgo, userReaderRepo, userWriterRepo)
+	forgotPasswordUseCase := usecase.NewResetPasswordUseCase(mailer, hashAlgo, userReaderRepo, userWriterRepo)
 
 	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-	err = forgotPasswordUseCase.ExecuteForgotPassword(ctx, "thanhanphan17@gmail.com")
+	err = forgotPasswordUseCase.ExecuteResetPassword(ctx, "thanhanphan17@gmail.com")
 
 	assert.Nil(t, err)
 }

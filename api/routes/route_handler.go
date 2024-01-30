@@ -49,7 +49,7 @@ func NewUserHandler(db *database.Database, requestValidator *validator.Validate)
 		userUseCase.NewLoginUserUseCase(jwtToken, jwtConfig.AccessTokenExpiry,
 			jwtConfig.RefreshTokenExpiry, hashAlgo, userRepoReader),
 		userUseCase.NewChangePasswordUseCase(hashAlgo, userRepoReader, userRepoWriter),
-		userUseCase.NewForgotPasswordUseCase(mailer, hashAlgo, userRepoReader, userRepoWriter),
+		userUseCase.NewResetPasswordUseCase(mailer, hashAlgo, userRepoReader, userRepoWriter),
 		userUseCase.NewRefreshTokenUseCase(jwtToken, jwtConfig.AccessTokenExpiry, jwtConfig.RefreshTokenExpiry),
 	)
 }

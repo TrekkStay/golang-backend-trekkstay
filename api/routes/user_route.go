@@ -37,9 +37,9 @@ func (r *RouteHandler) userRoute() route.GroupRoute {
 				),
 			},
 			{
-				Path:    "/forgot-password",
+				Path:    "/reset-password",
 				Method:  method.POST,
-				Handler: r.UserHandler.HandleForgotPassword,
+				Handler: r.UserHandler.HandleResetPassword,
 			},
 			{
 				Path:    "/refresh-token",

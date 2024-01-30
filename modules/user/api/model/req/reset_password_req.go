@@ -1,5 +1,5 @@
 package req
 
-type ForgotPasswordReq struct {
+type ResetPasswordReq struct {
 	Email string `json:"email" validate:"required,email"`
 }

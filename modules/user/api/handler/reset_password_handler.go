@@ -10,21 +10,21 @@ import (
 	"trekkstay/pkgs/log"
 )
 
-// HandleForgotPassword godoc
-// @Summary      Forgot password
-// @Description  Forgot password and send new password to email
+// HandleResetPassword godoc
+// @Summary      Reset password
+// @Description  Reset password and send new password to email
 // @Tags         User
 // @Produce      json
-// @Param        ForgotPasswordReq  body	req.ForgotPasswordReq  true  "ForgotPasswordReq JSON"
+// @Param        ResetPasswordReq  body	req.ResetPasswordReq  true  "ResetPasswordReq JSON"
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /user/forgot-password [post]
-func (h *userHandler) HandleForgotPassword(c *gin.Context) {
+// @Router       /user/reset-password [post]
+func (h *userHandler) HandleResetPassword(c *gin.Context) {
 	// Bind request
-	var forgotPasswordReq req.ForgotPasswordReq
-	if err := c.ShouldBind(&forgotPasswordReq); err != nil {
-		log.JsonLogger.Error("HandleForgotPassword.bind_json",
+	var resetPasswordReq req.ResetPasswordReq
+	if err := c.ShouldBind(&resetPasswordReq); err != nil {
+		log.JsonLogger.Error("HandleResetPassword.bind_json",
 			slog.String("error", err.Error()),
 			slog.String("request_id", c.Request.Context().Value("X-Request-ID").(string)),
 		)
@@ -33,8 +33,8 @@ func (h *userHandler) HandleForgotPassword(c *gin.Context) {
 	}
 
 	// Validate request
-	if err := h.requestValidator.Struct(&forgotPasswordReq); err != nil {
-		log.JsonLogger.Error("HandleForgotPassword.validate_request",
+	if err := h.requestValidator.Struct(&resetPasswordReq); err != nil {
+		log.JsonLogger.Error("HandleResetPassword.validate_request",
 			slog.String("error", err.Error()),
 			slog.String("request_id", c.Request.Context().Value("X-Request-ID").(string)),
 		)
@@ -43,7 +43,7 @@ func (h *userHandler) HandleForgotPassword(c *gin.Context) {
 	}
 
 	// Execute forgot password use case
-	if err := h.forgotPasswordUseCase.ExecuteForgotPassword(c.Request.Context(), forgotPasswordReq.Email); err != nil {
+	if err := h.resetPasswordUseCase.ExecuteResetPassword(c.Request.Context(), resetPasswordReq.Email); err != nil {
 		panic(err)
 	}
 

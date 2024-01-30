@@ -81,17 +81,17 @@ func TestChangePasswordUseCase(t *testing.T) {
 	})
 }
 
-func TestForgotPasswordUseCase(t *testing.T) {
+func TestResetPasswordUseCase(t *testing.T) {
 	userReaderRepo := mockUserReaderRepository{}
 	userWriterRepo := mockUserWriterRepository{}
 	mailer := mockMailer{}
 	HashAlgo := mockHashAlgo{}
 
-	useCase := NewForgotPasswordUseCase(mailer, HashAlgo, userReaderRepo, userWriterRepo)
+	useCase := NewResetPasswordUseCase(mailer, HashAlgo, userReaderRepo, userWriterRepo)
 
 	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-	t.Run("forgot password successfully", func(t *testing.T) {
-		err := useCase.ExecuteForgotPassword(ctx, "existedemail@example.com")
+	t.Run("reset password successfully", func(t *testing.T) {
+		err := useCase.ExecuteResetPassword(ctx, "existedemail@example.com")
 
 		assert.Nil(t, err)
 	})

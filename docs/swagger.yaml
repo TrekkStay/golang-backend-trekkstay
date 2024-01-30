@@ -25,13 +25,6 @@ definitions:
     - full_name
     - password
     type: object
-  req.ForgotPasswordReq:
-    properties:
-      email:
-        type: string
-    required:
-    - email
-    type: object
   req.LoginUserReq:
     properties:
       email:
@@ -41,6 +34,13 @@ definitions:
     required:
     - email
     - password
+    type: object
+  req.ResetPasswordReq:
+    properties:
+      email:
+        type: string
+    required:
+    - email
     type: object
   req.UpdateUserReq:
     properties:
@@ -189,34 +189,6 @@ paths:
       summary: Change password
       tags:
       - User
-  /user/forgot-password:
-    post:
-      description: Forgot password and send new password to email
-      parameters:
-      - description: ForgotPasswordReq JSON
-        in: body
-        name: ForgotPasswordReq
-        required: true
-        schema:
-          $ref: '#/definitions/req.ForgotPasswordReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/res.SuccessResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/res.ErrorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/res.ErrorResponse'
-      summary: Forgot password
-      tags:
-      - User
   /user/login:
     post:
       description: Login user by email and password
@@ -266,6 +238,34 @@ paths:
       security:
       - JWT: []
       summary: Refresh token
+      tags:
+      - User
+  /user/reset-password:
+    post:
+      description: Reset password and send new password to email
+      parameters:
+      - description: ResetPasswordReq JSON
+        in: body
+        name: ResetPasswordReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.ResetPasswordReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: Reset password
       tags:
       - User
   /user/signup:

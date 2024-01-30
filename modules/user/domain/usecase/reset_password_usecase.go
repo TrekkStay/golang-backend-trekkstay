@@ -10,22 +10,22 @@ import (
 	"trekkstay/utils"
 )
 
-type ForgotPasswordUseCase interface {
-	ExecuteForgotPassword(ctx context.Context, email string) error
+type ResetPasswordUseCase interface {
+	ExecuteResetPassword(ctx context.Context, email string) error
 }
 
-type forgotPasswordUseCase struct {
+type resetPasswordUseCase struct {
 	mailer     Mailer
 	hashAlgo   HashAlgo
 	readerRepo userReaderRepository
 	writerRepo userWriterRepository
 }
 
-var _ ForgotPasswordUseCase = (*forgotPasswordUseCase)(nil)
+var _ ResetPasswordUseCase = (*resetPasswordUseCase)(nil)
 
-func NewForgotPasswordUseCase(mailer Mailer, hashAlgo HashAlgo,
-	readerRepo userReaderRepository, writerRepo userWriterRepository) ForgotPasswordUseCase {
-	return &forgotPasswordUseCase{
+func NewResetPasswordUseCase(mailer Mailer, hashAlgo HashAlgo,
+	readerRepo userReaderRepository, writerRepo userWriterRepository) ResetPasswordUseCase {
+	return &resetPasswordUseCase{
 		mailer:     mailer,
 		hashAlgo:   hashAlgo,
 		readerRepo: readerRepo,
@@ -48,12 +48,12 @@ func generateRandomPassword(length int) (string, error) {
 	return string(password), nil
 }
 
-func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email string) error {
+func (f resetPasswordUseCase) ExecuteResetPassword(ctx context.Context, email string) error {
 	user, err := f.readerRepo.FindUserByCondition(ctx, map[string]interface{}{
 		"email": email,
 	})
 	if err != nil {
-		log.JsonLogger.Error("ExecuteForgotPassword.find_user_by_email",
+		log.JsonLogger.Error("ExecuteResetPassword.find_user_by_email",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
@@ -67,7 +67,7 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 	// Hash new password
 	hashedPassword, err := f.hashAlgo.HashAndSalt([]byte(newPwd))
 	if err != nil {
-		log.JsonLogger.Error("ExecuteForgotPassword.hash_password",
+		log.JsonLogger.Error("ExecuteResetPassword.hash_password",
 			slog.String("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
@@ -84,7 +84,7 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 		})
 
 		if err != nil {
-			log.JsonLogger.Error("ExecuteForgotPassword.send_mail",
+			log.JsonLogger.Error("ExecuteResetPassword.send_mail",
 				slog.Any("error", err.Error()),
 				slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 			)
@@ -92,7 +92,7 @@ func (f forgotPasswordUseCase) ExecuteForgotPassword(ctx context.Context, email 
 	}()
 
 	if err := f.writerRepo.UpdateUser(ctx, *user); err != nil {
-		log.JsonLogger.Error("ExecuteForgotPassword.update_user",
+		log.JsonLogger.Error("ExecuteResetPassword.update_user",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
