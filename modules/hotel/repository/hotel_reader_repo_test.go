@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
@@ -67,41 +66,5 @@ func TestPagingHotel(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.NotNil(t, paging)
-	})
-}
-
-func TestFindRooms(t *testing.T) {
-	err := os.Setenv("CONFIG_PATH", "../../../env/dev.env")
-	if err != nil {
-		return
-	}
-
-	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
-
-	connection := postgres.Connection{
-		SSLMode:  postgres.Disable,
-		Host:     dbConfig.DBHost,
-		Port:     dbConfig.DBPort,
-		Database: dbConfig.DBName,
-		User:     dbConfig.DBUserName,
-		Password: dbConfig.DBPassword,
-	}
-
-	db := postgres.InitDatabase(connection)
-	repo := NewHotelRepoReader(*db)
-
-	hotelID := "25de6985-31b1-4f0d-82dd-25513bcb511b"
-	nonSmoking := false
-
-	t.Run("should return rooms", func(t *testing.T) {
-		rooms, err := repo.FindRooms(context.Background(), entity.RoomFilterEntity{
-			HotelID:    &hotelID,
-			NonSmoking: &nonSmoking,
-		})
-
-		fmt.Println("ROOMS: ", rooms)
-
-		assert.Nil(t, err)
-		assert.NotNil(t, rooms)
 	})
 }

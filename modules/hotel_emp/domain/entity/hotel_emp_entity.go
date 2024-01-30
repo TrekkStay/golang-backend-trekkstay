@@ -2,7 +2,7 @@ package entity
 
 import "trekkstay/core"
 
-type HotelEmployeeEntity struct {
+type HotelEmpEntity struct {
 	core.BaseEntity `json:",inline"`
 	HotelID         string `json:"hotel_id" gorm:"default:null"`
 	FullName        string `json:"full_name" gorm:"not null;"`
@@ -18,6 +18,6 @@ type HotelEmployeeEntity struct {
 	RefreshToken    string `json:"-" gorm:"-"`
 }
 
-func (HotelEmployeeEntity) TableName() string {
+func (HotelEmpEntity) TableName() string {
 	return "hotel_employees"
 }

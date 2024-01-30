@@ -20,11 +20,13 @@ func NewHotelRepoReader(db database.Database) HotelReaderRepository {
 	}
 }
 
-func (repo hotelReaderRepositoryImpl) FindHotelByID(_ context.Context, hotelID string) (*entity.HotelEntity, error) {
+func (repo hotelReaderRepositoryImpl) FindHotelByID(ctx context.Context, hotelID string) (*entity.HotelEntity, error) {
 	var hotelEntity entity.HotelEntity
 
-	err := repo.db.Executor.Where("id = ?", hotelID).First(&hotelEntity).Error
-	if err != nil {
+	if err := repo.db.Executor.
+		WithContext(ctx).
+		Where("id = ?", hotelID).
+		First(&hotelEntity).Error; err != nil {
 		return nil, err
 	}
 
@@ -70,7 +72,7 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 	tx := repo.db.Executor.WithContext(ctx).Scopes(scopeFunctions...)
 	txTotalRows := tx.Model(&entity.HotelEntity{}).Scopes(scopeFunctions...)
 	result := tx.
-		Select("hotels.*, MIN(rooms.price) as min_price").
+		Select("hotels.*, MIN(rooms.original_price) as min_price").
 		Scopes(core.Paginate(&paging, txTotalRows)).
 		Preload("Rooms").
 		Preload("Province").
@@ -84,51 +86,4 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 	paging.Rows = hotels
 
 	return &paging, result.Error
-}
-
-func (repo hotelReaderRepositoryImpl) FindRooms(ctx context.Context,
-	filter entity.RoomFilterEntity) ([]entity.RoomEntity, error) {
-	var rooms []entity.RoomEntity
-
-	var scopeFunctions []func(d *gorm.DB) *gorm.DB
-
-	if filter.HotelID != nil {
-		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
-			return d.Where("hotel_id = ?", *filter.HotelID)
-		})
-	}
-
-	if filter.NonSmoking != nil {
-		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
-			return d.Where("room_facilities.non_smoking = ?", *filter.NonSmoking)
-		})
-	}
-
-	if filter.Balcony != nil {
-		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
-			return d.Where("room_facilities.balcony = ?", *filter.Balcony)
-		})
-	}
-
-	if filter.BathTub != nil {
-		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
-			return d.Where("room_facilities.bathtub = ?", *filter.BathTub)
-		})
-	}
-
-	if filter.Kitchen != nil {
-		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
-			return d.Where("room_facilities.kitchen = ?", *filter.Kitchen)
-		})
-	}
-
-	tx := repo.db.Executor.WithContext(ctx).Scopes(scopeFunctions...)
-	txTotalRows := tx.Model(&entity.RoomEntity{}).Scopes(scopeFunctions...)
-	result := txTotalRows.
-		Joins("join room_facilities on room_facilities.room_id = rooms.id").
-		Preload("RoomFacility").
-		Order("origin_price ASC").
-		Find(&rooms)
-
-	return rooms, result.Error
 }

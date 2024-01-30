@@ -3,6 +3,8 @@ package migration
 import (
 	"gorm.io/gorm"
 	hotel "trekkstay/modules/hotel/domain/entity"
+	hotelEmp "trekkstay/modules/hotel_emp/domain/entity"
+	hotelRoom "trekkstay/modules/hotel_room/domain/entity"
 	user "trekkstay/modules/user/domain/entity"
 )
 
@@ -14,10 +16,8 @@ func Migration(db *gorm.DB) error {
 	err := db.AutoMigrate(
 		user.UserEntity{},
 		hotel.HotelEntity{},
-		hotel.RoomEntity{},
-		hotel.HotelEmployeeEntity{},
-		hotel.HotelFacilityEntity{},
-		hotel.RoomFacilityEntity{},
+		hotelEmp.HotelEmpEntity{},
+		hotelRoom.HotelRoomEntity{},
 	)
 
 	return err
