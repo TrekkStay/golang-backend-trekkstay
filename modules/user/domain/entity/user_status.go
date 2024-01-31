@@ -3,8 +3,7 @@ package entity
 type UserStatus int
 
 const (
-	INACTIVE UserStatus = iota
-	ACTIVE
+	ACTIVE UserStatus = iota + 1
 	BLOCKED
 	UNVERIFIED
 )
@@ -12,14 +11,12 @@ const (
 func (status UserStatus) Value() string {
 	switch status {
 	case ACTIVE:
-		return "active"
-	case INACTIVE:
-		return "inactive"
+		return "ACTIVE"
 	case BLOCKED:
-		return "blocked"
+		return "BLOCKED"
 	case UNVERIFIED:
-		return "unverified"
-	default:
-		return "-"
+		return "UNVERIFIED"
 	}
+
+	return ""
 }

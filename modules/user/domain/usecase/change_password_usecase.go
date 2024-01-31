@@ -29,9 +29,9 @@ func NewChangePasswordUseCase(hashAlgo HashAlgo, readerRepo userReaderRepository
 	}
 }
 
-func (c changePasswordUseCaseImpl) ExecChangePassword(ctx context.Context, oldPwd, newPwd string) error {
+func (useCase changePasswordUseCaseImpl) ExecChangePassword(ctx context.Context, oldPwd, newPwd string) error {
 	// Find user by id
-	user, err := c.readerRepo.FindUserByCondition(ctx, map[string]interface{}{
+	user, err := useCase.readerRepo.FindUserByCondition(ctx, map[string]interface{}{
 		"id": ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester).GetUserID(),
 	})
 	if err != nil {
@@ -44,7 +44,7 @@ func (c changePasswordUseCaseImpl) ExecChangePassword(ctx context.Context, oldPw
 	}
 
 	// Compare old password
-	if err := c.hashAlgo.ComparePasswords(user.Password, []byte(oldPwd)); err != nil {
+	if err := useCase.hashAlgo.ComparePasswords(user.Password, []byte(oldPwd)); err != nil {
 		log.JsonLogger.Error("ExecChangePassword.compare_password",
 			slog.String("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
@@ -54,7 +54,7 @@ func (c changePasswordUseCaseImpl) ExecChangePassword(ctx context.Context, oldPw
 	}
 
 	// Hash new password
-	hashedPassword, err := c.hashAlgo.HashAndSalt([]byte(newPwd))
+	hashedPassword, err := useCase.hashAlgo.HashAndSalt([]byte(newPwd))
 	if err != nil {
 		log.JsonLogger.Error("ExecChangePassword.hash_password",
 			slog.String("error", err.Error()),
@@ -66,7 +66,7 @@ func (c changePasswordUseCaseImpl) ExecChangePassword(ctx context.Context, oldPw
 	user.Password = hashedPassword
 
 	// Update user
-	if err := c.writerRepo.UpdateUser(ctx, *user); err != nil {
+	if err := useCase.writerRepo.UpdateUser(ctx, *user); err != nil {
 		log.JsonLogger.Error("ExecChangePassword.update_user",
 			slog.String("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),

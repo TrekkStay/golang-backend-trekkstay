@@ -2,9 +2,7 @@ package usecase
 
 import (
 	"context"
-	"crypto/rand"
 	"log/slog"
-	"math/big"
 	"trekkstay/modules/user/constant"
 	"trekkstay/pkgs/log"
 	"trekkstay/utils"
@@ -33,23 +31,8 @@ func NewResetPasswordUseCase(mailer Mailer, hashAlgo HashAlgo,
 	}
 }
 
-func generateRandomPassword(length int) (string, error) {
-	password := make([]byte, length)
-	printableChars := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+")
-
-	for i := range password {
-		randomIndex, err := rand.Int(rand.Reader, big.NewInt(int64(len(printableChars))))
-		if err != nil {
-			return "", err
-		}
-		password[i] = printableChars[randomIndex.Int64()]
-	}
-
-	return string(password), nil
-}
-
-func (f resetPasswordUseCase) ExecuteResetPassword(ctx context.Context, email string) error {
-	user, err := f.readerRepo.FindUserByCondition(ctx, map[string]interface{}{
+func (useCase resetPasswordUseCase) ExecuteResetPassword(ctx context.Context, email string) error {
+	user, err := useCase.readerRepo.FindUserByCondition(ctx, map[string]interface{}{
 		"email": email,
 	})
 	if err != nil {
@@ -62,10 +45,10 @@ func (f resetPasswordUseCase) ExecuteResetPassword(ctx context.Context, email st
 	}
 
 	// Random password
-	newPwd, _ := generateRandomPassword(8)
+	newPwd, _ := utils.GenerateRandomPassword(8)
 
 	// Hash new password
-	hashedPassword, err := f.hashAlgo.HashAndSalt([]byte(newPwd))
+	hashedPassword, err := useCase.hashAlgo.HashAndSalt([]byte(newPwd))
 	if err != nil {
 		log.JsonLogger.Error("ExecuteResetPassword.hash_password",
 			slog.String("error", err.Error()),
@@ -78,7 +61,7 @@ func (f resetPasswordUseCase) ExecuteResetPassword(ctx context.Context, email st
 
 	// Send email
 	go func() {
-		err = f.mailer.SendMail(user.Email, "Forgot password", utils.GetWorkingDirectory()+
+		err = useCase.mailer.SendMail(user.Email, "Forgot password", utils.GetWorkingDirectory()+
 			"/templates/forgot_password_template.html", map[string]interface{}{
 			"password": newPwd,
 		})
@@ -91,7 +74,7 @@ func (f resetPasswordUseCase) ExecuteResetPassword(ctx context.Context, email st
 		}
 	}()
 
-	if err := f.writerRepo.UpdateUser(ctx, *user); err != nil {
+	if err := useCase.writerRepo.UpdateUser(ctx, *user); err != nil {
 		log.JsonLogger.Error("ExecuteResetPassword.update_user",
 			slog.Any("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),

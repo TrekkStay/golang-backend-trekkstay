@@ -7,7 +7,7 @@ type UserEntity struct {
 	FullName        string `json:"full_name" gorm:"not null;"`
 	Email           string `json:"email" gorm:"uniqueIndex;not null;"`
 	Phone           string `json:"phone" gorm:"uniqueIndex;default:null"`
-	Status          string `json:"status" gorm:"not null;default:unverified"`
+	Status          string `json:"status" gorm:"not null;default:UNVERIFIED"`
 	OTP             string `json:"-" gorm:"default:null"`
 	Password        string `json:"-" gorm:"not null;"`
 	AccessToken     string `json:"-" gorm:"-"`
