@@ -1,6 +1,10 @@
 package redis
 
-import "time"
+import (
+	"context"
+	goredis "github.com/go-redis/redis/v8"
+	"time"
+)
 
 type Redis interface {
 	IsConnected() bool
@@ -10,4 +14,6 @@ type Redis interface {
 	Remove(keys ...string) error
 	Keys(pattern string) ([]string, error)
 	RemovePattern(pattern string) error
+	Publish(channel string, message interface{}) error
+	Subscribe(ctx context.Context, channel string, handler func(msg *goredis.Message)) error
 }

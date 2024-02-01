@@ -15,7 +15,7 @@ const (
 
 // redis is a struct that implements the Redis interface.
 type redis struct {
-	cmd goredis.Cmdable
+	client *goredis.Client
 }
 
 // NewRedis creates a new Redis instance and returns a Redis interface.
@@ -36,7 +36,7 @@ func NewRedis(connection Connection) Redis {
 	}
 
 	return &redis{
-		cmd: rdb,
+		client: rdb,
 	}
 }
 
@@ -45,16 +45,13 @@ func (r *redis) IsConnected() bool {
 	ctx, cancel := context.WithTimeout(context.Background(), Timeout*time.Second)
 	defer cancel()
 
-	if r.cmd == nil {
+	if r.client == nil {
 		return false
 	}
 
-	_, err := r.cmd.Ping(ctx).Result()
-	if err != nil {
-		return false
-	}
+	_, err := r.client.Ping(ctx).Result()
 
-	return true
+	return err == nil
 }
 
 // Get gets the value of a key and stores it in the value pointer.
@@ -62,7 +59,7 @@ func (r *redis) Get(key string, value interface{}) error {
 	ctx, cancel := context.WithTimeout(context.Background(), Timeout*time.Second)
 	defer cancel()
 
-	strValue, err := r.cmd.Get(ctx, key).Result()
+	strValue, err := r.client.Get(ctx, key).Result()
 	if err != nil {
 		return err
 	}
@@ -81,7 +78,7 @@ func (r *redis) SetWithExpiration(key string, value interface{}, expiration time
 	defer cancel()
 
 	bData, _ := json.Marshal(value)
-	err := r.cmd.Set(ctx, key, bData, expiration).Err()
+	err := r.client.Set(ctx, key, bData, expiration).Err()
 	if err != nil {
 		return err
 	}
@@ -95,7 +92,7 @@ func (r *redis) Set(key string, value interface{}) error {
 	defer cancel()
 
 	bData, _ := json.Marshal(value)
-	err := r.cmd.Set(ctx, key, bData, 0).Err()
+	err := r.client.Set(ctx, key, bData, 0).Err()
 	if err != nil {
 		return err
 	}
@@ -108,7 +105,7 @@ func (r *redis) Remove(keys ...string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), Timeout*time.Second)
 	defer cancel()
 
-	err := r.cmd.Del(ctx, keys...).Err()
+	err := r.client.Del(ctx, keys...).Err()
 	if err != nil {
 		return err
 	}
@@ -121,7 +118,7 @@ func (r *redis) Keys(pattern string) ([]string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), Timeout*time.Second)
 	defer cancel()
 
-	keys, err := r.cmd.Keys(ctx, pattern).Result()
+	keys, err := r.client.Keys(ctx, pattern).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -146,4 +143,43 @@ func (r *redis) RemovePattern(pattern string) error {
 	}
 
 	return nil
+}
+
+// Publish publishes a message to a channel.
+func (r *redis) Publish(channel string, message interface{}) error {
+	ctx, cancel := context.WithTimeout(context.Background(), Timeout*time.Second)
+	defer cancel()
+
+	bData, err := json.Marshal(message)
+	if err != nil {
+		return err
+	}
+
+	return r.client.Publish(ctx, channel, bData).Err()
+}
+
+// Subscribe subscribes to a channel and invokes the provided handler for each message received.
+func (r *redis) Subscribe(ctx context.Context, channel string, handler func(msg *goredis.Message)) error {
+	sub := r.client.Subscribe(ctx, channel)
+
+	defer func(sub *goredis.PubSub) {
+		err := sub.Close()
+		if err != nil {
+			return
+		}
+	}(sub)
+
+	ch := sub.Channel()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return nil
+		case msg, ok := <-ch:
+			if !ok {
+				return nil
+			}
+			handler(msg)
+		}
+	}
 }
