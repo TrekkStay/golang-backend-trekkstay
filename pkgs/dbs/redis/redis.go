@@ -3,8 +3,10 @@ package redis
 import (
 	"context"
 	"encoding/json"
-	goredis "github.com/go-redis/redis/v8"
+	"sync"
 	"time"
+
+	goredis "github.com/go-redis/redis/v8"
 	"trekkstay/pkgs/log"
 )
 
@@ -13,31 +15,41 @@ const (
 	Timeout = 1
 )
 
+// RedisInstance is a singleton instance of the Redis struct
+var RedisInstance *redis
+var once sync.Once
+
 // redis is a struct that implements the Redis interface.
 type redis struct {
 	client *goredis.Client
 }
 
 // NewRedis creates a new Redis instance and returns a Redis interface.
+// This function should only be called once.
 func NewRedis(connection Connection) Redis {
-	ctx, cancel := context.WithTimeout(context.Background(), Timeout*time.Second)
-	defer cancel()
+	once.Do(func() {
+		ctx, cancel := context.WithTimeout(context.Background(), Timeout*time.Second)
+		defer cancel()
 
-	rdb := goredis.NewClient(&goredis.Options{
-		Addr:     connection.Address,
-		Password: connection.Password,
-		DB:       connection.Database,
+		rdb := goredis.NewClient(&goredis.Options{
+			Addr:     connection.Address,
+			Password: connection.Password,
+			DB:       connection.Database,
+		})
+
+		pong, err := rdb.Ping(ctx).Result()
+		if err != nil {
+			log.JsonLogger.Error(pong, err)
+			RedisInstance = nil
+			return
+		}
+
+		RedisInstance = &redis{
+			client: rdb,
+		}
 	})
 
-	pong, err := rdb.Ping(ctx).Result()
-	if err != nil {
-		log.JsonLogger.Error(pong, err)
-		return nil
-	}
-
-	return &redis{
-		client: rdb,
-	}
+	return RedisInstance
 }
 
 // IsConnected checks if the redis connection is alive.
