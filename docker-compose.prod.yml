@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: trekkstay-backend
+    restart: always
+    image: trekkstay-backend
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - CONFIG_PATH=./env/prod.env
+      - MIGRATE=true
+    ports:
+      - '8888:8888'
+    networks:
+      - trekkstay_network
+
+networks:
+  trekkstay_network:
+    name: trekkstay_network
+    external: true

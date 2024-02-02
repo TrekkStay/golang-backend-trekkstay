@@ -31,6 +31,20 @@ prod:
 dev:
 	@GIN_MODE=debug go run cmd/trekkstay/main.go -conf=./env/dev.env -migrate=true
 
+compose-prod-up:
+	@docker compose -f docker-compose.prod.yml up -d
+
+compose-dev-up:
+	@docker compose -f docker-compose.dev.yml up -d
+
+compose-prod-down:
+	@docker rmi -f trekkstay-backend
+	@docker compose -f docker-compose.prod.yml down
+
+compose-dev-down:
+	@docker rmi -f trekkstay-backend
+	@docker compose -f docker-compose.dev.yml down
+
 #### ----------------------- Swagger command configuration ----------------------- ####
 gen_swagger:
 	swag init -g cmd/trekkstay/main.go
