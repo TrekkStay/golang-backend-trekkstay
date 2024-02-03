@@ -5,11 +5,12 @@ import (
 	"log/slog"
 	"trekkstay/api/middlewares/constant"
 	"trekkstay/core"
+	"trekkstay/modules/token/domain/entity"
 	"trekkstay/pkgs/log"
 )
 
 type RefreshTokenUseCase interface {
-	ExecRefreshToken(ctx context.Context) (*string, *string, error)
+	ExecRefreshToken(ctx context.Context) (*entity.TokenEntity, error)
 }
 
 type refreshTokenUseCaseImpl struct {
@@ -29,7 +30,7 @@ func NewRefreshTokenUseCase(tokenProvider TokenProvider,
 	}
 }
 
-func (useCase refreshTokenUseCaseImpl) ExecRefreshToken(ctx context.Context) (*string, *string, error) {
+func (useCase refreshTokenUseCaseImpl) ExecRefreshToken(ctx context.Context) (*entity.TokenEntity, error) {
 	userID := ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester).GetUserID()
 
 	// Generate access token
@@ -45,7 +46,7 @@ func (useCase refreshTokenUseCaseImpl) ExecRefreshToken(ctx context.Context) (*s
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
-		return nil, nil, constant.ErrInternal(err)
+		return nil, constant.ErrInternal(err)
 	}
 
 	// Generate refresh token
@@ -61,11 +62,14 @@ func (useCase refreshTokenUseCaseImpl) ExecRefreshToken(ctx context.Context) (*s
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
-		return nil, nil, constant.ErrInternal(err)
+		return nil, constant.ErrInternal(err)
 	}
 
 	accessTokenString := accessToken["token"].(string)
 	refreshTokenString := refreshToken["token"].(string)
 
-	return &accessTokenString, &refreshTokenString, nil
+	return &entity.TokenEntity{
+		AccessToken:  accessTokenString,
+		RefreshToken: refreshTokenString,
+	}, nil
 }

@@ -41,6 +41,7 @@ func NewServer() (*server.HTTPServer, error) {
 		RegionHandler:   routes.NewRegionHandler(db),
 		UserHandler:     routes.NewUserHandler(db, requestValidator),
 		HotelEmpHandler: routes.NewHotelEmpHandler(db, requestValidator),
+		TokenHandler:    routes.NewTokenHandler(),
 	}
 
 	s.AddGroupRoutes(srv.InitGroupRoutes())

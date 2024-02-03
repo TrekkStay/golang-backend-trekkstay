@@ -10,6 +10,8 @@ import (
 	regionHandler "trekkstay/modules/region/api/handler"
 	regionUseCase "trekkstay/modules/region/domain/usecase"
 	regionRepo "trekkstay/modules/region/repository"
+	tokenHandler "trekkstay/modules/token/api/handler"
+	tokenUseCase "trekkstay/modules/token/domain/usecase"
 	userHandler "trekkstay/modules/user/api/handler"
 	userUseCase "trekkstay/modules/user/domain/usecase"
 	userRepo "trekkstay/modules/user/repository"
@@ -24,6 +26,7 @@ type RouteHandler struct {
 	UserHandler     userHandler.UserHandler
 	RegionHandler   regionHandler.RegionHandler
 	HotelEmpHandler hotelEmpHandler.HotelEmpHandler
+	TokenHandler    tokenHandler.TokenHandler
 }
 
 func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
@@ -31,6 +34,7 @@ func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
 	routeGroup = append(routeGroup, r.regionRoute())
 	routeGroup = append(routeGroup, r.userRoute())
 	routeGroup = append(routeGroup, r.hotelEmpRoute())
+	routeGroup = append(routeGroup, r.tokenRoute())
 
 	return routeGroup
 }
@@ -65,7 +69,6 @@ func NewUserHandler(db *database.Database, requestValidator *validator.Validate)
 			jwtConfig.RefreshTokenExpiry, hashAlgo, userRepoReader),
 		userUseCase.NewChangePasswordUseCase(hashAlgo, userRepoReader, userRepoWriter),
 		userUseCase.NewResetPasswordUseCase(mailer, hashAlgo, userRepoReader, userRepoWriter),
-		userUseCase.NewRefreshTokenUseCase(jwtToken, jwtConfig.AccessTokenExpiry, jwtConfig.RefreshTokenExpiry),
 	)
 }
 
@@ -88,5 +91,14 @@ func NewHotelEmpHandler(db *database.Database, requestValidator *validator.Valid
 		hotelEmpUseCase.NewCreateHotelOwnerUseCase(hashAlgo, hotelEmpRepoReader, hotelEmpRepoWriter),
 		hotelEmpUseCase.NewLoginHotelEmpUseCase(jwtToken, jwtConfig.AccessTokenExpiry,
 			jwtConfig.RefreshTokenExpiry, hashAlgo, hotelEmpRepoReader),
+	)
+}
+
+func NewTokenHandler() tokenHandler.TokenHandler {
+	jwtConfig := config.LoadConfig(&models.JWTConfig{}).(*models.JWTConfig)
+	jwtToken := jwt.NewJWT(jwtConfig.JWTSecretKey)
+
+	return tokenHandler.NewTokenHandler(
+		tokenUseCase.NewRefreshTokenUseCase(jwtToken, jwtConfig.AccessTokenExpiry, jwtConfig.RefreshTokenExpiry),
 	)
 }

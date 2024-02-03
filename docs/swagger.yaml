@@ -319,6 +319,29 @@ paths:
       summary: List wards
       tags:
       - Region
+  /token/refresh-token:
+    get:
+      description: Get new access token and refresh token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Refresh token
+      tags:
+      - Token
   /user/change-password:
     post:
       description: Change password
@@ -375,29 +398,6 @@ paths:
           schema:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Login user
-      tags:
-      - User
-  /user/refresh-token:
-    get:
-      description: Get new access token and refresh token
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/res.SuccessResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/res.ErrorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/res.ErrorResponse'
-      security:
-      - JWT: []
-      summary: Refresh token
       tags:
       - User
   /user/reset-password:

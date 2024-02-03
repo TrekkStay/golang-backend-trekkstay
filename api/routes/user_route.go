@@ -41,14 +41,6 @@ func (r *RouteHandler) userRoute() route.GroupRoute {
 				Method:  method.POST,
 				Handler: r.UserHandler.HandleResetPassword,
 			},
-			{
-				Path:    "/refresh-token",
-				Method:  method.GET,
-				Handler: r.UserHandler.HandleRefreshToken,
-				Middlewares: route.Middlewares(
-					middlewares.Authentication(),
-				),
-			},
 		},
 	}
 }
