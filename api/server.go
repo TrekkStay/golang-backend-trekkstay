@@ -38,8 +38,9 @@ func NewServer() (*server.HTTPServer, error) {
 	requestValidator := utils.NewValidator()
 
 	srv := &routes.RouteHandler{
-		UserHandler:   routes.NewUserHandler(db, requestValidator),
-		RegionHandler: routes.NewRegionHandler(db),
+		RegionHandler:   routes.NewRegionHandler(db),
+		UserHandler:     routes.NewUserHandler(db, requestValidator),
+		HotelEmpHandler: routes.NewHotelEmpHandler(db, requestValidator),
 	}
 
 	s.AddGroupRoutes(srv.InitGroupRoutes())

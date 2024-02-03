@@ -68,9 +68,10 @@ func (useCase hotelOwnerUseCaseImpl) ExecuteCreateHotelOwner(ctx context.Context
 		return constant.ErrorHashPassword(err)
 	}
 
-	// Set hashed password and role
+	// Set hashed password. Role and contract
 	hotelOwnerEntity.Password = hashedPassword
 	hotelOwnerEntity.Role = constant.OwnerRole
+	hotelOwnerEntity.Contract = constant.FullTimeContract
 
 	// Create hotel owner
 	if err := useCase.writerRepo.InsertHotelEmp(ctx, hotelOwnerEntity); err != nil {

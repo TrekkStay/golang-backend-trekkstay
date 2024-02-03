@@ -4,6 +4,9 @@ import (
 	"github.com/go-playground/validator/v10"
 	"trekkstay/config"
 	"trekkstay/config/models"
+	hotelEmpHandler "trekkstay/modules/hotel_emp/api/handler"
+	hotelEmpUseCase "trekkstay/modules/hotel_emp/domain/usecase"
+	hotelEmpRepo "trekkstay/modules/hotel_emp/repository"
 	regionHandler "trekkstay/modules/region/api/handler"
 	regionUseCase "trekkstay/modules/region/domain/usecase"
 	regionRepo "trekkstay/modules/region/repository"
@@ -18,18 +21,30 @@ import (
 )
 
 type RouteHandler struct {
-	UserHandler   userHandler.UserHandler
-	RegionHandler regionHandler.RegionHandler
+	UserHandler     userHandler.UserHandler
+	RegionHandler   regionHandler.RegionHandler
+	HotelEmpHandler hotelEmpHandler.HotelEmpHandler
 }
 
 func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
 	var routeGroup []route.GroupRoute
-	routeGroup = append(routeGroup, r.userRoute())
 	routeGroup = append(routeGroup, r.regionRoute())
+	routeGroup = append(routeGroup, r.userRoute())
+	routeGroup = append(routeGroup, r.hotelEmpRoute())
 
 	return routeGroup
 }
 
+func NewRegionHandler(db *database.Database) regionHandler.RegionHandler {
+	// Region Repository
+	regionRepoReader := regionRepo.NewRegionReaderRepository(*db)
+
+	return regionHandler.NewRegionHandler(
+		regionUseCase.NewListProvinceUseCase(regionRepoReader),
+		regionUseCase.NewListDistrictUseCase(regionRepoReader),
+		regionUseCase.NewListWardUseCase(regionRepoReader),
+	)
+}
 func NewUserHandler(db *database.Database, requestValidator *validator.Validate) userHandler.UserHandler {
 	// Config
 	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
@@ -54,13 +69,22 @@ func NewUserHandler(db *database.Database, requestValidator *validator.Validate)
 	)
 }
 
-func NewRegionHandler(db *database.Database) regionHandler.RegionHandler {
-	// Region Repository
-	regionRepoReader := regionRepo.NewRegionReaderRepository(*db)
+func NewHotelEmpHandler(db *database.Database, requestValidator *validator.Validate) hotelEmpHandler.HotelEmpHandler {
+	// Config
+	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
+	// jwtConfig := config.LoadConfig(&models.JWTConfig{}).(*models.JWTConfig)
 
-	return regionHandler.NewRegionHandler(
-		regionUseCase.NewListProvinceUseCase(regionRepoReader),
-		regionUseCase.NewListDistrictUseCase(regionRepoReader),
-		regionUseCase.NewListWardUseCase(regionRepoReader),
+	// HotelEmp Repository
+	hotelEmpRepoReader := hotelEmpRepo.NewHotelEmpReaderRepository(*db)
+	hotelEmpRepoWriter := hotelEmpRepo.NewHotelEmpWriterRepository(*db)
+
+	hashAlgo := utils.NewHashAlgo()
+	// jwtToken := jwt.NewJWT(jwtConfig.JWTSecretKey)
+	mailer := mail.NewMailer(mailConfig)
+
+	return hotelEmpHandler.NewHotelEmpHandler(
+		requestValidator,
+		hotelEmpUseCase.NewCreateHotelEmpUseCase(mailer, hashAlgo, hotelEmpRepoReader, hotelEmpRepoWriter),
+		hotelEmpUseCase.NewCreateHotelOwnerUseCase(hashAlgo, hotelEmpRepoReader, hotelEmpRepoWriter),
 	)
 }

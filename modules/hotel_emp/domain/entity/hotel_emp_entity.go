@@ -8,9 +8,9 @@ type HotelEmpEntity struct {
 	FullName        string `json:"full_name" gorm:"not null;"`
 	Email           string `json:"email" gorm:"uniqueIndex;not null;"`
 	Phone           string `json:"phone" gorm:"uniqueIndex;default:null"`
-	Contract        string `json:"contract" gorm:"default:full_time"`
+	Contract        string `json:"contract" gorm:"default:FULL_TIME"`
 	BaseSalary      int    `json:"base_salary" gorm:"default:null"`
-	Role            string `json:"role" gorm:"not null;default:employee"`
+	Role            string `json:"role" gorm:"not null;default:EMPLOYEE"`
 	Status          string `json:"status" gorm:"not null;default:unverified"`
 	OTP             string `json:"-" gorm:"default:null"`
 	Password        string `json:"-" gorm:"not null;"`

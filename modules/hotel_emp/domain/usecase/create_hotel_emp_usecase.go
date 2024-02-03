@@ -75,6 +75,15 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 	hotelEmpEntity.HotelID = requester.HotelID
 	hotelEmpEntity.Role = constant.EmpRole
 
+	if hotelEmpEntity.HotelID == "" {
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.hotel_id_is_empty",
+			slog.String("error", "hotel id is empty"),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrNoHotelToAssignEmp(nil)
+	}
+
 	// Send email
 	go func() {
 		err = useCase.mailer.SendMail(hotelEmpEntity.Email, "Create hotel employee", utils.GetWorkingDirectory()+

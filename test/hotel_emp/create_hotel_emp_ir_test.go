@@ -45,8 +45,8 @@ func TestIRCreateHotelEmp(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	hotelEmpReaderRepo := repository.NewHotelEmpRepoReader(*db)
-	hotelEmpWriterRepo := repository.NewHotelEmpRepoWriter(*db)
+	hotelEmpReaderRepo := repository.NewHotelEmpReaderRepository(*db)
+	hotelEmpWriterRepo := repository.NewHotelEmpWriterRepository(*db)
 	hashAlgo := utils.NewHashAlgo()
 	mailer := mail.NewMailer(mailConfig)
 

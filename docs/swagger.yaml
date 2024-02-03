@@ -4,22 +4,76 @@ definitions:
     properties:
       new_pwd:
         type: string
+        x-order: "2"
       old_pwd:
         type: string
+        x-order: "1"
     required:
     - new_pwd
     - old_pwd
+    type: object
+  req.CreateHotelEmpReq:
+    properties:
+      base_salary:
+        type: integer
+        x-order: "5"
+      contract:
+        enum:
+        - FULL_TIME
+        - PART_TIME
+        - INTERNSHIP
+        type: string
+        x-order: "4"
+      email:
+        type: string
+        x-order: "2"
+      full_name:
+        type: string
+        x-order: "1"
+      phone:
+        type: string
+        x-order: "3"
+    required:
+    - base_salary
+    - contract
+    - email
+    - full_name
+    - phone
+    type: object
+  req.CreateHotelOwnerReq:
+    properties:
+      email:
+        type: string
+        x-order: "2"
+      full_name:
+        type: string
+        x-order: "1"
+      password:
+        type: string
+        x-order: "4"
+      phone:
+        type: string
+        x-order: "3"
+    required:
+    - email
+    - full_name
+    - password
+    - phone
     type: object
   req.CreateUserReq:
     properties:
       email:
         type: string
+        x-order: "2"
       full_name:
         type: string
+        x-order: "1"
       password:
         type: string
+        x-order: "4"
       phone:
         type: string
+        x-order: "3"
     required:
     - email
     - full_name
@@ -29,8 +83,10 @@ definitions:
     properties:
       email:
         type: string
+        x-order: "1"
       password:
         type: string
+        x-order: "2"
     required:
     - email
     - password
@@ -46,10 +102,13 @@ definitions:
     properties:
       email:
         type: string
+        x-order: "2"
       full_name:
         type: string
+        x-order: "1"
       phone:
         type: string
+        x-order: "3"
     type: object
   res.ErrorResponse:
     properties:
@@ -70,7 +129,7 @@ definitions:
       status_code:
         type: integer
     type: object
-host: localhost:8888
+host: 52.221.204.232:8888
 info:
   contact:
     email: support@trekkstay.com
@@ -84,6 +143,65 @@ info:
   title: Trekkstay - Hotel Booking System API
   version: v0.0.1
 paths:
+  /hotel-emp/create-emp:
+    post:
+      description: Create new hotel employee account, require hotel owner permission
+        and hotel profile already created
+      parameters:
+      - description: CreateHotelEmpReq JSON
+        in: body
+        name: CreateHotelEmpReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateHotelEmpReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Create new hotel employee account
+      tags:
+      - Hotel Employee
+  /hotel-emp/create-owner:
+    post:
+      description: Create new hotel owner account
+      parameters:
+      - description: CreateHotelOwnerReq JSON
+        in: body
+        name: CreateHotelOwnerReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateHotelOwnerReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: Create new hotel owner account
+      tags:
+      - Hotel Employee
   /region/list-district:
     get:
       description: List all districts of a province

@@ -12,7 +12,7 @@ type hotelEmpWriterRepositoryImpl struct {
 
 var _ HotelEmpWriterRepository = (*hotelEmpWriterRepositoryImpl)(nil)
 
-func NewHotelEmpRepoWriter(db database.Database) HotelEmpWriterRepository {
+func NewHotelEmpWriterRepository(db database.Database) HotelEmpWriterRepository {
 	return &hotelEmpWriterRepositoryImpl{
 		db: db,
 	}

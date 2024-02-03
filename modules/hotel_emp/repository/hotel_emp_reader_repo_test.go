@@ -29,7 +29,7 @@ func TestFindEmpByCondition(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelEmpRepoReader(*db)
+	repo := New(*db)
 
 	t.Run("should find hotel employee by condition", func(t *testing.T) {
 		_, err := repo.FindHotelEmpByCondition(context.Background(), map[string]interface{}{

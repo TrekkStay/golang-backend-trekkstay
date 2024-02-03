@@ -59,6 +59,15 @@ func ErrorWrongPassword(err error) error {
 	)
 }
 
+func ErrNoHotelToAssignEmp(err error) error {
+	return res.NewErrorResponse(
+		http.StatusBadRequest,
+		err,
+		"no hotel to assign employee",
+		"EER_NO_HOTEL_TO_ASSIGN_EMP",
+	)
+}
+
 func ErrorHashPassword(err error) error {
 	return res.NewErrorResponse(
 		http.StatusInternalServerError,

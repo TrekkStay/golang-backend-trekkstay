@@ -2,12 +2,12 @@ Tech stacks
 
 - Golang
 - Gin
-- Postgres
+- Postgres - Partitioning + Sharding
 - S3
 - Docker
 - Jenkins
 - Redis
-- Kafka
+- RabbitMQ - Kafka
 - EFK
 - gRPC
 - socket.io

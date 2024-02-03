@@ -24,6 +24,97 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/hotel-emp/create-emp": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create new hotel employee account, require hotel owner permission and hotel profile already created",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Employee"
+                ],
+                "summary": "Create new hotel employee account",
+                "parameters": [
+                    {
+                        "description": "CreateHotelEmpReq JSON",
+                        "name": "CreateHotelEmpReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateHotelEmpReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/hotel-emp/create-owner": {
+            "post": {
+                "description": "Create new hotel owner account",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Employee"
+                ],
+                "summary": "Create new hotel owner account",
+                "parameters": [
+                    {
+                        "description": "CreateHotelOwnerReq JSON",
+                        "name": "CreateHotelOwnerReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateHotelOwnerReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
@@ -409,11 +500,77 @@ const docTemplate = `{
                 "old_pwd"
             ],
             "properties": {
-                "new_pwd": {
-                    "type": "string"
-                },
                 "old_pwd": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "new_pwd": {
+                    "type": "string",
+                    "x-order": "2"
+                }
+            }
+        },
+        "req.CreateHotelEmpReq": {
+            "type": "object",
+            "required": [
+                "base_salary",
+                "contract",
+                "email",
+                "full_name",
+                "phone"
+            ],
+            "properties": {
+                "full_name": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "email": {
+                    "type": "string",
+                    "x-order": "2"
+                },
+                "phone": {
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "contract": {
+                    "type": "string",
+                    "enum": [
+                        "FULL_TIME",
+                        "PART_TIME",
+                        "INTERNSHIP"
+                    ],
+                    "x-order": "4"
+                },
+                "base_salary": {
+                    "type": "integer",
+                    "x-order": "5"
+                }
+            }
+        },
+        "req.CreateHotelOwnerReq": {
+            "type": "object",
+            "required": [
+                "email",
+                "full_name",
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "full_name": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "email": {
+                    "type": "string",
+                    "x-order": "2"
+                },
+                "phone": {
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "password": {
+                    "type": "string",
+                    "x-order": "4"
                 }
             }
         },
@@ -425,17 +582,21 @@ const docTemplate = `{
                 "password"
             ],
             "properties": {
-                "email": {
-                    "type": "string"
-                },
                 "full_name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "1"
                 },
-                "password": {
-                    "type": "string"
+                "email": {
+                    "type": "string",
+                    "x-order": "2"
                 },
                 "phone": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "password": {
+                    "type": "string",
+                    "x-order": "4"
                 }
             }
         },
@@ -447,10 +608,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "1"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "2"
                 }
             }
         },
@@ -468,14 +631,17 @@ const docTemplate = `{
         "req.UpdateUserReq": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string"
-                },
                 "full_name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "email": {
+                    "type": "string",
+                    "x-order": "2"
                 },
                 "phone": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "3"
                 }
             }
         },
@@ -521,7 +687,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "v0.0.1",
-	Host:             "localhost:8888",
+	Host:             "52.221.204.232:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Trekkstay - Hotel Booking System API",
