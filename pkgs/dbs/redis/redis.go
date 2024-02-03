@@ -15,8 +15,8 @@ const (
 	Timeout = 1
 )
 
-// RedisInstance is a singleton instance of the Redis struct
-var RedisInstance *redis
+// Instance is a singleton instance of the Redis struct
+var Instance *redis
 var once sync.Once
 
 // redis is a struct that implements the Redis interface.
@@ -40,16 +40,16 @@ func NewRedis(connection Connection) Redis {
 		pong, err := rdb.Ping(ctx).Result()
 		if err != nil {
 			log.JsonLogger.Error(pong, err)
-			RedisInstance = nil
+			Instance = nil
 			return
 		}
 
-		RedisInstance = &redis{
+		Instance = &redis{
 			client: rdb,
 		}
 	})
 
-	return RedisInstance
+	return Instance
 }
 
 // IsConnected checks if the redis connection is alive.

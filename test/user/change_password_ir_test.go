@@ -53,7 +53,6 @@ func TestIRChangePassword(t *testing.T) {
 		Phone:    gofakeit.Phone(),
 		Status: gofakeit.RandomString([]string{
 			entity.ACTIVE.Value(),
-			entity.INACTIVE.Value(),
 			entity.BLOCKED.Value(),
 		}),
 		OTP:      strconv.Itoa(gofakeit.RandomInt([]int{100000, 999999})),

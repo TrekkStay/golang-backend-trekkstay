@@ -5,6 +5,7 @@ import (
 	hotel "trekkstay/modules/hotel/domain/entity"
 	hotelEmp "trekkstay/modules/hotel_emp/domain/entity"
 	hotelRoom "trekkstay/modules/hotel_room/domain/entity"
+	region "trekkstay/modules/region/domain/entity"
 	user "trekkstay/modules/user/domain/entity"
 )
 
@@ -18,6 +19,9 @@ func Migration(db *gorm.DB) error {
 		hotel.HotelEntity{},
 		hotelEmp.HotelEmpEntity{},
 		hotelRoom.HotelRoomEntity{},
+		region.ProvinceEntity{},
+		region.DistrictEntity{},
+		region.WardEntity{},
 	)
 
 	return err

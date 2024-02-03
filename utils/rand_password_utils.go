@@ -7,7 +7,7 @@ import (
 
 func GenerateRandomPassword(length int) (string, error) {
 	password := make([]byte, length)
-	printableChars := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+")
+	printableChars := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 	for i := range password {
 		randomIndex, err := rand.Int(rand.Reader, big.NewInt(int64(len(printableChars))))

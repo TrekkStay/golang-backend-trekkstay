@@ -1,4 +1,4 @@
-package user
+package hotel_emp
 
 import (
 	"context"
@@ -11,20 +11,23 @@ import (
 	"time"
 	"trekkstay/config"
 	"trekkstay/config/models"
-	"trekkstay/modules/user/domain/entity"
-	"trekkstay/modules/user/domain/usecase"
-	"trekkstay/modules/user/repository"
+	"trekkstay/core"
+	"trekkstay/modules/hotel_emp/domain/entity"
+	"trekkstay/modules/hotel_emp/domain/usecase"
+	"trekkstay/modules/hotel_emp/repository"
 	"trekkstay/pkgs/dbs/postgres"
+	"trekkstay/pkgs/mail"
 	"trekkstay/utils"
 )
 
-func TestIRCreateUser(t *testing.T) {
+func TestIRCreateHotelEmp(t *testing.T) {
 	err := os.Setenv("CONFIG_PATH", "../../env/dev.env")
 	if err != nil {
 		return
 	}
 
 	dbConfig := config.LoadConfig(&models.DBConfig{}).(*models.DBConfig)
+	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
 
 	connection := postgres.Connection{
 		SSLMode:               postgres.Disable,
@@ -42,27 +45,33 @@ func TestIRCreateUser(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	userReaderRepo := repository.NewUserReaderRepository(*db)
-	userWriterRepo := repository.NewUserWriterRepository(*db)
+	hotelEmpReaderRepo := repository.NewHotelEmpRepoReader(*db)
+	hotelEmpWriterRepo := repository.NewHotelEmpRepoWriter(*db)
 	hashAlgo := utils.NewHashAlgo()
+	mailer := mail.NewMailer(mailConfig)
 
-	useCase := usecase.NewCreateUserUseCase(hashAlgo, userReaderRepo, userWriterRepo)
+	useCase := usecase.NewCreateHotelEmpUseCase(mailer, hashAlgo, hotelEmpReaderRepo, hotelEmpWriterRepo)
 
 	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
+	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
+		ID: "05ccec7e-31bb-40db-b814-bb4e90e855bf",
+	})
+
 	var wg sync.WaitGroup
 
-	for i := 0; i < 50000; i++ {
+	for i := 0; i < 10; i++ {
 		wg.Add(1)
 
 		go func() {
 			defer wg.Done()
-			err := useCase.ExecCreateUser(ctx, entity.UserEntity{
+			err := useCase.ExecuteCreateHotelEmp(ctx, entity.HotelEmpEntity{
 				FullName: gofakeit.Name(),
 				Email:    gofakeit.Email(),
 				Phone:    gofakeit.Phone(),
 				Status: gofakeit.RandomString([]string{
 					entity.ACTIVE.Value(),
 					entity.BLOCKED.Value(),
+					entity.UNVERIFIED.Value(),
 				}),
 				OTP:      strconv.Itoa(gofakeit.RandomInt([]int{100000, 999999})),
 				Password: gofakeit.Password(true, true, true, false, false, 10),
