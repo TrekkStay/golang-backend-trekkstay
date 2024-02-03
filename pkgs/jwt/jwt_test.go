@@ -16,6 +16,7 @@ func TestValidateToken(t *testing.T) {
 		// Create a valid token
 		claims := jwt.MapClaims{
 			"user_id": "123",
+			"role":    "user",
 			"exp":     time.Now().Add(time.Second * time.Duration(50)).Unix(), // Set the expiry time
 			"iat":     time.Now().Unix(),                                      // Set the token creation time
 		}
@@ -27,7 +28,7 @@ func TestValidateToken(t *testing.T) {
 
 		// Check if the payload and error are as expected
 		assert.NoError(t, err)
-		assert.Equal(t, "123", payload.UserId)
+		assert.Equal(t, "123", payload.UserID)
 	})
 
 	t.Run("Invalid token", func(t *testing.T) {
@@ -50,6 +51,7 @@ func TestGenerateToken(t *testing.T) {
 	t.Run("Generate token with valid data and expiry", func(t *testing.T) {
 		payload := map[string]interface{}{
 			"user_id": "user1",
+			"role":    "user",
 		}
 		expiry := 3600
 

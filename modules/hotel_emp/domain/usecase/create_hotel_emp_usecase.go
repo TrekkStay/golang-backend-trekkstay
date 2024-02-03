@@ -64,7 +64,7 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 	})
 	if err == nil {
 		log.JsonLogger.Error("ExecuteCreateHotelEmp.hotel_emp_already_exists",
-			slog.String("error", err.Error()),
+			slog.String("error", errors.New("email already exists").Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
@@ -77,7 +77,7 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 	})
 	if err == nil {
 		log.JsonLogger.Error("ExecuteCreateHotelEmp.hotel_emp_already_exists",
-			slog.String("error", err.Error()),
+			slog.String("error", errors.New("phone already exists").Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 

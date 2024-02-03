@@ -14,18 +14,22 @@ type hotelReaderRepositoryImpl struct {
 
 var _ HotelReaderRepository = (*hotelReaderRepositoryImpl)(nil)
 
-func NewHotelRepoReader(db database.Database) HotelReaderRepository {
+func NewHotelReaderRepository(db database.Database) HotelReaderRepository {
 	return &hotelReaderRepositoryImpl{
 		db: db,
 	}
 }
 
-func (repo hotelReaderRepositoryImpl) FindHotelByID(ctx context.Context, hotelID string) (*entity.HotelEntity, error) {
+func (repo hotelReaderRepositoryImpl) FindHotelByCondition(ctx context.Context, condition map[string]interface{}) (*entity.HotelEntity, error) {
 	var hotelEntity entity.HotelEntity
 
 	if err := repo.db.Executor.
 		WithContext(ctx).
-		Where("id = ?", hotelID).
+		Where(condition).
+		Preload("Rooms").
+		Preload("Province").
+		Preload("District").
+		Preload("Ward").
 		First(&hotelEntity).Error; err != nil {
 		return nil, err
 	}
@@ -78,7 +82,6 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 		Preload("Province").
 		Preload("District").
 		Preload("Ward").
-		Preload("HotelFacility").
 		InnerJoins("join rooms on rooms.hotel_id = hotels.id").
 		Group("hotels.id").
 		Find(&hotels)

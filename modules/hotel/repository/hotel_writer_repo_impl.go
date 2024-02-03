@@ -12,7 +12,7 @@ type hotelWriterRepositoryImpl struct {
 
 var _ HotelWriterRepository = (*hotelWriterRepositoryImpl)(nil)
 
-func NewHotelRepoWriter(db database.Database) HotelWriterRepository {
+func NewHotelWriterRepository(db database.Database) HotelWriterRepository {
 	return &hotelWriterRepositoryImpl{db: db}
 }
 
@@ -55,26 +55,10 @@ func (repo hotelWriterRepositoryImpl) InsertHotel(ctx context.Context, hotel ent
 
 // UpdateHotel implements HotelWriterRepository interface
 func (repo hotelWriterRepositoryImpl) UpdateHotel(ctx context.Context, hotel entity.HotelEntity) error {
-	// Begin a transactionB
-	tx := repo.db.Executor.Begin().WithContext(ctx)
-
-	// Defer a function to roll back the transaction if an error occurs
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-		}
-	}()
-
-	// Update hotel
-	if err := tx.Omit("Rooms", "Owner", "HotelFacility").Updates(&hotel).Error; err != nil {
-		// Roll back the transaction in case of an error
-		tx.Rollback()
-		return err
-	}
-
-	tx.Commit()
-
-	return nil
+	return repo.db.Executor.
+		WithContext(ctx).
+		Omit("Rooms", "Owner").
+		Updates(&hotel).Error
 }
 
 // DeleteHotel implements HotelWriterRepository interface

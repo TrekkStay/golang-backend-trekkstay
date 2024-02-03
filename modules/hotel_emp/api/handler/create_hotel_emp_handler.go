@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"log/slog"
+	"net/http"
 	"trekkstay/core"
 	res "trekkstay/core/response"
 	"trekkstay/modules/hotel_emp/api/mapper"
@@ -84,4 +85,6 @@ func (h hotelEmpHandler) HandleCreateHotelEmp(c *gin.Context) {
 
 		panic(err)
 	}
+
+	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", nil))
 }

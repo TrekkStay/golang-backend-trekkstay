@@ -33,7 +33,9 @@ func TestFindHotelByID(t *testing.T) {
 	repo := NewHotelRepoReader(*db)
 
 	t.Run("should return hotels", func(t *testing.T) {
-		hotel, err := repo.FindHotelByID(context.Background(), "25de6985-31b1-4f0d-82dd-25513bcb511b")
+		hotel, err := repo.FindHotelByCondition(context.Background(), map[string]interface{}{
+			"id": "25de6985-31b1-4f0d-82dd-25513bcb511b",
+		})
 
 		assert.Nil(t, err)
 		assert.NotNil(t, hotel)

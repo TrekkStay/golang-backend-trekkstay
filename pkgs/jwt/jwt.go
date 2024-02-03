@@ -29,7 +29,8 @@ func (j *JWT) Generate(payload map[string]interface{}, expiry int) (map[string]i
 
 	// Generate the JWT token
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": data.UserId,                                                // Set the user id in the token
+		"user_id": data.UserID,                                                // Set the user id in the token
+		"role":    data.Role,                                                  // Set the role in the token
 		"exp":     time.Now().Add(time.Second * time.Duration(expiry)).Unix(), // Set the expiry time
 		"iat":     time.Now().Unix(),                                          // Set the token creation time
 	})
@@ -69,7 +70,8 @@ func (j *JWT) Validate(tokenString string) (*constant.JWTPayload, error) {
 		}
 
 		return &constant.JWTPayload{
-			UserId: claims["user_id"].(string),
+			UserID: claims["user_id"].(string),
+			Role:   claims["role"].(string),
 		}, nil
 	}
 

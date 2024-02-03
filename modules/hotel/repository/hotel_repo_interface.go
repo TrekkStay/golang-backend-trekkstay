@@ -7,7 +7,7 @@ import (
 )
 
 type HotelReaderRepository interface {
-	FindHotelByID(ctx context.Context, hotelID string) (*entity.HotelEntity, error)
+	FindHotelByCondition(ctx context.Context, condition map[string]interface{}) (*entity.HotelEntity, error)
 	FindHotels(ctx context.Context, filter entity.HotelFilterEntity, page, limit int) (*core.Pagination, error)
 }
 

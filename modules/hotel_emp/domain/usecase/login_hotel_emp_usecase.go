@@ -62,6 +62,7 @@ func (useCase loginHotelEmpUseCaseImpl) ExecuteLoginHotelEmp(ctx context.Context
 	accessToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
 			"user_id": emp.ID,
+			"role":    emp.Role,
 		},
 		useCase.accessTokenTime,
 	)
@@ -78,6 +79,7 @@ func (useCase loginHotelEmpUseCaseImpl) ExecuteLoginHotelEmp(ctx context.Context
 	refreshToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
 			"user_id": emp.ID,
+			"role":    emp.Role,
 		},
 		useCase.refreshTokenTime,
 	)

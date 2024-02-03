@@ -31,12 +31,14 @@ func NewRefreshTokenUseCase(tokenProvider TokenProvider,
 }
 
 func (useCase refreshTokenUseCaseImpl) ExecRefreshToken(ctx context.Context) (*entity.TokenEntity, error) {
-	userID := ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester).GetUserID()
+	requester := ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester)
+	userID := requester.GetUserID()
 
 	// Generate access token
 	accessToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
 			"user_id": userID,
+			"role":    requester.GetRole(),
 		},
 		useCase.accessTokenTime,
 	)
@@ -53,6 +55,7 @@ func (useCase refreshTokenUseCaseImpl) ExecRefreshToken(ctx context.Context) (*e
 	refreshToken, err := useCase.tokenProvider.Generate(
 		map[string]interface{}{
 			"user_id": userID,
+			"role":    requester.GetRole(),
 		},
 		useCase.refreshTokenTime,
 	)
