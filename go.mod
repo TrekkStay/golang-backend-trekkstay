@@ -5,6 +5,7 @@ go 1.21.6
 require (
 	github.com/brianvoe/gofakeit/v6 v6.27.0
 	github.com/fatih/color v1.16.0
+	github.com/gin-contrib/cors v1.5.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/golang-jwt/jwt/v5 v5.2.0

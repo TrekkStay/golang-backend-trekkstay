@@ -5,19 +5,19 @@ import (
 	"errors"
 	"fmt"
 	"github.com/fatih/color"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+	_ "trekkstay/docs"
 	"trekkstay/pkgs/log"
 	"trekkstay/pkgs/transport/http/middleware"
 	"trekkstay/pkgs/transport/http/route"
-
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	_ "trekkstay/docs"
 )
 
 type Option func(*HTTPServer)
@@ -57,6 +57,16 @@ func (s *HTTPServer) Run() {
 		route.AddRoutes(s.Routes),
 		route.AddGinOptions(s.GinOptions...),
 	)
+
+	r.Use(cors.New(cors.Config{
+		AllowAllOrigins: true,
+		AllowHeaders: []string{
+			"Origin",
+			"Content-Type",
+			"Accept",
+			"Authorization",
+		},
+	}))
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -5,6 +5,9 @@ import (
 	"os"
 	"strconv"
 	"trekkstay/api"
+	"trekkstay/config"
+	"trekkstay/config/models"
+	"trekkstay/docs"
 	"trekkstay/pkgs/log"
 	"trekkstay/pkgs/transport/http/server"
 )
@@ -39,12 +42,24 @@ func init() {
 // @license.name  					Apache 2.0
 // @license.url   					https://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      						localhost:8888
+// @host      						52.221.204.232:8888
 // @BasePath  						/api/v1
 // @securitydefinitions.apikey  	JWT
 // @in                          	header
 // @name                        	Authorization
 func main() {
 	log.JsonLogger.Info("Starting server...")
+
+	appConfig := config.LoadConfig(&models.AppConfig{}).(*models.AppConfig)
+
+	docs.SwaggerInfo.Schemes = []string{"https"}
+	if appConfig.BuildEnv != "prod" {
+		docs.SwaggerInfo.Host = "localhost:8888"
+		docs.SwaggerInfo.Schemes = []string{"http"}
+	} else {
+		docs.SwaggerInfo.Host = "52.221.204.232:8888"
+		docs.SwaggerInfo.Schemes = []string{"http"}
+	}
+
 	server.MustRun(api.NewServer())
 }
