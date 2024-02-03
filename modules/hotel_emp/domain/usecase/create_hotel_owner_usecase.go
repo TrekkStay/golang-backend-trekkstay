@@ -50,7 +50,7 @@ func (useCase hotelOwnerUseCaseImpl) ExecuteCreateHotelOwner(ctx context.Context
 	})
 	if hotelOwner != nil {
 		log.JsonLogger.Error("ExecuteCreateHotelOwner.phone_already_exists",
-			slog.Any("error", err.Error()),
+			slog.Any("error", errors.New("phone already exists")),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
