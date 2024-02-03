@@ -47,6 +47,12 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 
 	var scopeFunctions []func(d *gorm.DB) *gorm.DB
 
+	if filter.Name != nil {
+		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
+			return d.Where("name LIKE ?", "%"+*filter.Name+"%")
+		})
+	}
+
 	if filter.WardCode != nil {
 		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
 			return d.Where("ward_code = ?", *filter.WardCode)
@@ -76,13 +82,13 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 	tx := repo.db.Executor.WithContext(ctx).Scopes(scopeFunctions...)
 	txTotalRows := tx.Model(&entity.HotelEntity{}).Scopes(scopeFunctions...)
 	result := tx.
-		Select("hotels.*, MIN(rooms.original_price) as min_price").
+		Select("hotels.*, MIN(hotel_rooms.original_price) as min_price").
 		Scopes(core.Paginate(&paging, txTotalRows)).
 		Preload("Rooms").
 		Preload("Province").
 		Preload("District").
 		Preload("Ward").
-		InnerJoins("join rooms on rooms.hotel_id = hotels.id").
+		Joins("left join hotel_rooms on hotel_rooms.hotel_id = hotels.id").
 		Group("hotels.id").
 		Find(&hotels)
 

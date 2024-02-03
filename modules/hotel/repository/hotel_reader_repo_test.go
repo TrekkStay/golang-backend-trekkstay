@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
@@ -30,7 +31,7 @@ func TestFindHotelByID(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelRepoReader(*db)
+	repo := NewHotelReaderRepository(*db)
 
 	t.Run("should return hotels", func(t *testing.T) {
 		hotel, err := repo.FindHotelByCondition(context.Background(), map[string]interface{}{
@@ -61,10 +62,12 @@ func TestPagingHotel(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelRepoReader(*db)
+	repo := NewHotelReaderRepository(*db)
 
 	t.Run("should return hotels", func(t *testing.T) {
 		paging, err := repo.FindHotels(context.Background(), entity.HotelFilterEntity{}, 1, 10)
+
+		fmt.Print(paging)
 
 		assert.Nil(t, err)
 		assert.NotNil(t, paging)

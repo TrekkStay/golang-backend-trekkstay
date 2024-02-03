@@ -32,7 +32,7 @@ func TestCreateHotel(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelRepoWriter(*db)
+	repo := NewHotelWriterRepository(*db)
 
 	t.Run("should insert hotel", func(t *testing.T) {
 		err := repo.InsertHotel(context.Background(), entity.HotelEntity{
@@ -86,7 +86,7 @@ func TestUpdateHotel(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelRepoWriter(*db)
+	repo := NewHotelWriterRepository(*db)
 
 	t.Run("should update hotel", func(t *testing.T) {
 		err := repo.UpdateHotel(context.Background(), entity.HotelEntity{
@@ -144,7 +144,7 @@ func TestDeleteHotel(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelRepoWriter(*db)
+	repo := NewHotelWriterRepository(*db)
 
 	t.Run("should delete hotel", func(t *testing.T) {
 		err := repo.DeleteHotel(context.Background(), "25de6985-31b1-4f0d-82dd-25513bcb511b")
