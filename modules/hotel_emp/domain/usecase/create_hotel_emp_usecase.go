@@ -40,7 +40,7 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 		"id": ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester).GetUserID(),
 	})
 	if err != nil {
-		return handleError("find_hotel_emp_by_id", "ExecuteCreateHotelEmp", err, ctx)
+		return handleError(ctx, "find_hotel_emp_by_id", "ExecuteCreateHotelEmp", err)
 	}
 
 	if err := checkRequesterRole(*requester); err != nil {
@@ -57,7 +57,7 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 
 	randomPassword, hashedPassword, err := generateAndHashPassword(useCase)
 	if err != nil {
-		return handleError("hash_password", "ExecuteCreateHotelEmp", err, ctx)
+		return handleError(ctx, "hash_password", "ExecuteCreateHotelEmp", err)
 	}
 
 	hotelEmpEntity.Password = hashedPassword
@@ -65,11 +65,11 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 	hotelEmpEntity.Role = constant.EmpRole
 
 	if hotelEmpEntity.HotelID == "" {
-		return handleError("hotel_id_is_empty", "ExecuteCreateHotelEmp", errors.New("hotel id is empty"), ctx)
+		return handleError(ctx, "hotel_id_is_empty", "ExecuteCreateHotelEmp", errors.New("hotel id is empty"))
 	}
 
 	if err := useCase.writerRepo.InsertHotelEmp(ctx, hotelEmpEntity); err != nil {
-		return handleError("create_hotel_emp", "ExecuteCreateHotelEmp", err, ctx)
+		return handleError(ctx, "create_hotel_emp", "ExecuteCreateHotelEmp", err)
 	}
 
 	sendEmail(useCase, ctx, hotelEmpEntity.Email, randomPassword)
@@ -77,7 +77,7 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 	return nil
 }
 
-func handleError(errorType, funcName string, err error, ctx context.Context) error {
+func handleError(ctx context.Context, errorType, funcName string, err error) error {
 	log.JsonLogger.Error(funcName+"."+errorType,
 		slog.String("error", err.Error()),
 		slog.String("request_id", ctx.Value("X-Request-ID").(string)),
