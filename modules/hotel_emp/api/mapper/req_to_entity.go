@@ -25,3 +25,10 @@ func ConvertCreateHotelOwnerReqEntity(req req.CreateHotelOwnerReq) entity.HotelE
 		Status:   entity.UNVERIFIED.Value(),
 	}
 }
+
+func ConvertLoginHotelEmpReqEntity(req req.LoginHotelEmpReq) entity.HotelEmpEntity {
+	return entity.HotelEmpEntity{
+		Email:    req.Email,
+		Password: req.Password,
+	}
+}

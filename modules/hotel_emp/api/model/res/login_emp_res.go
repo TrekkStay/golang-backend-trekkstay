@@ -5,9 +5,11 @@ type Token struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-type LoginUserRes struct {
+type LoginHotelEmpRes struct {
+	HotelID  string `json:"hotel_id"`
 	FullName string `json:"full_name"`
 	Email    string `json:"email"`
 	Phone    string `json:"phone"`
+	Role     string `json:"role"`
 	Token    Token  `json:"token"`
 }

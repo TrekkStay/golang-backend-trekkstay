@@ -23,6 +23,11 @@ func (r *RouteHandler) hotelEmpRoute() route.GroupRoute {
 					middlewares.Authentication(),
 				),
 			},
+			{
+				Path:    "/login",
+				Method:  method.POST,
+				Handler: r.HotelEmpHandler.HandleLoginHotelEmp,
+			},
 		},
 	}
 }

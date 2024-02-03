@@ -72,19 +72,21 @@ func NewUserHandler(db *database.Database, requestValidator *validator.Validate)
 func NewHotelEmpHandler(db *database.Database, requestValidator *validator.Validate) hotelEmpHandler.HotelEmpHandler {
 	// Config
 	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
-	// jwtConfig := config.LoadConfig(&models.JWTConfig{}).(*models.JWTConfig)
+	jwtConfig := config.LoadConfig(&models.JWTConfig{}).(*models.JWTConfig)
 
 	// HotelEmp Repository
 	hotelEmpRepoReader := hotelEmpRepo.NewHotelEmpReaderRepository(*db)
 	hotelEmpRepoWriter := hotelEmpRepo.NewHotelEmpWriterRepository(*db)
 
 	hashAlgo := utils.NewHashAlgo()
-	// jwtToken := jwt.NewJWT(jwtConfig.JWTSecretKey)
+	jwtToken := jwt.NewJWT(jwtConfig.JWTSecretKey)
 	mailer := mail.NewMailer(mailConfig)
 
 	return hotelEmpHandler.NewHotelEmpHandler(
 		requestValidator,
 		hotelEmpUseCase.NewCreateHotelEmpUseCase(mailer, hashAlgo, hotelEmpRepoReader, hotelEmpRepoWriter),
 		hotelEmpUseCase.NewCreateHotelOwnerUseCase(hashAlgo, hotelEmpRepoReader, hotelEmpRepoWriter),
+		hotelEmpUseCase.NewLoginHotelEmpUseCase(jwtToken, jwtConfig.AccessTokenExpiry,
+			jwtConfig.RefreshTokenExpiry, hashAlgo, hotelEmpRepoReader),
 	)
 }

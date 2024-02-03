@@ -115,6 +115,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel-emp/login": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Login hotel employee by email and password",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Employee"
+                ],
+                "summary": "Login hotel employee",
+                "parameters": [
+                    {
+                        "description": "LoginHotelEmpReq JSON",
+                        "name": "LoginHotelEmpReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.LoginHotelEmpReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
@@ -597,6 +645,23 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "x-order": "4"
+                }
+            }
+        },
+        "req.LoginHotelEmpReq": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "password": {
+                    "type": "string",
+                    "x-order": "2"
                 }
             }
         },
