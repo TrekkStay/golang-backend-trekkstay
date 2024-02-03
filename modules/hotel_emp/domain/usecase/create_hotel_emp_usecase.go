@@ -40,88 +40,79 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 		"id": ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester).GetUserID(),
 	})
 	if err != nil {
-		return handleError(ctx, "find_hotel_emp_by_id", "ExecuteCreateHotelEmp", err)
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.find_hotel_emp_by_id",
+			slog.String("error", err.Error()),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrEmpNotFound(err)
 	}
 
-	if err := checkRequesterRole(*requester); err != nil {
-		return err
+	// Check if requester is owner
+	if requester.Role != constant.OwnerRole {
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.find_hotel_owner_by_id",
+			slog.String("error", err.Error()),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrPermissionDenied(errors.New("you are not owner of this hotel"))
 	}
 
-	if err := checkExistingEmail(useCase, ctx, hotelEmpEntity.Email, "email_already_exists"); err != nil {
-		return err
+	// Check if hotel emp already exists
+	_, err = useCase.readerRepo.FindHotelEmpByCondition(ctx, map[string]interface{}{
+		"email": hotelEmpEntity.Email,
+	})
+	if err == nil {
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.hotel_emp_already_exists",
+			slog.String("error", err.Error()),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrorEmailAlreadyExists(nil)
 	}
 
-	if err := checkExistingPhone(useCase, ctx, hotelEmpEntity.Phone, "phone_already_exists"); err != nil {
-		return err
+	// Check if hotel emp already exists
+	_, err = useCase.readerRepo.FindHotelEmpByCondition(ctx, map[string]interface{}{
+		"phone": hotelEmpEntity.Phone,
+	})
+	if err == nil {
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.hotel_emp_already_exists",
+			slog.String("error", err.Error()),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrorPhoneAlreadyExists(nil)
 	}
 
-	randomPassword, hashedPassword, err := generateAndHashPassword(useCase)
+	// Random password and hash password
+	randomPassword, _ := utils.GenerateRandomPassword(8)
+	hashedPassword, err := useCase.hashAlgo.HashAndSalt([]byte(randomPassword))
 	if err != nil {
-		return handleError(ctx, "hash_password", "ExecuteCreateHotelEmp", err)
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.hash_password",
+			slog.String("error", err.Error()),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrorHashPassword(err)
 	}
 
+	// Assign password, hotel id and role
 	hotelEmpEntity.Password = hashedPassword
 	hotelEmpEntity.HotelID = requester.HotelID
 	hotelEmpEntity.Role = constant.EmpRole
 
 	if hotelEmpEntity.HotelID == "" {
-		return handleError(ctx, "hotel_id_is_empty", "ExecuteCreateHotelEmp", errors.New("hotel id is empty"))
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.hotel_id_is_empty",
+			slog.String("error", "hotel id is empty"),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrNoHotelToAssignEmp(nil)
 	}
 
-	if err := useCase.writerRepo.InsertHotelEmp(ctx, hotelEmpEntity); err != nil {
-		return handleError(ctx, "create_hotel_emp", "ExecuteCreateHotelEmp", err)
-	}
-
-	sendEmail(useCase, ctx, hotelEmpEntity.Email, randomPassword)
-
-	return nil
-}
-
-func handleError(ctx context.Context, errorType, funcName string, err error) error {
-	log.JsonLogger.Error(funcName+"."+errorType,
-		slog.String("error", err.Error()),
-		slog.String("request_id", ctx.Value("X-Request-ID").(string)),
-	)
-
-	return err
-}
-
-func checkRequesterRole(requester entity.HotelEmpEntity) error {
-	if requester.Role != constant.OwnerRole {
-		return constant.ErrPermissionDenied(errors.New("you are not owner of this hotel"))
-	}
-	return nil
-}
-
-func checkExistingEmail(useCase hotelEmpUseCaseImpl, ctx context.Context, email string, errorType string) error {
-	oldEmp, err := useCase.readerRepo.FindHotelEmpByCondition(ctx, map[string]interface{}{
-		"email": email,
-	})
-	if oldEmp != nil {
-		return constant.ErrorEmailAlreadyExists(err)
-	}
-	return nil
-}
-
-func checkExistingPhone(useCase hotelEmpUseCaseImpl, ctx context.Context, phone string, errorType string) error {
-	oldEmp, err := useCase.readerRepo.FindHotelEmpByCondition(ctx, map[string]interface{}{
-		"phone": phone,
-	})
-	if oldEmp != nil {
-		return constant.ErrorPhoneAlreadyExists(err)
-	}
-	return nil
-}
-
-func generateAndHashPassword(useCase hotelEmpUseCaseImpl) (string, string, error) {
-	randomPassword, _ := utils.GenerateRandomPassword(8)
-	hashedPassword, err := useCase.hashAlgo.HashAndSalt([]byte(randomPassword))
-	return randomPassword, hashedPassword, err
-}
-
-func sendEmail(useCase hotelEmpUseCaseImpl, ctx context.Context, email, randomPassword string) {
+	// Send email
 	go func() {
-		err := useCase.mailer.SendMail(email, "Create hotel employee", utils.GetWorkingDirectory()+
+		err = useCase.mailer.SendMail(hotelEmpEntity.Email, "Create hotel employee", utils.GetWorkingDirectory()+
 			"/templates/send_password_to_emp.html", map[string]interface{}{
 			"password": randomPassword,
 		})
@@ -133,4 +124,16 @@ func sendEmail(useCase hotelEmpUseCaseImpl, ctx context.Context, email, randomPa
 			)
 		}
 	}()
+
+	// Create hotel employee
+	if err := useCase.writerRepo.InsertHotelEmp(ctx, hotelEmpEntity); err != nil {
+		log.JsonLogger.Error("ExecuteCreateHotelEmp.create_hotel_emp",
+			slog.String("error", err.Error()),
+			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
+		)
+
+		return constant.ErrorInternalServerError(err)
+	}
+
+	return nil
 }
