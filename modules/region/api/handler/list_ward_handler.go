@@ -15,9 +15,9 @@ import (
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /region/list-ward [get]
-func (r regionHandler) HandleListWard(c *gin.Context) {
+func (h regionHandler) HandleListWard(c *gin.Context) {
 	districtCode := c.Query("district_code")
-	wards, err := r.listWardUseCase.ExecuteListWard(c.Request.Context(), districtCode)
+	wards, err := h.listWardUseCase.ExecuteListWard(c.Request.Context(), districtCode)
 
 	if err != nil {
 		panic(err)

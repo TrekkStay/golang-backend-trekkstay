@@ -14,8 +14,8 @@ import (
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /region/list-province [get]
-func (r regionHandler) HandleListProvince(c *gin.Context) {
-	provinces, err := r.listProvinceUseCase.ExecuteListProvince(c.Request.Context())
+func (h regionHandler) HandleListProvince(c *gin.Context) {
+	provinces, err := h.listProvinceUseCase.ExecuteListProvince(c.Request.Context())
 
 	if err != nil {
 		panic(err)
