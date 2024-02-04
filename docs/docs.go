@@ -163,6 +163,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel/create": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create new hotel, requires authentication with owner role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Create new hotel",
+                "parameters": [
+                    {
+                        "description": "CreateHotelReq JSON",
+                        "name": "CreateHotelReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateHotelReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
@@ -558,6 +606,17 @@ const docTemplate = `{
                 }
             }
         },
+        "req.CoordinatesJSON": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
+                }
+            }
+        },
         "req.CreateHotelEmpReq": {
             "type": "object",
             "required": [
@@ -622,6 +681,95 @@ const docTemplate = `{
                 }
             }
         },
+        "req.CreateHotelReq": {
+            "type": "object",
+            "required": [
+                "address_detail",
+                "check_in_time",
+                "check_out_time",
+                "description",
+                "district_code",
+                "email",
+                "name",
+                "phone",
+                "province_code",
+                "ward_code"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "description": {
+                    "type": "string",
+                    "x-order": "10"
+                },
+                "facilities": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.HotelFacilitiesJSON"
+                        }
+                    ],
+                    "x-order": "11"
+                },
+                "coordinates": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.CoordinatesJSON"
+                        }
+                    ],
+                    "x-order": "12"
+                },
+                "videos": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.MediaJSON"
+                        }
+                    ],
+                    "x-order": "13"
+                },
+                "images": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.MediaJSON"
+                        }
+                    ],
+                    "x-order": "14"
+                },
+                "email": {
+                    "type": "string",
+                    "x-order": "2"
+                },
+                "phone": {
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "check_in_time": {
+                    "type": "string",
+                    "x-order": "4"
+                },
+                "check_out_time": {
+                    "type": "string",
+                    "x-order": "5"
+                },
+                "province_code": {
+                    "type": "string",
+                    "x-order": "6"
+                },
+                "district_code": {
+                    "type": "string",
+                    "x-order": "7"
+                },
+                "ward_code": {
+                    "type": "string",
+                    "x-order": "8"
+                },
+                "address_detail": {
+                    "type": "string",
+                    "x-order": "9"
+                }
+            }
+        },
         "req.CreateUserReq": {
             "type": "object",
             "required": [
@@ -645,6 +793,41 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "x-order": "4"
+                }
+            }
+        },
+        "req.HotelFacilitiesJSON": {
+            "type": "object",
+            "properties": {
+                "airport_transfer": {
+                    "type": "boolean"
+                },
+                "conference_room": {
+                    "type": "boolean"
+                },
+                "fitness_center": {
+                    "type": "boolean"
+                },
+                "food_service": {
+                    "type": "boolean"
+                },
+                "free_wifi": {
+                    "type": "boolean"
+                },
+                "laundry_service": {
+                    "type": "boolean"
+                },
+                "motor_bike_rental": {
+                    "type": "boolean"
+                },
+                "parking_area": {
+                    "type": "boolean"
+                },
+                "spa_service": {
+                    "type": "boolean"
+                },
+                "swimming_pool": {
+                    "type": "boolean"
                 }
             }
         },
@@ -679,6 +862,17 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "x-order": "2"
+                }
+            }
+        },
+        "req.MediaJSON": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

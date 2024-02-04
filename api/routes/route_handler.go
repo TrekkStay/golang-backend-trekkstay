@@ -4,6 +4,9 @@ import (
 	"github.com/go-playground/validator/v10"
 	"trekkstay/config"
 	"trekkstay/config/models"
+	hotelHandler "trekkstay/modules/hotel/api/handler"
+	hotelUseCase "trekkstay/modules/hotel/domain/usecase"
+	hotelRepo "trekkstay/modules/hotel/repository"
 	hotelEmpHandler "trekkstay/modules/hotel_emp/api/handler"
 	hotelEmpUseCase "trekkstay/modules/hotel_emp/domain/usecase"
 	hotelEmpRepo "trekkstay/modules/hotel_emp/repository"
@@ -26,6 +29,7 @@ type RouteHandler struct {
 	UserHandler     userHandler.UserHandler
 	RegionHandler   regionHandler.RegionHandler
 	HotelEmpHandler hotelEmpHandler.HotelEmpHandler
+	HotelHandler    hotelHandler.HotelHandler
 	TokenHandler    tokenHandler.TokenHandler
 }
 
@@ -35,6 +39,7 @@ func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
 	routeGroup = append(routeGroup, r.userRoute())
 	routeGroup = append(routeGroup, r.hotelEmpRoute())
 	routeGroup = append(routeGroup, r.tokenRoute())
+	routeGroup = append(routeGroup, r.hotelRoute())
 
 	return routeGroup
 }
@@ -91,6 +96,16 @@ func NewHotelEmpHandler(db *database.Database, requestValidator *validator.Valid
 		hotelEmpUseCase.NewCreateHotelOwnerUseCase(hashAlgo, hotelEmpRepoReader, hotelEmpRepoWriter),
 		hotelEmpUseCase.NewLoginHotelEmpUseCase(jwtToken, jwtConfig.AccessTokenExpiry,
 			jwtConfig.RefreshTokenExpiry, hashAlgo, hotelEmpRepoReader),
+	)
+}
+
+func NewHotelHandler(db *database.Database, requestValidator *validator.Validate) hotelHandler.HotelHandler {
+	//Hotel Repository
+	hotelRepoReader := hotelRepo.NewHotelReaderRepository(*db)
+	hotelRepoWriter := hotelRepo.NewHotelWriterRepository(*db)
+
+	return hotelHandler.NewHotelHandler(requestValidator,
+		hotelUseCase.NewCreateHotelUseCase(hotelRepoReader, hotelRepoWriter),
 	)
 }
 

@@ -12,6 +12,13 @@ definitions:
     - new_pwd
     - old_pwd
     type: object
+  req.CoordinatesJSON:
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number
+    type: object
   req.CreateHotelEmpReq:
     properties:
       base_salary:
@@ -60,6 +67,66 @@ definitions:
     - password
     - phone
     type: object
+  req.CreateHotelReq:
+    properties:
+      address_detail:
+        type: string
+        x-order: "9"
+      check_in_time:
+        type: string
+        x-order: "4"
+      check_out_time:
+        type: string
+        x-order: "5"
+      coordinates:
+        allOf:
+        - $ref: '#/definitions/req.CoordinatesJSON'
+        x-order: "12"
+      description:
+        type: string
+        x-order: "10"
+      district_code:
+        type: string
+        x-order: "7"
+      email:
+        type: string
+        x-order: "2"
+      facilities:
+        allOf:
+        - $ref: '#/definitions/req.HotelFacilitiesJSON'
+        x-order: "11"
+      images:
+        allOf:
+        - $ref: '#/definitions/req.MediaJSON'
+        x-order: "14"
+      name:
+        type: string
+        x-order: "1"
+      phone:
+        type: string
+        x-order: "3"
+      province_code:
+        type: string
+        x-order: "6"
+      videos:
+        allOf:
+        - $ref: '#/definitions/req.MediaJSON'
+        x-order: "13"
+      ward_code:
+        type: string
+        x-order: "8"
+    required:
+    - address_detail
+    - check_in_time
+    - check_out_time
+    - description
+    - district_code
+    - email
+    - name
+    - phone
+    - province_code
+    - ward_code
+    type: object
   req.CreateUserReq:
     properties:
       email:
@@ -78,6 +145,29 @@ definitions:
     - email
     - full_name
     - password
+    type: object
+  req.HotelFacilitiesJSON:
+    properties:
+      airport_transfer:
+        type: boolean
+      conference_room:
+        type: boolean
+      fitness_center:
+        type: boolean
+      food_service:
+        type: boolean
+      free_wifi:
+        type: boolean
+      laundry_service:
+        type: boolean
+      motor_bike_rental:
+        type: boolean
+      parking_area:
+        type: boolean
+      spa_service:
+        type: boolean
+      swimming_pool:
+        type: boolean
     type: object
   req.LoginHotelEmpReq:
     properties:
@@ -102,6 +192,13 @@ definitions:
     required:
     - email
     - password
+    type: object
+  req.MediaJSON:
+    properties:
+      url:
+        items:
+          type: string
+        type: array
     type: object
   req.ResetPasswordReq:
     properties:
@@ -244,6 +341,36 @@ paths:
       summary: Login hotel employee
       tags:
       - Hotel Employee
+  /hotel/create:
+    post:
+      description: Create new hotel, requires authentication with owner role
+      parameters:
+      - description: CreateHotelReq JSON
+        in: body
+        name: CreateHotelReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateHotelReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Create new hotel
+      tags:
+      - Hotel
   /region/list-district:
     get:
       description: List all districts of a province
