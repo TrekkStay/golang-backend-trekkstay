@@ -1,7 +1,7 @@
 package req
 
 type MediaJSON struct {
-	URL []string `json:"url"`
+	URLS []string `json:"urls"`
 }
 
 type CoordinatesJSON struct {

@@ -34,10 +34,10 @@ func ConvertCreateHotelReqToEntity(req req.CreateHotelReq) entity.HotelEntity {
 			Lng: req.Coordinates.Lng,
 		},
 		Videos: entity.MediaJSON{
-			URL: req.Videos.URL,
+			URLS: req.Videos.URLS,
 		},
 		Images: entity.MediaJSON{
-			URL: req.Images.URL,
+			URLS: req.Images.URLS,
 		},
 	}
 }

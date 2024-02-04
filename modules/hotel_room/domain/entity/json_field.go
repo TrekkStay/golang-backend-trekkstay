@@ -14,7 +14,7 @@ type SleepJSON struct {
 }
 
 type MediaJSON struct {
-	URL []string `json:"url"`
+	URLS []string `json:"urls"`
 }
 
 type HotelRoomFacilitiesJSON struct {
