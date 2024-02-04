@@ -469,6 +469,35 @@ paths:
       summary: Refresh token
       tags:
       - Token
+  /upload/media:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload media files to the server and store them in AWS S3
+      parameters:
+      - description: Files to upload
+        in: formData
+        name: files
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: Upload media files
+      tags:
+      - Upload
   /user/change-password:
     post:
       description: Change password

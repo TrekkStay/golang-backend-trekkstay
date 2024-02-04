@@ -21,6 +21,7 @@ import (
 	database "trekkstay/pkgs/dbs/postgres"
 	"trekkstay/pkgs/jwt"
 	"trekkstay/pkgs/mail"
+	"trekkstay/pkgs/s3"
 	"trekkstay/pkgs/transport/http/route"
 	"trekkstay/utils"
 )
@@ -31,6 +32,7 @@ type RouteHandler struct {
 	HotelEmpHandler hotelEmpHandler.HotelEmpHandler
 	HotelHandler    hotelHandler.HotelHandler
 	TokenHandler    tokenHandler.TokenHandler
+	UploadHandler   s3.UploadHandler
 }
 
 func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
@@ -40,6 +42,7 @@ func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
 	routeGroup = append(routeGroup, r.hotelEmpRoute())
 	routeGroup = append(routeGroup, r.tokenRoute())
 	routeGroup = append(routeGroup, r.hotelRoute())
+	routeGroup = append(routeGroup, r.uploadRoute())
 
 	return routeGroup
 }
