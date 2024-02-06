@@ -117,11 +117,6 @@ const docTemplate = `{
         },
         "/hotel-emp/login": {
             "post": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
                 "description": "Login hotel employee by email and password",
                 "produces": [
                     "application/json"
@@ -144,6 +139,54 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/hotel-room/create": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create new hotel room, requires authentication with owner role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Room"
+                ],
+                "summary": "Create new hotel room",
+                "parameters": [
+                    {
+                        "description": "CreateHotelRoomReq JSON",
+                        "name": "CreateHotelRoomReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateHotelRoomReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/res.SuccessResponse"
                         }
@@ -633,6 +676,28 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "modules_hotel_api_model_req.MediaJSON": {
+            "type": "object",
+            "properties": {
+                "urls": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "modules_hotel_room_api_model_req.MediaJSON": {
+            "type": "object",
+            "properties": {
+                "urls": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "req.ChangePasswordReq": {
             "type": "object",
             "required": [
@@ -767,7 +832,7 @@ const docTemplate = `{
                 "videos": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/req.MediaJSON"
+                            "$ref": "#/definitions/modules_hotel_api_model_req.MediaJSON"
                         }
                     ],
                     "x-order": "13"
@@ -775,7 +840,7 @@ const docTemplate = `{
                 "images": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/req.MediaJSON"
+                            "$ref": "#/definitions/modules_hotel_api_model_req.MediaJSON"
                         }
                     ],
                     "x-order": "14"
@@ -810,6 +875,67 @@ const docTemplate = `{
                 },
                 "address_detail": {
                     "type": "string",
+                    "x-order": "9"
+                }
+            }
+        },
+        "req.CreateHotelRoomReq": {
+            "type": "object",
+            "required": [
+                "description",
+                "facilities",
+                "hotel_id",
+                "original_price",
+                "quantity",
+                "type"
+            ],
+            "properties": {
+                "hotel_id": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "type": {
+                    "type": "string",
+                    "x-order": "2"
+                },
+                "description": {
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "x-order": "4"
+                },
+                "discount_rate": {
+                    "type": "integer",
+                    "x-order": "5"
+                },
+                "original_price": {
+                    "type": "integer",
+                    "x-order": "6"
+                },
+                "videos": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/modules_hotel_room_api_model_req.MediaJSON"
+                        }
+                    ],
+                    "x-order": "7"
+                },
+                "images": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/modules_hotel_room_api_model_req.MediaJSON"
+                        }
+                    ],
+                    "x-order": "8"
+                },
+                "facilities": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.HotelRoomFacilitiesJSON"
+                        }
+                    ],
                     "x-order": "9"
                 }
             }
@@ -875,6 +1001,57 @@ const docTemplate = `{
                 }
             }
         },
+        "req.HotelRoomFacilitiesJSON": {
+            "type": "object",
+            "properties": {
+                "air_conditioner": {
+                    "type": "boolean"
+                },
+                "balcony": {
+                    "description": "Default: false",
+                    "type": "boolean"
+                },
+                "bath_tub": {
+                    "type": "boolean"
+                },
+                "hair_dryer": {
+                    "type": "boolean"
+                },
+                "kitchen": {
+                    "type": "boolean"
+                },
+                "non_smoking": {
+                    "type": "boolean"
+                },
+                "number_of_bed": {
+                    "type": "integer"
+                },
+                "room_size": {
+                    "type": "integer"
+                },
+                "shower": {
+                    "type": "boolean"
+                },
+                "sleeps": {
+                    "description": "Jsonb",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.SleepJSON"
+                        }
+                    ]
+                },
+                "slippers": {
+                    "type": "boolean"
+                },
+                "television": {
+                    "description": "Default: true",
+                    "type": "boolean"
+                },
+                "view": {
+                    "type": "string"
+                }
+            }
+        },
         "req.LoginHotelEmpReq": {
             "type": "object",
             "required": [
@@ -909,17 +1086,6 @@ const docTemplate = `{
                 }
             }
         },
-        "req.MediaJSON": {
-            "type": "object",
-            "properties": {
-                "url": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
         "req.ResetPasswordReq": {
             "type": "object",
             "required": [
@@ -928,6 +1094,17 @@ const docTemplate = `{
             "properties": {
                 "email": {
                     "type": "string"
+                }
+            }
+        },
+        "req.SleepJSON": {
+            "type": "object",
+            "properties": {
+                "adults": {
+                    "type": "integer"
+                },
+                "children": {
+                    "type": "integer"
                 }
             }
         },

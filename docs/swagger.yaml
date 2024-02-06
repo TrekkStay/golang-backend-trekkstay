@@ -1,5 +1,19 @@
 basePath: /api/v1
 definitions:
+  modules_hotel_api_model_req.MediaJSON:
+    properties:
+      urls:
+        items:
+          type: string
+        type: array
+    type: object
+  modules_hotel_room_api_model_req.MediaJSON:
+    properties:
+      urls:
+        items:
+          type: string
+        type: array
+    type: object
   req.ChangePasswordReq:
     properties:
       new_pwd:
@@ -97,7 +111,7 @@ definitions:
         x-order: "11"
       images:
         allOf:
-        - $ref: '#/definitions/req.MediaJSON'
+        - $ref: '#/definitions/modules_hotel_api_model_req.MediaJSON'
         x-order: "14"
       name:
         type: string
@@ -110,7 +124,7 @@ definitions:
         x-order: "6"
       videos:
         allOf:
-        - $ref: '#/definitions/req.MediaJSON'
+        - $ref: '#/definitions/modules_hotel_api_model_req.MediaJSON'
         x-order: "13"
       ward_code:
         type: string
@@ -126,6 +140,46 @@ definitions:
     - phone
     - province_code
     - ward_code
+    type: object
+  req.CreateHotelRoomReq:
+    properties:
+      description:
+        type: string
+        x-order: "3"
+      discount_rate:
+        type: integer
+        x-order: "5"
+      facilities:
+        allOf:
+        - $ref: '#/definitions/req.HotelRoomFacilitiesJSON'
+        x-order: "9"
+      hotel_id:
+        type: string
+        x-order: "1"
+      images:
+        allOf:
+        - $ref: '#/definitions/modules_hotel_room_api_model_req.MediaJSON'
+        x-order: "8"
+      original_price:
+        type: integer
+        x-order: "6"
+      quantity:
+        type: integer
+        x-order: "4"
+      type:
+        type: string
+        x-order: "2"
+      videos:
+        allOf:
+        - $ref: '#/definitions/modules_hotel_room_api_model_req.MediaJSON'
+        x-order: "7"
+    required:
+    - description
+    - facilities
+    - hotel_id
+    - original_price
+    - quantity
+    - type
     type: object
   req.CreateUserReq:
     properties:
@@ -169,6 +223,39 @@ definitions:
       swimming_pool:
         type: boolean
     type: object
+  req.HotelRoomFacilitiesJSON:
+    properties:
+      air_conditioner:
+        type: boolean
+      balcony:
+        description: 'Default: false'
+        type: boolean
+      bath_tub:
+        type: boolean
+      hair_dryer:
+        type: boolean
+      kitchen:
+        type: boolean
+      non_smoking:
+        type: boolean
+      number_of_bed:
+        type: integer
+      room_size:
+        type: integer
+      shower:
+        type: boolean
+      sleeps:
+        allOf:
+        - $ref: '#/definitions/req.SleepJSON'
+        description: Jsonb
+      slippers:
+        type: boolean
+      television:
+        description: 'Default: true'
+        type: boolean
+      view:
+        type: string
+    type: object
   req.LoginHotelEmpReq:
     properties:
       email:
@@ -193,19 +280,19 @@ definitions:
     - email
     - password
     type: object
-  req.MediaJSON:
-    properties:
-      url:
-        items:
-          type: string
-        type: array
-    type: object
   req.ResetPasswordReq:
     properties:
       email:
         type: string
     required:
     - email
+    type: object
+  req.SleepJSON:
+    properties:
+      adults:
+        type: integer
+      children:
+        type: integer
     type: object
   req.UpdateUserReq:
     properties:
@@ -336,11 +423,39 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/res.ErrorResponse'
-      security:
-      - JWT: []
       summary: Login hotel employee
       tags:
       - Hotel Employee
+  /hotel-room/create:
+    post:
+      description: Create new hotel room, requires authentication with owner role
+      parameters:
+      - description: CreateHotelRoomReq JSON
+        in: body
+        name: CreateHotelRoomReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateHotelRoomReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Create new hotel room
+      tags:
+      - Hotel Room
   /hotel/create:
     post:
       description: Create new hotel, requires authentication with owner role

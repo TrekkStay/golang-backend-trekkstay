@@ -29,7 +29,7 @@ func TestFindRooms(t *testing.T) {
 	}
 
 	db := postgres.InitDatabase(connection)
-	repo := NewHotelRoomRepoReader(*db)
+	repo := NewHotelRoomReaderRepository(*db)
 
 	hotelID := "1a21fdb9-b9e1-4d64-bc39-26930911ce06"
 	nonSmoking := false

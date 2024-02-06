@@ -214,7 +214,8 @@ func uploadPart(svc *s3.S3, resp *s3.CreateMultipartUploadOutput, fileBytes []by
 	return nil, errors.New("failed to upload part")
 }
 
-func completeMultipartUpload(svc *s3.S3, resp *s3.CreateMultipartUploadOutput, completedParts []*s3.CompletedPart) (*s3.CompleteMultipartUploadOutput, error) {
+func completeMultipartUpload(svc *s3.S3, resp *s3.CreateMultipartUploadOutput,
+	completedParts []*s3.CompletedPart) (*s3.CompleteMultipartUploadOutput, error) {
 	completeInput := &s3.CompleteMultipartUploadInput{
 		Bucket:   resp.Bucket,
 		Key:      resp.Key,

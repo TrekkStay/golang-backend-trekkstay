@@ -22,7 +22,6 @@ import (
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /hotel-emp/login [post]
-// @Security 	JWT
 func (h hotelEmpHandler) HandleLoginHotelEmp(c *gin.Context) {
 	// Bind request
 	var loginHotelEmpReq req.LoginHotelEmpReq

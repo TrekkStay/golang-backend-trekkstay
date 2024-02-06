@@ -10,6 +10,9 @@ import (
 	hotelEmpHandler "trekkstay/modules/hotel_emp/api/handler"
 	hotelEmpUseCase "trekkstay/modules/hotel_emp/domain/usecase"
 	hotelEmpRepo "trekkstay/modules/hotel_emp/repository"
+	hotelRoomHandler "trekkstay/modules/hotel_room/api/handler"
+	hotelRoomUseCase "trekkstay/modules/hotel_room/domain/usecase"
+	hotelRoomRepo "trekkstay/modules/hotel_room/repository"
 	regionHandler "trekkstay/modules/region/api/handler"
 	regionUseCase "trekkstay/modules/region/domain/usecase"
 	regionRepo "trekkstay/modules/region/repository"
@@ -27,12 +30,13 @@ import (
 )
 
 type RouteHandler struct {
-	UserHandler     userHandler.UserHandler
-	RegionHandler   regionHandler.RegionHandler
-	HotelEmpHandler hotelEmpHandler.HotelEmpHandler
-	HotelHandler    hotelHandler.HotelHandler
-	TokenHandler    tokenHandler.TokenHandler
-	UploadHandler   s3.UploadHandler
+	UserHandler      userHandler.UserHandler
+	RegionHandler    regionHandler.RegionHandler
+	HotelEmpHandler  hotelEmpHandler.HotelEmpHandler
+	HotelRoomHandler hotelRoomHandler.HotelRoomHandler
+	HotelHandler     hotelHandler.HotelHandler
+	TokenHandler     tokenHandler.TokenHandler
+	UploadHandler    s3.UploadHandler
 }
 
 func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
@@ -43,6 +47,7 @@ func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
 	routeGroup = append(routeGroup, r.tokenRoute())
 	routeGroup = append(routeGroup, r.hotelRoute())
 	routeGroup = append(routeGroup, r.uploadRoute())
+	routeGroup = append(routeGroup, r.hotelRoomRoute())
 
 	return routeGroup
 }
@@ -80,6 +85,16 @@ func NewUserHandler(db *database.Database, requestValidator *validator.Validate)
 	)
 }
 
+func NewHotelRoomHandler(db *database.Database, requestValidator *validator.Validate) hotelRoomHandler.HotelRoomHandler {
+	// Hotel Room Repository
+	_ = hotelRoomRepo.NewHotelRoomReaderRepository(*db)
+	hotelRoomRepoWriter := hotelRoomRepo.NewHotelRoomWriterRepository(*db)
+
+	return hotelRoomHandler.NewHotelRoomHandler(requestValidator,
+		hotelRoomUseCase.NewCreateHotelRoomUseCase(hotelRoomRepoWriter),
+	)
+}
+
 func NewHotelEmpHandler(db *database.Database, requestValidator *validator.Validate) hotelEmpHandler.HotelEmpHandler {
 	// Config
 	mailConfig := config.LoadConfig(&models.MailConfig{}).(*models.MailConfig)
@@ -103,7 +118,7 @@ func NewHotelEmpHandler(db *database.Database, requestValidator *validator.Valid
 }
 
 func NewHotelHandler(db *database.Database, requestValidator *validator.Validate) hotelHandler.HotelHandler {
-	//Hotel Repository
+	// Hotel Repository
 	hotelRepoReader := hotelRepo.NewHotelReaderRepository(*db)
 	hotelRepoWriter := hotelRepo.NewHotelWriterRepository(*db)
 

@@ -40,12 +40,13 @@ func NewServer() (*server.HTTPServer, error) {
 	requestValidator := utils.NewValidator()
 
 	srv := &routes.RouteHandler{
-		RegionHandler:   routes.NewRegionHandler(db),
-		UserHandler:     routes.NewUserHandler(db, requestValidator),
-		HotelEmpHandler: routes.NewHotelEmpHandler(db, requestValidator),
-		HotelHandler:    routes.NewHotelHandler(db, requestValidator),
-		TokenHandler:    routes.NewTokenHandler(),
-		UploadHandler:   s3.NewS3Upload(s3Config),
+		RegionHandler:    routes.NewRegionHandler(db),
+		UserHandler:      routes.NewUserHandler(db, requestValidator),
+		HotelEmpHandler:  routes.NewHotelEmpHandler(db, requestValidator),
+		HotelHandler:     routes.NewHotelHandler(db, requestValidator),
+		TokenHandler:     routes.NewTokenHandler(),
+		UploadHandler:    s3.NewS3Upload(s3Config),
+		HotelRoomHandler: routes.NewHotelRoomHandler(db, requestValidator),
 	}
 
 	s.AddGroupRoutes(srv.InitGroupRoutes())
