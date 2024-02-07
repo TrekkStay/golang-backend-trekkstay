@@ -18,7 +18,7 @@ type HotelEntity struct {
 	Status          string `json:"status" gorm:"not null;default:active"`
 	// Relations
 	Rooms    []HotelRoomEntity   `json:"rooms" gorm:"foreignKey:HotelID;references:ID"`
-	Owner    HotelEmployeeEntity `json:"owner" gorm:"foreignKey:OwnerID;references:ID"`
+	Owner    HotelEmployeeEntity `json:"-" gorm:"foreignKey:OwnerID;references:ID"`
 	Province ProvinceEntity      `json:"province" gorm:"foreignKey:ProvinceCode;references:Code"`
 	District DistrictEntity      `json:"district" gorm:"foreignKey:DistrictCode;references:Code"`
 	Ward     WardEntity          `json:"ward" gorm:"foreignKey:WardCode;references:Code"`

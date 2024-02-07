@@ -124,6 +124,7 @@ func NewHotelHandler(db *database.Database, requestValidator *validator.Validate
 
 	return hotelHandler.NewHotelHandler(requestValidator,
 		hotelUseCase.NewCreateHotelUseCase(hotelRepoReader, hotelRepoWriter),
+		hotelUseCase.NewFilterHotelUseCase(hotelRepoReader),
 	)
 }
 

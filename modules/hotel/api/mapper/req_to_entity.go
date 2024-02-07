@@ -41,3 +41,13 @@ func ConvertCreateHotelReqToEntity(req req.CreateHotelReq) entity.HotelEntity {
 		},
 	}
 }
+
+func ConvertFilterHotelReqToEntity(req req.FilterHotelReq) entity.HotelFilterEntity {
+	return entity.HotelFilterEntity{
+		Name:         req.Name,
+		ProvinceCode: req.ProvinceCode,
+		DistrictCode: req.DistrictCode,
+		WardCode:     req.WardCode,
+		PriceOrder:   req.PriceOrder,
+	}
+}

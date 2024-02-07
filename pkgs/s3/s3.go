@@ -11,6 +11,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"image"
+	"image/png"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -65,6 +67,42 @@ func (h *UploadHandler) HandleUploadMedia(c *gin.Context) {
 		"urls": urls,
 	}
 	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", response))
+}
+
+func (h *UploadHandler) UploadImageToS3(image image.Image) (*string, error) {
+	// Create a new AWS session with the specified credentials
+	sess, err := session.NewSession(&aws.Config{
+		Region:      aws.String(h.s3Config.S3Region),
+		Credentials: credentials.NewStaticCredentials(h.s3Config.S3AccessKey, h.s3Config.S3SecretKey, ""),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	// Create an S3 client
+	s3Client := s3.New(sess)
+
+	// Create a buffer to store the PNG data
+	var pngData bytes.Buffer
+	err = png.Encode(&pngData, image)
+	if err != nil {
+		return nil, err
+	}
+
+	imageName := "qr-code/" + uuid.New().String() + ".png"
+
+	// Upload the PNG data to S3
+	_, err = s3Client.PutObject(&s3.PutObjectInput{
+		Bucket: aws.String(h.s3Config.S3Bucket),
+		Key:    aws.String(imageName), // S3 object key
+		Body:   bytes.NewReader(pngData.Bytes()),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	url := h.s3Config.S3CloudFront + imageName
+	return &url, nil
 }
 
 // parseFormData parses the form data from the request.

@@ -8,19 +8,23 @@ import (
 
 type HotelHandler interface {
 	HandleCreatHotel(c *gin.Context)
+	HandleFilterHotel(c *gin.Context)
 }
 
 type hotelHandler struct {
 	requestValidator   *validator.Validate
 	createHotelUseCase usecase.CreateHotelUseCase
+	filterHotelUseCase usecase.FilterHotelUseCase
 }
 
 func NewHotelHandler(
 	requestValidator *validator.Validate,
 	createHotelUseCase usecase.CreateHotelUseCase,
+	filterHotelUseCase usecase.FilterHotelUseCase,
 ) HotelHandler {
 	return &hotelHandler{
 		requestValidator:   requestValidator,
 		createHotelUseCase: createHotelUseCase,
+		filterHotelUseCase: filterHotelUseCase,
 	}
 }
