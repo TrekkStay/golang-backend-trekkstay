@@ -1,9 +1,9 @@
 package core
 
 import (
+	"strconv"
 	"time"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -21,7 +21,7 @@ func (record *BaseEntity) BeforeCreate(*gorm.DB) (err error) {
 	// Check id field is empty
 	if record.ID == "" {
 		// Assign the generated UUID to the ID field
-		record.ID = uuid.New().String()
+		record.ID = strconv.FormatInt(time.Now().UnixNano(), 10)
 	}
 
 	return nil

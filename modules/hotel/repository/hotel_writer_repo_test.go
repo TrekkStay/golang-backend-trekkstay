@@ -56,10 +56,10 @@ func TestCreateHotel(t *testing.T) {
 				Lng: 10.123123,
 			},
 			Videos: entity.MediaJSON{
-				URL: []string{"https://www.youtube.com/watch?v=1"},
+				URLS: []string{"https://www.youtube.com/watch?v=1"},
 			},
 			Images: entity.MediaJSON{
-				URL: []string{"https://www.youtube.com/watch?v=1"},
+				URLS: []string{"https://www.youtube.com/watch?v=1"},
 			},
 		})
 
@@ -114,10 +114,10 @@ func TestUpdateHotel(t *testing.T) {
 				Lng: 10.123123,
 			},
 			Videos: entity.MediaJSON{
-				URL: []string{"https://www.youtube.com/watch?v=1"},
+				URLS: []string{"https://www.youtube.com/watch?v=1"},
 			},
 			Images: entity.MediaJSON{
-				URL: []string{"https://www.youtube.com/watch?v=1"},
+				URLS: []string{"https://www.youtube.com/watch?v=1"},
 			},
 		})
 
