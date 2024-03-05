@@ -57,7 +57,7 @@ func main() {
 		docs.SwaggerInfo.Host = "localhost:8888"
 		docs.SwaggerInfo.Schemes = []string{"http"}
 	} else {
-		docs.SwaggerInfo.Host = "52.221.204.232:8888"
+		docs.SwaggerInfo.Host = "52.163.61.213:8888"
 		docs.SwaggerInfo.Schemes = []string{"http"}
 	}
 
