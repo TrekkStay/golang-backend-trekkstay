@@ -325,7 +325,7 @@ definitions:
       status_code:
         type: integer
     type: object
-host: 52.221.204.232:8888
+host: 52.163.61.213:8888
 info:
   contact:
     email: support@trekkstay.com

@@ -1167,7 +1167,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "v0.0.1",
-	Host:             "52.221.204.232:8888",
+	Host:             "52.163.61.213:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Trekkstay - Hotel Booking System API",

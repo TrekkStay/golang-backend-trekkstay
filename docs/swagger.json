@@ -15,7 +15,7 @@
         },
         "version": "v0.0.1"
     },
-    "host": "52.221.204.232:8888",
+    "host": "52.163.61.213:8888",
     "basePath": "/api/v1",
     "paths": {
         "/hotel-emp/create-emp": {

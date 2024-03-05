@@ -42,7 +42,7 @@ func init() {
 // @license.name  					Apache 2.0
 // @license.url   					https://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      						52.221.204.232:8888
+// @host      						52.163.61.213:8888
 // @BasePath  						/api/v1
 // @securitydefinitions.apikey  	JWT
 // @in                          	header
