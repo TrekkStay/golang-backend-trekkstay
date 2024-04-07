@@ -19,7 +19,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /hotel/filter [post]
+// @Router       /hotel/filter [get]
 // @Security     JWT
 func (h hotelHandler) HandleFilterHotel(c *gin.Context) {
 	// Bind request
