@@ -486,6 +486,52 @@ paths:
       summary: Create new hotel
       tags:
       - Hotel
+  /hotel/filter:
+    post:
+      description: Filter hotel
+      parameters:
+      - in: query
+        name: district_code
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: name
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - example: acs | desc
+        in: query
+        name: price_order
+        type: string
+      - in: query
+        name: province_code
+        type: string
+      - in: query
+        name: ward_code
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Filter hotel
+      tags:
+      - Hotel
   /region/list-district:
     get:
       description: List all districts of a province

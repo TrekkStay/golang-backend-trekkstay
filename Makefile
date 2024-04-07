@@ -26,7 +26,7 @@ install_pgadmin:
 # - configPath: path to the configuration environment file
 # - migrate: true or false (run database migration)
 prod:
-	@GIN_MODE=release go run cmd/trekkstay/main.go -conf=./env/prod.env -migrate=${migrate}
+	@GIN_MODE=release go run cmd/trekkstay/main.go -conf=./env/prod.env -migrate=false
 
 dev:
 	@GIN_MODE=debug go run cmd/trekkstay/main.go -conf=./env/dev.env -migrate=true

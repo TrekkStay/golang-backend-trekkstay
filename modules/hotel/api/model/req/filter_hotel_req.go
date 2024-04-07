@@ -8,5 +8,5 @@ type FilterHotelReq struct {
 	ProvinceCode *string `form:"province_code"`
 	DistrictCode *string `form:"district_code"`
 	WardCode     *string `form:"ward_code"`
-	PriceOrder   *string `form:"price_order"`
+	PriceOrder   *string `form:"price_order"  example:"acs | desc"`
 }

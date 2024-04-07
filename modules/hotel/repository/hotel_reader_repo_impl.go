@@ -82,9 +82,11 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 	tx := repo.db.Executor.WithContext(ctx).Scopes(scopeFunctions...)
 	txTotalRows := tx.Model(&entity.HotelEntity{}).Scopes(scopeFunctions...)
 	result := tx.
-		Select("hotels.*, MIN(hotel_rooms.original_price) as min_price").
+		Select("hotels.*, MIN(hotel_rooms.original_price * hotel_rooms.discount_rate / 100) as min_price").
 		Scopes(core.Paginate(&paging, txTotalRows)).
-		Preload("Rooms").
+		Preload("Rooms", func(db *gorm.DB) *gorm.DB {
+			return db.Order("(hotel_rooms.original_price * hotel_rooms.discount_rate / 100) ASC")
+		}).
 		Preload("Province").
 		Preload("District").
 		Preload("Ward").

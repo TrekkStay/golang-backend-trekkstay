@@ -254,6 +254,81 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel/filter": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Filter hotel",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Filter hotel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "district_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "acs | desc",
+                        "name": "price_order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "province_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "ward_code",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
