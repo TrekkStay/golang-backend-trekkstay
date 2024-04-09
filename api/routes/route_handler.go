@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"trekkstay/config"
 	"trekkstay/config/models"
@@ -22,6 +23,7 @@ import (
 	userUseCase "trekkstay/modules/user/domain/usecase"
 	userRepo "trekkstay/modules/user/repository"
 	database "trekkstay/pkgs/dbs/postgres"
+	"trekkstay/pkgs/dbs/redis"
 	"trekkstay/pkgs/jwt"
 	"trekkstay/pkgs/mail"
 	"trekkstay/pkgs/s3"
@@ -90,7 +92,17 @@ func NewHotelRoomHandler(db *database.Database, requestValidator *validator.Vali
 	hotelRoomRepoReader := hotelRoomRepo.NewHotelRoomReaderRepository(*db)
 	hotelRoomRepoWriter := hotelRoomRepo.NewHotelRoomWriterRepository(*db)
 
-	return hotelRoomHandler.NewHotelRoomHandler(requestValidator,
+	// Redis
+	redisConfig := config.LoadConfig(&models.RedisConfig{}).(*models.RedisConfig)
+	var conn = redis.Connection{
+		Address:  fmt.Sprint(redisConfig.RedisHost, ":", redisConfig.RedisPort),
+		Password: redisConfig.RedisPassword,
+		Database: redisConfig.RedisDB,
+	}
+
+	var redisInstance = redis.NewRedis(conn)
+
+	return hotelRoomHandler.NewHotelRoomHandler(requestValidator, redisInstance,
 		hotelRoomUseCase.NewCreateHotelRoomUseCase(hotelRoomRepoWriter),
 		hotelRoomUseCase.NewFilterHotelRoomUseCase(hotelRoomRepoReader),
 	)
@@ -123,7 +135,17 @@ func NewHotelHandler(db *database.Database, requestValidator *validator.Validate
 	hotelRepoReader := hotelRepo.NewHotelReaderRepository(*db)
 	hotelRepoWriter := hotelRepo.NewHotelWriterRepository(*db)
 
-	return hotelHandler.NewHotelHandler(requestValidator,
+	// Redis
+	redisConfig := config.LoadConfig(&models.RedisConfig{}).(*models.RedisConfig)
+	var conn = redis.Connection{
+		Address:  fmt.Sprint(redisConfig.RedisHost, ":", redisConfig.RedisPort),
+		Password: redisConfig.RedisPassword,
+		Database: redisConfig.RedisDB,
+	}
+
+	var redisInstance = redis.NewRedis(conn)
+
+	return hotelHandler.NewHotelHandler(requestValidator, redisInstance,
 		hotelUseCase.NewCreateHotelUseCase(hotelRepoReader, hotelRepoWriter),
 		hotelUseCase.NewFilterHotelUseCase(hotelRepoReader),
 	)

@@ -10,7 +10,7 @@ services:
       context: .
     environment:
       - CONFIG_PATH=./env/prod.env
-      - MIGRATE=true
+      - MIGRATE=false
     ports:
       - '8888:8888'
     networks:

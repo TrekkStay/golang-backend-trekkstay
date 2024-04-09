@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"
+	"time"
+	"trekkstay/core"
 	res "trekkstay/core/response"
 	"trekkstay/modules/hotel/api/mapper"
 	"trekkstay/modules/hotel/api/model/req"
@@ -33,7 +35,17 @@ func (h hotelHandler) HandleFilterHotel(c *gin.Context) {
 		panic(res.ErrInvalidRequest(err))
 	}
 
-	hotels, err := h.filterHotelUseCase.FilterHotel(
+	var hotels *core.Pagination
+
+	cacheKey := c.Request.URL.RequestURI()
+	err := h.cache.Get(cacheKey, &hotels)
+	if err == nil {
+		log.JsonLogger.Debug("cache hit", slog.String("key", cacheKey))
+		res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", hotels))
+		return
+	}
+
+	hotels, err = h.filterHotelUseCase.FilterHotel(
 		c.Request.Context(),
 		mapper.ConvertFilterHotelReqToEntity(filterHotelReq),
 		filterHotelReq.Page,
@@ -43,6 +55,8 @@ func (h hotelHandler) HandleFilterHotel(c *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
+
+	_ = h.cache.SetWithExpiration(cacheKey, hotels, 1*time.Minute)
 
 	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", hotels))
 }
