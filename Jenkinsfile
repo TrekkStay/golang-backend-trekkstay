@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // Remove existing container and image
-                    sh 'rm -f trekkstay-backend || true'
+                    sh 'docker rm -f trekkstay-backend || true'
                     sh 'docker rmi -f thanhanphan17/trekkstay-backend || true'
 
                     // Run the container
