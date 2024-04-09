@@ -18,6 +18,11 @@ func (r *RouteHandler) hotelRoomRoute() route.GroupRoute {
 					middlewares.Authentication(),
 				),
 			},
+			{
+				Path:    "/filter",
+				Method:  method.GET,
+				Handler: r.HotelRoomHandler.HandleFilterHotelRoom,
+			},
 		},
 	}
 }

@@ -35,3 +35,14 @@ func ConvertCreateHotelRoomReqToEntity(req req.CreateHotelRoomReq) entity.HotelR
 		},
 	}
 }
+
+func ConvertFindHotelRoomReqToEntity(req req.FilterHotelRoomReq) entity.HotelRoomFilterEntity {
+	return entity.HotelRoomFilterEntity{
+		HotelID:    req.HotelID,
+		Balcony:    req.Balcony,
+		BathTub:    req.BathTub,
+		Kitchen:    req.Kitchen,
+		NonSmoking: req.NonSmoking,
+		PriceOrder: req.PriceOrder,
+	}
+}

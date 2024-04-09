@@ -206,6 +206,82 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel-room/filter": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Filter hotel room in a hotel",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Room"
+                ],
+                "summary": "Filter hotel room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "x-order": "1",
+                        "name": "hotel_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "x-order": "2",
+                        "name": "balcony",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "x-order": "3",
+                        "name": "bath_tub",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "x-order": "4",
+                        "name": "kitchen",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "x-order": "5",
+                        "name": "non_smoking",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "acs | desc",
+                        "x-order": "6",
+                        "name": "price_order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hotel/create": {
             "post": {
                 "security": [
@@ -255,7 +331,7 @@ const docTemplate = `{
             }
         },
         "/hotel/filter": {
-            "post": {
+            "get": {
                 "security": [
                     {
                         "JWT": []
@@ -272,7 +348,33 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "x-order": "1",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "x-order": "2",
+                        "name": "province_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "x-order": "3",
                         "name": "district_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "x-order": "4",
+                        "name": "ward_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "acs | desc",
+                        "x-order": "5",
+                        "name": "price_order",
                         "in": "query"
                     },
                     {
@@ -281,29 +383,8 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "example": "acs | desc",
-                        "name": "price_order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "province_code",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "ward_code",
                         "in": "query"
                     }
                 ],

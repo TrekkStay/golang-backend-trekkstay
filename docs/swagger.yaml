@@ -456,6 +456,55 @@ paths:
       summary: Create new hotel room
       tags:
       - Hotel Room
+  /hotel-room/filter:
+    get:
+      description: Filter hotel room in a hotel
+      parameters:
+      - in: query
+        name: hotel_id
+        type: string
+        x-order: "1"
+      - in: query
+        name: balcony
+        type: boolean
+        x-order: "2"
+      - in: query
+        name: bath_tub
+        type: boolean
+        x-order: "3"
+      - in: query
+        name: kitchen
+        type: boolean
+        x-order: "4"
+      - in: query
+        name: non_smoking
+        type: boolean
+        x-order: "5"
+      - example: acs | desc
+        in: query
+        name: price_order
+        type: string
+        x-order: "6"
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Filter hotel room
+      tags:
+      - Hotel Room
   /hotel/create:
     post:
       description: Create new hotel, requires authentication with owner role
@@ -487,31 +536,36 @@ paths:
       tags:
       - Hotel
   /hotel/filter:
-    post:
+    get:
       description: Filter hotel
       parameters:
       - in: query
-        name: district_code
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
         name: name
         type: string
+        x-order: "1"
       - in: query
-        name: page
-        type: integer
+        name: province_code
+        type: string
+        x-order: "2"
+      - in: query
+        name: district_code
+        type: string
+        x-order: "3"
+      - in: query
+        name: ward_code
+        type: string
+        x-order: "4"
       - example: acs | desc
         in: query
         name: price_order
         type: string
+        x-order: "5"
       - in: query
-        name: province_code
-        type: string
+        name: limit
+        type: integer
       - in: query
-        name: ward_code
-        type: string
+        name: page
+        type: integer
       produces:
       - application/json
       responses:

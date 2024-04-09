@@ -87,11 +87,12 @@ func NewUserHandler(db *database.Database, requestValidator *validator.Validate)
 
 func NewHotelRoomHandler(db *database.Database, requestValidator *validator.Validate) hotelRoomHandler.HotelRoomHandler {
 	// Hotel Room Repository
-	_ = hotelRoomRepo.NewHotelRoomReaderRepository(*db)
+	hotelRoomRepoReader := hotelRoomRepo.NewHotelRoomReaderRepository(*db)
 	hotelRoomRepoWriter := hotelRoomRepo.NewHotelRoomWriterRepository(*db)
 
 	return hotelRoomHandler.NewHotelRoomHandler(requestValidator,
 		hotelRoomUseCase.NewCreateHotelRoomUseCase(hotelRoomRepoWriter),
+		hotelRoomUseCase.NewFilterHotelRoomUseCase(hotelRoomRepoReader),
 	)
 }
 

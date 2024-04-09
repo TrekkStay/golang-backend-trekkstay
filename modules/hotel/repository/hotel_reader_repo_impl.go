@@ -85,7 +85,9 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 		Select("hotels.*, MIN(hotel_rooms.original_price * hotel_rooms.discount_rate / 100) as min_price").
 		Scopes(core.Paginate(&paging, txTotalRows)).
 		Preload("Rooms", func(db *gorm.DB) *gorm.DB {
-			return db.Order("(hotel_rooms.original_price * hotel_rooms.discount_rate / 100) ASC")
+			return db.
+				Order("(hotel_rooms.original_price * hotel_rooms.discount_rate / 100) ASC").
+				Limit(1)
 		}).
 		Preload("Province").
 		Preload("District").

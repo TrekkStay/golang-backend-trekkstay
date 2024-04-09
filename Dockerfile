@@ -12,6 +12,9 @@ WORKDIR /app
 # Copy Go application dependency files to leverage Docker layer caching
 COPY go.mod go.sum ./
 
+# Set the Go module proxy to speed up the build process
+ENV GOPROXY=https://goproxy.io
+
 # Download Go application module dependencies
 RUN go mod download
 
