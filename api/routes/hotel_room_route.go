@@ -1,10 +1,40 @@
 package routes
 
 import (
+	"fmt"
+	"github.com/go-playground/validator/v10"
 	"trekkstay/api/middlewares"
+	"trekkstay/config"
+	"trekkstay/config/models"
+	hotelRoomHandler "trekkstay/modules/hotel_room/api/handler"
+	"trekkstay/modules/hotel_room/domain/usecase"
+	"trekkstay/modules/hotel_room/repository"
+	database "trekkstay/pkgs/dbs/postgres"
+	"trekkstay/pkgs/dbs/redis"
 	"trekkstay/pkgs/transport/http/method"
 	"trekkstay/pkgs/transport/http/route"
 )
+
+func NewHotelRoomHandler(db *database.Database, requestValidator *validator.Validate) hotelRoomHandler.HotelRoomHandler {
+	// Hotel Room Repository
+	hotelRoomRepoReader := repository.NewHotelRoomReaderRepository(*db)
+	hotelRoomRepoWriter := repository.NewHotelRoomWriterRepository(*db)
+
+	// Redis
+	redisConfig := config.LoadConfig(&models.RedisConfig{}).(*models.RedisConfig)
+	var conn = redis.Connection{
+		Address:  fmt.Sprint(redisConfig.RedisHost, ":", redisConfig.RedisPort),
+		Password: redisConfig.RedisPassword,
+		Database: redisConfig.RedisDB,
+	}
+
+	var redisInstance = redis.NewRedis(conn)
+
+	return hotelRoomHandler.NewHotelRoomHandler(requestValidator, redisInstance,
+		usecase.NewCreateHotelRoomUseCase(hotelRoomRepoWriter),
+		usecase.NewFilterHotelRoomUseCase(hotelRoomRepoReader),
+	)
+}
 
 func (r *RouteHandler) hotelRoomRoute() route.GroupRoute {
 	return route.GroupRoute{

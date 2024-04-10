@@ -2,8 +2,6 @@ package repository
 
 import (
 	"context"
-	"github.com/brianvoe/gofakeit/v6"
-	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
 	"trekkstay/config"
@@ -11,6 +9,9 @@ import (
 	"trekkstay/core"
 	"trekkstay/modules/hotel_emp/domain/entity"
 	"trekkstay/pkgs/dbs/postgres"
+
+	"github.com/brianvoe/gofakeit/v6"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateHotelEmp(t *testing.T) {
@@ -32,7 +33,7 @@ func TestCreateHotelEmp(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelEmpRepoWriter(*db)
+	repo := NewHotelEmpWriterRepository(*db)
 
 	t.Run("should insert hotel employee", func(t *testing.T) {
 		err := repo.InsertHotelEmp(context.Background(), entity.HotelEmpEntity{
@@ -70,7 +71,7 @@ func TestUpdateHotelEmp(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelEmpRepoWriter(*db)
+	repo := NewHotelEmpWriterRepository(*db)
 
 	t.Run("should update hotel employee", func(t *testing.T) {
 		err := repo.UpdateHotelEmp(context.Background(), entity.HotelEmpEntity{
@@ -111,7 +112,7 @@ func TestDeleteHotelEmp(t *testing.T) {
 
 	db := postgres.InitDatabase(connection)
 
-	repo := NewHotelEmpRepoWriter(*db)
+	repo := NewHotelEmpWriterRepository(*db)
 
 	t.Run("should delete hotel employee", func(t *testing.T) {
 		err := repo.DeleteHotelEmp(context.Background(), "d4805d31-4c90-4fd6-8a1a-c7c96b63e54e")

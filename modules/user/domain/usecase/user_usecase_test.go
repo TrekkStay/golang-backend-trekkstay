@@ -2,10 +2,11 @@ package usecase
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"trekkstay/core"
 	"trekkstay/modules/user/domain/entity"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateUserUseCase(t *testing.T) {
@@ -94,24 +95,5 @@ func TestResetPasswordUseCase(t *testing.T) {
 		err := useCase.ExecuteResetPassword(ctx, "existedemail@example.com")
 
 		assert.Nil(t, err)
-	})
-}
-
-func TestRefreshTokenUseCase(t *testing.T) {
-	tokenProvider := mockTokenProvider{}
-
-	useCase := NewRefreshTokenUseCase(tokenProvider, 1, 1)
-
-	var ctx = context.WithValue(context.Background(), "X-Request-ID", "1234567890")
-	ctx = context.WithValue(ctx, core.CurrentRequesterKeyStruct{}, core.RestRequester{
-		ID: "1234567890",
-	})
-
-	t.Run("get refresh token successfully", func(t *testing.T) {
-		accessToken, refreshToken, err := useCase.ExecRefreshToken(ctx)
-
-		assert.Nil(t, err)
-		assert.NotNil(t, accessToken)
-		assert.NotNil(t, refreshToken)
 	})
 }

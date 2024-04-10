@@ -1,9 +1,24 @@
 package routes
 
 import (
+	regionHandler "trekkstay/modules/region/api/handler"
+	"trekkstay/modules/region/domain/usecase"
+	"trekkstay/modules/region/repository"
+	database "trekkstay/pkgs/dbs/postgres"
 	"trekkstay/pkgs/transport/http/method"
 	"trekkstay/pkgs/transport/http/route"
 )
+
+func NewRegionHandler(db *database.Database) regionHandler.RegionHandler {
+	// Region Repository
+	regionRepoReader := repository.NewRegionReaderRepository(*db)
+
+	return regionHandler.NewRegionHandler(
+		usecase.NewListProvinceUseCase(regionRepoReader),
+		usecase.NewListDistrictUseCase(regionRepoReader),
+		usecase.NewListWardUseCase(regionRepoReader),
+	)
+}
 
 func (r *RouteHandler) regionRoute() route.GroupRoute {
 	return route.GroupRoute{
