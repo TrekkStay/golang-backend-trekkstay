@@ -33,6 +33,7 @@ func NewHotelHandler(db *database.Database, requestValidator *validator.Validate
 	return hotelHandler.NewHotelHandler(requestValidator, redisInstance,
 		usecase.NewCreateHotelUseCase(hotelRepoReader, hotelRepoWriter),
 		usecase.NewFilterHotelUseCase(hotelRepoReader),
+		usecase.NewGetDetailHotelUseCase(hotelRepoReader),
 	)
 }
 
@@ -52,6 +53,11 @@ func (r *RouteHandler) hotelRoute() route.GroupRoute {
 				Path:    "/filter",
 				Method:  method.GET,
 				Handler: r.HotelHandler.HandleFilterHotel,
+			},
+			{
+				Path:    "/:hotel_id",
+				Method:  method.GET,
+				Handler: r.HotelHandler.HandleGetDetailHotel,
 			},
 		},
 	}

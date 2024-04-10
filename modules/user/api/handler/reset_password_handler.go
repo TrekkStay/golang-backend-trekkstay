@@ -42,7 +42,7 @@ func (h *userHandler) HandleResetPassword(c *gin.Context) {
 		panic(res.ErrFieldValidationFailed(errors.New("missing email")))
 	}
 
-	// Execute forgot password use case
+	// ExecuteGetDetailHotel forgot password use case
 	if err := h.resetPasswordUseCase.ExecuteResetPassword(c.Request.Context(), resetPasswordReq.Email); err != nil {
 		panic(err)
 	}

@@ -23,7 +23,7 @@ func (h *tokenHandler) HandleRefreshToken(c *gin.Context) {
 	ctx := context.WithValue(c.Request.Context(), core.CurrentRequesterKeyStruct{},
 		c.MustGet(core.CurrentRequesterKeyString).(core.Requester))
 
-	// Execute use case
+	// ExecuteGetDetailHotel use case
 	token, err := h.refreshTokenUseCase.ExecRefreshToken(ctx)
 
 	if err != nil {

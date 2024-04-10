@@ -26,7 +26,11 @@ func (repo hotelReaderRepositoryImpl) FindHotelByCondition(ctx context.Context, 
 	if err := repo.db.Executor.
 		WithContext(ctx).
 		Where(condition).
-		Preload("Rooms").
+		Preload("Rooms", func(db *gorm.DB) *gorm.DB {
+			return db.
+				Order("(hotel_rooms.original_price * hotel_rooms.discount_rate / 100) ASC").
+				Limit(1)
+		}).
 		Preload("Province").
 		Preload("District").
 		Preload("Ward").

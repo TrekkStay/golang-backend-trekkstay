@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 	"trekkstay/core"
+	"trekkstay/modules/hotel/constant"
 	"trekkstay/modules/hotel/domain/entity"
 	"trekkstay/pkgs/log"
 )
@@ -33,7 +34,7 @@ func (useCase filterHotelUseCaseImpl) FilterHotel(ctx context.Context,
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)
 
-		return nil, err
+		return nil, constant.ErrCantNotGetHotel(err)
 	}
 
 	return hotels, nil

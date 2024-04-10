@@ -505,6 +505,35 @@ paths:
       summary: Filter hotel room
       tags:
       - Hotel Room
+  /hotel/{hotel_id}:
+    post:
+      description: Get detail hotel
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: hotel_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Get detail hotel
+      tags:
+      - Hotel
   /hotel/create:
     post:
       description: Create new hotel, requires authentication with owner role

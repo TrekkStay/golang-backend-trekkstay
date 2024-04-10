@@ -13,3 +13,12 @@ func ErrCanNotCreateHotel(err error) *res.ErrorResponse {
 		"ERR_CAN_NOT_CREATE_HOTEL",
 	)
 }
+
+func ErrCantNotGetHotel(err error) error {
+	return res.NewErrorResponse(
+		http.StatusBadRequest,
+		err,
+		"cant not get hotel",
+		"ERR_CANT_NOT_GET_HOTEL",
+	)
+}
