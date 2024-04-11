@@ -17,7 +17,6 @@ import (
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /hotel/{hotel_id} [get]
-// @Security     JWT
 func (h hotelHandler) HandleGetDetailHotel(c *gin.Context) {
 	hotelID := c.Param("hotel_id")
 

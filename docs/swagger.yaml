@@ -33,6 +33,19 @@ definitions:
       lng:
         type: number
     type: object
+  req.CreateDestinationReq:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      unit:
+        type: string
+    required:
+    - code
+    - name
+    - unit
+    type: object
   req.CreateHotelEmpReq:
     properties:
       base_salary:
@@ -339,6 +352,57 @@ info:
   title: Trekkstay - Hotel Booking System API
   version: v0.0.1
 paths:
+  /destination/create:
+    post:
+      description: Create new destination
+      parameters:
+      - description: CreateDestinationReq JSON
+        in: body
+        name: CreateDestinationReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateDestinationReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Create new destination
+      tags:
+      - Destination
+  /destination/list:
+    get:
+      description: List destination
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: List destination
+      tags:
+      - Destination
   /hotel-emp/create-emp:
     post:
       description: Create new hotel employee account, require hotel owner permission
@@ -500,8 +564,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/res.ErrorResponse'
-      security:
-      - JWT: []
       summary: Filter hotel room
       tags:
       - Hotel Room
@@ -529,8 +591,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/res.ErrorResponse'
-      security:
-      - JWT: []
       summary: Get detail hotel
       tags:
       - Hotel
@@ -610,8 +670,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/res.ErrorResponse'
-      security:
-      - JWT: []
       summary: Filter hotel
       tags:
       - Hotel

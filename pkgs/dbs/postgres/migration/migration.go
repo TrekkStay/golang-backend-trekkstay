@@ -2,6 +2,7 @@ package migration
 
 import (
 	"gorm.io/gorm"
+	destination "trekkstay/modules/destination/domain/entity"
 	hotel "trekkstay/modules/hotel/domain/entity"
 	hotelEmp "trekkstay/modules/hotel_emp/domain/entity"
 	hotelRoom "trekkstay/modules/hotel_room/domain/entity"
@@ -24,6 +25,7 @@ func Migration(db *gorm.DB) error {
 		region.DistrictEntity{},
 		region.WardEntity{},
 		reservation.ReservationEntity{},
+		destination.DestinationEntity{},
 	)
 
 	return err

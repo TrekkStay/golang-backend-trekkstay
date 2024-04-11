@@ -24,6 +24,86 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/destination/create": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create new destination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Destination"
+                ],
+                "summary": "Create new destination",
+                "parameters": [
+                    {
+                        "description": "CreateDestinationReq JSON",
+                        "name": "CreateDestinationReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateDestinationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/destination/list": {
+            "get": {
+                "description": "List destination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Destination"
+                ],
+                "summary": "List destination",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hotel-emp/create-emp": {
             "post": {
                 "security": [
@@ -208,11 +288,6 @@ const docTemplate = `{
         },
         "/hotel-room/filter": {
             "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
                 "description": "Filter hotel room in a hotel",
                 "produces": [
                     "application/json"
@@ -332,11 +407,6 @@ const docTemplate = `{
         },
         "/hotel/filter": {
             "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
                 "description": "Filter hotel",
                 "produces": [
                     "application/json"
@@ -449,11 +519,6 @@ const docTemplate = `{
         },
         "/hotel/{hotel_id}": {
             "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
                 "description": "Get detail hotel",
                 "produces": [
                     "application/json"
@@ -962,6 +1027,25 @@ const docTemplate = `{
                 },
                 "lng": {
                     "type": "number"
+                }
+            }
+        },
+        "req.CreateDestinationReq": {
+            "type": "object",
+            "required": [
+                "code",
+                "name",
+                "unit"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
                 }
             }
         },

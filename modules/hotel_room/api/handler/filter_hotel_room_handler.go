@@ -22,7 +22,6 @@ import (
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /hotel-room/filter [get]
-// @Security     JWT
 func (h hotelRoomHandler) HandleFilterHotelRoom(c *gin.Context) {
 	var req req.FilterHotelRoomReq
 	if err := c.ShouldBindQuery(&req); err != nil {
