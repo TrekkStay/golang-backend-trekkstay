@@ -11,6 +11,7 @@ type HotelHandler interface {
 	HandleCreatHotel(c *gin.Context)
 	HandleFilterHotel(c *gin.Context)
 	HandleGetDetailHotel(c *gin.Context)
+	HandleGetMyHotel(c *gin.Context)
 }
 
 type hotelHandler struct {
@@ -19,6 +20,7 @@ type hotelHandler struct {
 	createHotelUseCase    usecase.CreateHotelUseCase
 	filterHotelUseCase    usecase.FilterHotelUseCase
 	getDetailHotelUseCase usecase.GetDetailHotelUseCase
+	getMyHotelUseCase     usecase.GetMyHotelUseCase
 }
 
 func NewHotelHandler(
@@ -27,6 +29,7 @@ func NewHotelHandler(
 	createHotelUseCase usecase.CreateHotelUseCase,
 	filterHotelUseCase usecase.FilterHotelUseCase,
 	getDetailHotelUseCase usecase.GetDetailHotelUseCase,
+	getMyHotelUseCase usecase.GetMyHotelUseCase,
 ) HotelHandler {
 	return &hotelHandler{
 		requestValidator:      requestValidator,
@@ -34,5 +37,6 @@ func NewHotelHandler(
 		createHotelUseCase:    createHotelUseCase,
 		filterHotelUseCase:    filterHotelUseCase,
 		getDetailHotelUseCase: getDetailHotelUseCase,
+		getMyHotelUseCase:     getMyHotelUseCase,
 	}
 }

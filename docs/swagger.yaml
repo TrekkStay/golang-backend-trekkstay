@@ -506,7 +506,7 @@ paths:
       tags:
       - Hotel Room
   /hotel/{hotel_id}:
-    post:
+    get:
       description: Get detail hotel
       parameters:
       - description: Hotel ID
@@ -613,6 +613,29 @@ paths:
       security:
       - JWT: []
       summary: Filter hotel
+      tags:
+      - Hotel
+  /hotel/my-hotel:
+    get:
+      description: Get detail my hotel
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Get detail my hotel
       tags:
       - Hotel
   /region/list-district:

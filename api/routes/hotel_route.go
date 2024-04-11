@@ -34,6 +34,7 @@ func NewHotelHandler(db *database.Database, requestValidator *validator.Validate
 		usecase.NewCreateHotelUseCase(hotelRepoReader, hotelRepoWriter),
 		usecase.NewFilterHotelUseCase(hotelRepoReader),
 		usecase.NewGetDetailHotelUseCase(hotelRepoReader),
+		usecase.NewGetMyHotelUseCase(hotelRepoReader),
 	)
 }
 
@@ -58,6 +59,14 @@ func (r *RouteHandler) hotelRoute() route.GroupRoute {
 				Path:    "/:hotel_id",
 				Method:  method.GET,
 				Handler: r.HotelHandler.HandleGetDetailHotel,
+			},
+			{
+				Path:    "/my-hotel",
+				Method:  method.GET,
+				Handler: r.HotelHandler.HandleGetMyHotel,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
 			},
 		},
 	}
