@@ -463,6 +463,35 @@ paths:
       summary: Create new hotel owner account
       tags:
       - Hotel Employee
+  /hotel-emp/filter:
+    get:
+      description: Filter hotel employee
+      parameters:
+      - description: Hotel ID
+        in: query
+        name: hotel_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Filter hotel employee
+      tags:
+      - Hotel Employee
   /hotel-emp/login:
     post:
       description: Login hotel employee by email and password

@@ -112,7 +112,7 @@ func (useCase hotelEmpUseCaseImpl) ExecuteCreateHotelEmp(ctx context.Context, ho
 
 	// Send email
 	go func() {
-		err = useCase.mailer.SendMail(hotelEmpEntity.Email, "Create hotel employee", utils.GetWorkingDirectory()+
+		err = useCase.mailer.SendMail(hotelEmpEntity.Email, "TrekkStay - Account Access Information", utils.GetWorkingDirectory()+
 			"/templates/send_password_to_emp.html", map[string]interface{}{
 			"password": randomPassword,
 		})

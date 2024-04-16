@@ -35,6 +35,7 @@ func NewHotelEmpHandler(db *database.Database, requestValidator *validator.Valid
 		usecase.NewCreateHotelOwnerUseCase(hashAlgo, hotelEmpRepoReader, hotelEmpRepoWriter),
 		usecase.NewLoginHotelEmpUseCase(jwtToken, jwtConfig.AccessTokenExpiry,
 			jwtConfig.RefreshTokenExpiry, hashAlgo, hotelEmpRepoReader),
+		usecase.NewFilterHotelEmpUseCase(hotelEmpRepoReader),
 	)
 }
 
@@ -59,6 +60,14 @@ func (r *RouteHandler) hotelEmpRoute() route.GroupRoute {
 				Path:    "/login",
 				Method:  method.POST,
 				Handler: r.HotelEmpHandler.HandleLoginHotelEmp,
+			},
+			{
+				Path:    "/filter",
+				Method:  method.GET,
+				Handler: r.HotelEmpHandler.HandleFilterHotelEmp,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
 			},
 		},
 	}

@@ -195,6 +195,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel-emp/filter": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Filter hotel employee",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Employee"
+                ],
+                "summary": "Filter hotel employee",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "hotel_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hotel-emp/login": {
             "post": {
                 "description": "Login hotel employee by email and password",

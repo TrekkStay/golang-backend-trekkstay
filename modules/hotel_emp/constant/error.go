@@ -41,6 +41,15 @@ func ErrPermissionDenied(err error) error {
 	)
 }
 
+func ErrSomethingWentWrong(err error) error {
+	return res.NewErrorResponse(
+		http.StatusInternalServerError,
+		err,
+		"something went wrong",
+		"ERR_SOMETHING_WENT_WRONG",
+	)
+}
+
 func ErrorPhoneAlreadyExists(err error) error {
 	return res.NewErrorResponse(
 		http.StatusBadRequest,
