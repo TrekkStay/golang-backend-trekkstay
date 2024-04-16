@@ -1078,7 +1078,8 @@ const docTemplate = `{
                         "PART_TIME",
                         "INTERNSHIP"
                     ],
-                    "x-order": "4"
+                    "x-order": "4",
+                    "example": "FULL_TIME | PART_TIME | INTERNSHIP"
                 },
                 "base_salary": {
                     "type": "integer",

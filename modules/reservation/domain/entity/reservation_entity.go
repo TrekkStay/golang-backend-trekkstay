@@ -6,7 +6,7 @@ type ReservationEntity struct {
 	core.BaseEntity
 	RoomID       string        `json:"room_id" gorm:"column:room_id;"`
 	UserID       string        `json:"user_id" gorm:"column:user_id;"`
-	QRCodeURL    string        `json:"qr_code_url" gorm:"column:qr_code_url;"`
+	QRCodeURL    string        `json:"qr_code_url" gorm:"column:qr_code_url;default:null"`
 	PaymentID    string        `json:"payment_id" gorm:"column:payment_id;default:null"`
 	Status       string        `json:"status" gorm:"column:status;default:UPCOMING;"`
 	CheckInDate  string        `json:"check_in_date" gorm:"column:check_in_date;"`
