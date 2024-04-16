@@ -22,7 +22,7 @@ install_pgadmin:
         -d dpage/pgadmin4
 
 install_redis:
-	@docker run -d --name redis -p 6379:6379 -p 8001:8001 --network trekkstay_network redis/redis-stack:latest
+	@docker run -d --name redis --restart always -p 6379:6379 -p 8001:8001 --network trekkstay_network redis/redis-stack:latest
 
 #### ----------------------- Database command configuration ----------------------- ####
 create_network:

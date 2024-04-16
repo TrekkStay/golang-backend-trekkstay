@@ -1,7 +1,7 @@
 ##### Stage 1: Build Stage #####
 
-# Use golang:1.21-alpine as the base image for building the application
-FROM golang:1.21-alpine AS builder
+# Use golang:1.22d-alpine as the base image for building the application
+FROM golang:1.22-alpine AS builder
 
 # Install required dependencies including timezone data and CA certificates
 RUN apk --no-cache add tzdata ca-certificates
