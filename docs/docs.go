@@ -1535,19 +1535,24 @@ const docTemplate = `{
                 "description",
                 "district_code",
                 "email",
+                "id",
                 "name",
                 "phone",
                 "province_code",
                 "ward_code"
             ],
             "properties": {
-                "name": {
+                "id": {
                     "type": "string",
                     "x-order": "1"
                 },
-                "description": {
+                "address_detail": {
                     "type": "string",
                     "x-order": "10"
+                },
+                "description": {
+                    "type": "string",
+                    "x-order": "11"
                 },
                 "facilities": {
                     "allOf": [
@@ -1555,7 +1560,7 @@ const docTemplate = `{
                             "$ref": "#/definitions/req.HotelFacilitiesJSON"
                         }
                     ],
-                    "x-order": "11"
+                    "x-order": "12"
                 },
                 "coordinates": {
                     "allOf": [
@@ -1563,7 +1568,7 @@ const docTemplate = `{
                             "$ref": "#/definitions/req.CoordinatesJSON"
                         }
                     ],
-                    "x-order": "12"
+                    "x-order": "13"
                 },
                 "videos": {
                     "allOf": [
@@ -1571,7 +1576,7 @@ const docTemplate = `{
                             "$ref": "#/definitions/modules_hotel_api_model_req.MediaJSON"
                         }
                     ],
-                    "x-order": "13"
+                    "x-order": "14"
                 },
                 "images": {
                     "allOf": [
@@ -1579,37 +1584,37 @@ const docTemplate = `{
                             "$ref": "#/definitions/modules_hotel_api_model_req.MediaJSON"
                         }
                     ],
-                    "x-order": "14"
+                    "x-order": "15"
                 },
-                "email": {
+                "name": {
                     "type": "string",
                     "x-order": "2"
                 },
-                "phone": {
+                "email": {
                     "type": "string",
                     "x-order": "3"
                 },
-                "check_in_time": {
+                "phone": {
                     "type": "string",
                     "x-order": "4"
                 },
-                "check_out_time": {
+                "check_in_time": {
                     "type": "string",
                     "x-order": "5"
                 },
-                "province_code": {
+                "check_out_time": {
                     "type": "string",
                     "x-order": "6"
                 },
-                "district_code": {
+                "province_code": {
                     "type": "string",
                     "x-order": "7"
                 },
-                "ward_code": {
+                "district_code": {
                     "type": "string",
                     "x-order": "8"
                 },
-                "address_detail": {
+                "ward_code": {
                     "type": "string",
                     "x-order": "9"
                 }

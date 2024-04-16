@@ -312,50 +312,53 @@ definitions:
     properties:
       address_detail:
         type: string
-        x-order: "9"
+        x-order: "10"
       check_in_time:
         type: string
-        x-order: "4"
+        x-order: "5"
       check_out_time:
         type: string
-        x-order: "5"
+        x-order: "6"
       coordinates:
         allOf:
         - $ref: '#/definitions/req.CoordinatesJSON'
-        x-order: "12"
+        x-order: "13"
       description:
         type: string
-        x-order: "10"
+        x-order: "11"
       district_code:
         type: string
-        x-order: "7"
+        x-order: "8"
       email:
         type: string
-        x-order: "2"
+        x-order: "3"
       facilities:
         allOf:
         - $ref: '#/definitions/req.HotelFacilitiesJSON'
-        x-order: "11"
+        x-order: "12"
+      id:
+        type: string
+        x-order: "1"
       images:
         allOf:
         - $ref: '#/definitions/modules_hotel_api_model_req.MediaJSON'
-        x-order: "14"
+        x-order: "15"
       name:
         type: string
-        x-order: "1"
+        x-order: "2"
       phone:
         type: string
-        x-order: "3"
+        x-order: "4"
       province_code:
         type: string
-        x-order: "6"
+        x-order: "7"
       videos:
         allOf:
         - $ref: '#/definitions/modules_hotel_api_model_req.MediaJSON'
-        x-order: "13"
+        x-order: "14"
       ward_code:
         type: string
-        x-order: "8"
+        x-order: "9"
     required:
     - address_detail
     - check_in_time
@@ -363,6 +366,7 @@ definitions:
     - description
     - district_code
     - email
+    - id
     - name
     - phone
     - province_code

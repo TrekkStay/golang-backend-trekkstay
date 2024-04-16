@@ -1,6 +1,7 @@
 package mapper
 
 import (
+	"trekkstay/core"
 	"trekkstay/modules/hotel/api/model/req"
 	"trekkstay/modules/hotel/domain/entity"
 )
@@ -44,6 +45,9 @@ func ConvertCreateHotelReqToEntity(req req.CreateHotelReq) entity.HotelEntity {
 
 func ConvertUpdateHotelReqToEntity(req req.UpdateHotelReq) entity.HotelEntity {
 	return entity.HotelEntity{
+		BaseEntity: core.BaseEntity{
+			ID: req.ID,
+		},
 		Name:          req.Name,
 		Email:         req.Email,
 		Phone:         req.Phone,
