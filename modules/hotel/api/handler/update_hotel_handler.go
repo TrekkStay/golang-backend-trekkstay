@@ -12,22 +12,22 @@ import (
 	"trekkstay/pkgs/log"
 )
 
-// HandleCreatHotel	godoc
-// @Summary      Create new hotel
-// @Description  Create new hotel, requires authentication with owner role
+// HandleUpdateHotel	godoc
+// @Summary      Update hotel
+// @Description  Update hotel, requires authentication with owner role
 // @Tags         Hotel
 // @Produce      json
-// @Param        CreateHotelReq  body	req.CreateHotelReq  true  "CreateHotelReq JSON"
-// @Success      201 {object}  	res.SuccessResponse
+// @Param        UpdateHotelReq  body	req.UpdateHotelReq  true  "UpdateHotelReq JSON"
+// @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /hotel/create [post]
+// @Router       /hotel/update [patch]
 // @Security     JWT
-func (h hotelHandler) HandleCreatHotel(c *gin.Context) {
+func (h hotelHandler) HandleUpdateHotel(c *gin.Context) {
 	// Bind request
-	var createHotelReq req.CreateHotelReq
-	if err := c.ShouldBindJSON(&createHotelReq); err != nil {
-		log.JsonLogger.Error("HandleCreateHotel.bind_json",
+	var updateHotelReq req.UpdateHotelReq
+	if err := c.ShouldBindJSON(&updateHotelReq); err != nil {
+		log.JsonLogger.Error("HandleUpdateHotel.bind_json",
 			slog.String("error", err.Error()),
 			slog.String("request_id", c.Request.Context().Value("X-Request-ID").(string)),
 		)
@@ -36,8 +36,8 @@ func (h hotelHandler) HandleCreatHotel(c *gin.Context) {
 	}
 
 	// Validate request
-	if err := h.requestValidator.Struct(&createHotelReq); err != nil {
-		log.JsonLogger.Error("HandleCreatHotel.validate_request",
+	if err := h.requestValidator.Struct(&updateHotelReq); err != nil {
+		log.JsonLogger.Error("HandleUpdateHotel.validate_request",
 			slog.String("error", err.Error()),
 			slog.String("request_id", c.Request.Context().Value("X-Request-ID").(string)),
 		)
@@ -49,13 +49,11 @@ func (h hotelHandler) HandleCreatHotel(c *gin.Context) {
 	ctx := context.WithValue(c.Request.Context(), core.CurrentRequesterKeyStruct{},
 		c.MustGet(core.CurrentRequesterKeyString).(core.Requester))
 
-	// Create hotel
-	if err := h.createHotelUseCase.ExecuteCreateHotel(
+	if err := h.updateHotelUseCase.ExecuteUpdateHotel(
 		ctx,
-		mapper.ConvertCreateHotelReqToEntity(createHotelReq),
-	); err != nil {
+		mapper.ConvertUpdateHotelReqToEntity(updateHotelReq)); err != nil {
 		panic(err)
 	}
 
-	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", nil))
+	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", nil))
 }

@@ -9,6 +9,8 @@ import (
 	hotelHandler "trekkstay/modules/hotel/api/handler"
 	"trekkstay/modules/hotel/domain/usecase"
 	"trekkstay/modules/hotel/repository"
+	emp "trekkstay/modules/hotel_emp/repository"
+
 	database "trekkstay/pkgs/dbs/postgres"
 	"trekkstay/pkgs/dbs/redis"
 	"trekkstay/pkgs/transport/http/method"
@@ -19,6 +21,9 @@ func NewHotelHandler(db *database.Database, requestValidator *validator.Validate
 	// Hotel Repository
 	hotelRepoReader := repository.NewHotelReaderRepository(*db)
 	hotelRepoWriter := repository.NewHotelWriterRepository(*db)
+
+	// HotelEmp Repository
+	hotelEmpRepoReader := emp.NewHotelEmpReaderRepository(*db)
 
 	// Redis
 	redisConfig := config.LoadConfig(&models.RedisConfig{}).(*models.RedisConfig)
@@ -35,6 +40,7 @@ func NewHotelHandler(db *database.Database, requestValidator *validator.Validate
 		usecase.NewFilterHotelUseCase(hotelRepoReader),
 		usecase.NewGetDetailHotelUseCase(hotelRepoReader),
 		usecase.NewGetMyHotelUseCase(hotelRepoReader),
+		usecase.NewUpdateHotelUseCase(hotelEmpRepoReader, hotelRepoWriter),
 	)
 }
 
@@ -64,6 +70,14 @@ func (r *RouteHandler) hotelRoute() route.GroupRoute {
 				Path:    "/my-hotel",
 				Method:  method.GET,
 				Handler: r.HotelHandler.HandleGetMyHotel,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
+			},
+			{
+				Path:    "/update",
+				Method:  method.PATCH,
+				Handler: r.HotelHandler.HandleUpdateHotel,
 				Middlewares: route.Middlewares(
 					middlewares.Authentication(),
 				),

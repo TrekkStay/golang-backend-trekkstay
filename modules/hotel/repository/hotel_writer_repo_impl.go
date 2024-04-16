@@ -58,6 +58,7 @@ func (repo hotelWriterRepositoryImpl) UpdateHotel(ctx context.Context, hotel ent
 	return repo.db.Executor.
 		WithContext(ctx).
 		Omit("Rooms", "Owner").
+		Where("id = ?", hotel.ID).
 		Updates(&hotel).Error
 }
 
