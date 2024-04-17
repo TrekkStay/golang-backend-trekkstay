@@ -841,6 +841,40 @@ paths:
       summary: Filter hotel
       tags:
       - Hotel
+  /hotel/filter/near-me:
+    get:
+      description: Get near me hotel
+      parameters:
+      - in: query
+        name: lat
+        required: true
+        type: number
+      - in: query
+        name: lng
+        required: true
+        type: number
+      - in: query
+        name: max_distance
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: Get near me hotel
+      tags:
+      - Hotel
   /hotel/my-hotel:
     get:
       description: Get detail my hotel

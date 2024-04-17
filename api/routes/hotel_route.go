@@ -41,6 +41,7 @@ func NewHotelHandler(db *database.Database, requestValidator *validator.Validate
 		usecase.NewGetDetailHotelUseCase(hotelRepoReader),
 		usecase.NewGetMyHotelUseCase(hotelRepoReader),
 		usecase.NewUpdateHotelUseCase(hotelEmpRepoReader, hotelRepoWriter),
+		usecase.NewGetNearMeHotelUseCase(hotelRepoReader),
 	)
 }
 
@@ -60,6 +61,11 @@ func (r *RouteHandler) hotelRoute() route.GroupRoute {
 				Path:    "/filter",
 				Method:  method.GET,
 				Handler: r.HotelHandler.HandleFilterHotel,
+			},
+			{
+				Path:    "/filter/near-me",
+				Method:  method.GET,
+				Handler: r.HotelHandler.HandleGetNearMeHotel,
 			},
 			{
 				Path:    "/:hotel_id",
