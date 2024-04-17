@@ -31,3 +31,12 @@ func ErrHotelIDIsRequired(err error) error {
 		"ERR_HOTEL_ID_IS_REQUIRED",
 	)
 }
+
+func ErrSomethingWentWrong(err error) error {
+	return res.NewErrorResponse(
+		http.StatusInternalServerError,
+		err,
+		"something went wrong",
+		"ERR_SOMETHING_WENT_WRONG",
+	)
+}

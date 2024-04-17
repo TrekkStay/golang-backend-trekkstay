@@ -372,6 +372,50 @@ definitions:
     - province_code
     - ward_code
     type: object
+  req.UpdateHotelRoomReq:
+    properties:
+      description:
+        type: string
+        x-order: "4"
+      discount_rate:
+        type: integer
+        x-order: "6"
+      facilities:
+        allOf:
+        - $ref: '#/definitions/req.HotelRoomFacilitiesJSON'
+        x-order: "10"
+      hotel_id:
+        type: string
+        x-order: "2"
+      id:
+        type: string
+        x-order: "1"
+      images:
+        allOf:
+        - $ref: '#/definitions/modules_hotel_room_api_model_req.MediaJSON'
+        x-order: "9"
+      original_price:
+        type: integer
+        x-order: "7"
+      quantity:
+        type: integer
+        x-order: "5"
+      type:
+        type: string
+        x-order: "3"
+      videos:
+        allOf:
+        - $ref: '#/definitions/modules_hotel_room_api_model_req.MediaJSON'
+        x-order: "8"
+    required:
+    - description
+    - facilities
+    - hotel_id
+    - id
+    - original_price
+    - quantity
+    - type
+    type: object
   req.UpdateUserReq:
     properties:
       email:
@@ -659,6 +703,36 @@ paths:
           schema:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Filter hotel room
+      tags:
+      - Hotel Room
+  /hotel-room/update:
+    patch:
+      description: Update hotel room, requires authentication with owner role
+      parameters:
+      - description: UpdateHotelRoomReq JSON
+        in: body
+        name: UpdateHotelRoomReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.UpdateHotelRoomReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Update hotel room
       tags:
       - Hotel Room
   /hotel/{hotel_id}:

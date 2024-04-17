@@ -10,6 +10,7 @@ import (
 type HotelRoomHandler interface {
 	HandleCreateHotelRoom(c *gin.Context)
 	HandleFilterHotelRoom(c *gin.Context)
+	HandleUpdateHotelRoom(c *gin.Context)
 }
 
 type hotelRoomHandler struct {
@@ -17,6 +18,7 @@ type hotelRoomHandler struct {
 	cache                  redis.Redis
 	createHotelRoomUseCase usecase.CreateHotelRoomUseCase
 	filterHotelRoomUseCase usecase.FilterHotelRoomUseCase
+	updateHotelRoomUseCase usecase.UpdateHotelRoomUseCase
 }
 
 func NewHotelRoomHandler(
@@ -24,11 +26,13 @@ func NewHotelRoomHandler(
 	cache redis.Redis,
 	createHotelRoomUseCase usecase.CreateHotelRoomUseCase,
 	filterHotelRoomUseCase usecase.FilterHotelRoomUseCase,
+	updateHotelRoomUseCase usecase.UpdateHotelRoomUseCase,
 ) HotelRoomHandler {
 	return &hotelRoomHandler{
 		requestValidator:       requestValidator,
 		cache:                  cache,
 		createHotelRoomUseCase: createHotelRoomUseCase,
 		filterHotelRoomUseCase: filterHotelRoomUseCase,
+		updateHotelRoomUseCase: updateHotelRoomUseCase,
 	}
 }

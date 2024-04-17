@@ -403,6 +403,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel-room/update": {
+            "patch": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Update hotel room, requires authentication with owner role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Room"
+                ],
+                "summary": "Update hotel room",
+                "parameters": [
+                    {
+                        "description": "UpdateHotelRoomReq JSON",
+                        "name": "UpdateHotelRoomReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.UpdateHotelRoomReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hotel/create": {
             "post": {
                 "security": [
@@ -1616,6 +1664,72 @@ const docTemplate = `{
                 },
                 "ward_code": {
                     "type": "string",
+                    "x-order": "9"
+                }
+            }
+        },
+        "req.UpdateHotelRoomReq": {
+            "type": "object",
+            "required": [
+                "description",
+                "facilities",
+                "hotel_id",
+                "id",
+                "original_price",
+                "quantity",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "facilities": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.HotelRoomFacilitiesJSON"
+                        }
+                    ],
+                    "x-order": "10"
+                },
+                "hotel_id": {
+                    "type": "string",
+                    "x-order": "2"
+                },
+                "type": {
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "description": {
+                    "type": "string",
+                    "x-order": "4"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "x-order": "5"
+                },
+                "discount_rate": {
+                    "type": "integer",
+                    "x-order": "6"
+                },
+                "original_price": {
+                    "type": "integer",
+                    "x-order": "7"
+                },
+                "videos": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/modules_hotel_room_api_model_req.MediaJSON"
+                        }
+                    ],
+                    "x-order": "8"
+                },
+                "images": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/modules_hotel_room_api_model_req.MediaJSON"
+                        }
+                    ],
                     "x-order": "9"
                 }
             }

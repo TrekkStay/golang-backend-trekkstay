@@ -33,6 +33,7 @@ func NewHotelRoomHandler(db *database.Database, requestValidator *validator.Vali
 	return hotelRoomHandler.NewHotelRoomHandler(requestValidator, redisInstance,
 		usecase.NewCreateHotelRoomUseCase(hotelRoomRepoWriter),
 		usecase.NewFilterHotelRoomUseCase(hotelRoomRepoReader),
+		usecase.NewUpdateHotelRoomUseCase(hotelRoomRepoWriter),
 	)
 }
 
@@ -52,6 +53,14 @@ func (r *RouteHandler) hotelRoomRoute() route.GroupRoute {
 				Path:    "/filter",
 				Method:  method.GET,
 				Handler: r.HotelRoomHandler.HandleFilterHotelRoom,
+			},
+			{
+				Path:    "/update",
+				Method:  method.PATCH,
+				Handler: r.HotelRoomHandler.HandleUpdateHotelRoom,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
 			},
 		},
 	}
