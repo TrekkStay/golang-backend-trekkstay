@@ -49,7 +49,7 @@ func (r *RouteHandler) attractionRoute() route.GroupRoute {
 			{
 				Path:    "/list",
 				Method:  method.GET,
-				Handler: r.AttractionHandler.HandleCreateAttraction,
+				Handler: r.AttractionHandler.HandleListAttraction,
 			},
 		},
 	}
