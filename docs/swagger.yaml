@@ -731,7 +731,7 @@ paths:
             $ref: '#/definitions/res.ErrorResponse'
       summary: Get detail hotel's room
       tags:
-      - Hotel-Room
+      - Hotel Room
   /hotel-room/create:
     post:
       description: Create new hotel room, requires authentication with owner role

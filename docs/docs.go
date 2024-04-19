@@ -555,7 +555,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Hotel-Room"
+                    "Hotel Room"
                 ],
                 "summary": "Get detail hotel's room",
                 "parameters": [

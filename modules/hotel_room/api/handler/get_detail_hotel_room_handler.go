@@ -10,7 +10,7 @@ import (
 // HandleGetDetailHotelRoom	godoc
 // @Summary      Get detail hotel's room
 // @Description  Get detail hotel's room
-// @Tags         Hotel-Room
+// @Tags         Hotel Room
 // @Produce      json
 // @Param        hotel_room_id  path  string  true  "Hotel ID"
 // @Success      200 {object}  	res.SuccessResponse
