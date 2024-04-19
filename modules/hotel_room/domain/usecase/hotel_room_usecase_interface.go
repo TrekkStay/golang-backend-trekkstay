@@ -7,6 +7,7 @@ import (
 
 type hotelRoomReaderRepository interface {
 	FindHotelRooms(ctx context.Context, filter entity.HotelRoomFilterEntity) ([]entity.HotelRoomEntity, error)
+	FindHotelRoomByCondition(ctx context.Context, condition map[string]interface{}) (*entity.HotelRoomEntity, error)
 }
 
 type hotelRoomWriterRepository interface {

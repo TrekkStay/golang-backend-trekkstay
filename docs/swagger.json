@@ -18,6 +18,103 @@
     "host": "52.163.61.213:8888",
     "basePath": "/api/v1",
     "paths": {
+        "/attraction/create": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create new attraction",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "Create new attraction",
+                "parameters": [
+                    {
+                        "description": "CreateAttractionReq JSON",
+                        "name": "CreateAttractionReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateAttractionReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/attraction/list": {
+            "get": {
+                "description": "List attraction",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Attraction"
+                ],
+                "summary": "List attraction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "district_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "province_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "ward_code",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/destination/create": {
             "post": {
                 "security": [
@@ -421,6 +518,47 @@
                         "schema": {
                             "$ref": "#/definitions/req.UpdateHotelRoomReq"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/hotel-room/{hotel_room_id}": {
+            "get": {
+                "description": "Get detail hotel's room",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel-Room"
+                ],
+                "summary": "Get detail hotel's room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "hotel_room_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1215,6 +1353,29 @@
                 },
                 "lng": {
                     "type": "number"
+                }
+            }
+        },
+        "req.CreateAttractionReq": {
+            "type": "object",
+            "required": [
+                "district_code",
+                "name",
+                "province_code",
+                "ward_code"
+            ],
+            "properties": {
+                "district_code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "province_code": {
+                    "type": "string"
+                },
+                "ward_code": {
+                    "type": "string"
                 }
             }
         },

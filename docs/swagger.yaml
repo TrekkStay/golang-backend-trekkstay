@@ -33,6 +33,22 @@ definitions:
       lng:
         type: number
     type: object
+  req.CreateAttractionReq:
+    properties:
+      district_code:
+        type: string
+      name:
+        type: string
+      province_code:
+        type: string
+      ward_code:
+        type: string
+    required:
+    - district_code
+    - name
+    - province_code
+    - ward_code
+    type: object
   req.CreateDestinationReq:
     properties:
       code:
@@ -461,6 +477,67 @@ info:
   title: Trekkstay - Hotel Booking System API
   version: v0.0.1
 paths:
+  /attraction/create:
+    post:
+      description: Create new attraction
+      parameters:
+      - description: CreateAttractionReq JSON
+        in: body
+        name: CreateAttractionReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateAttractionReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Create new attraction
+      tags:
+      - Attraction
+  /attraction/list:
+    get:
+      description: List attraction
+      parameters:
+      - in: query
+        name: district_code
+        type: string
+      - in: query
+        name: province_code
+        type: string
+      - in: query
+        name: ward_code
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: List attraction
+      tags:
+      - Attraction
   /destination/create:
     post:
       description: Create new destination
@@ -628,6 +705,33 @@ paths:
       summary: Login hotel employee
       tags:
       - Hotel Employee
+  /hotel-room/{hotel_room_id}:
+    get:
+      description: Get detail hotel's room
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: hotel_room_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      summary: Get detail hotel's room
+      tags:
+      - Hotel-Room
   /hotel-room/create:
     post:
       description: Create new hotel room, requires authentication with owner role

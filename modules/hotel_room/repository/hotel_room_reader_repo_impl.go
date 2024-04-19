@@ -19,6 +19,17 @@ func NewHotelRoomReaderRepository(db database.Database) HotelRoomReaderRepositor
 	}
 }
 
+func (repo hotelRoomReaderRepositoryImpl) FindHotelRoomByCondition(ctx context.Context,
+	condition map[string]interface{}) (*entity.HotelRoomEntity, error) {
+	var room entity.HotelRoomEntity
+	err := repo.db.Executor.WithContext(ctx).Where(condition).First(&room).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &room, nil
+}
+
 func (repo hotelRoomReaderRepositoryImpl) FindHotelRooms(ctx context.Context,
 	filter entity.HotelRoomFilterEntity) ([]entity.HotelRoomEntity, error) {
 	var rooms []entity.HotelRoomEntity

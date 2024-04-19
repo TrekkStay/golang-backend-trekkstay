@@ -48,6 +48,7 @@ func NewServer() (*server.HTTPServer, error) {
 		UploadHandler:      s3.NewS3Upload(s3Config),
 		HotelRoomHandler:   routes.NewHotelRoomHandler(db, requestValidator),
 		DestinationHandler: routes.NewDestinationHandler(db, requestValidator),
+		AttractionHandler:  routes.NewAttractionHandler(db, requestValidator),
 	}
 
 	s.AddGroupRoutes(srv.InitGroupRoutes())

@@ -11,14 +11,16 @@ type HotelRoomHandler interface {
 	HandleCreateHotelRoom(c *gin.Context)
 	HandleFilterHotelRoom(c *gin.Context)
 	HandleUpdateHotelRoom(c *gin.Context)
+	HandleGetDetailHotelRoom(c *gin.Context)
 }
 
 type hotelRoomHandler struct {
-	requestValidator       *validator.Validate
-	cache                  redis.Redis
-	createHotelRoomUseCase usecase.CreateHotelRoomUseCase
-	filterHotelRoomUseCase usecase.FilterHotelRoomUseCase
-	updateHotelRoomUseCase usecase.UpdateHotelRoomUseCase
+	requestValidator          *validator.Validate
+	cache                     redis.Redis
+	createHotelRoomUseCase    usecase.CreateHotelRoomUseCase
+	filterHotelRoomUseCase    usecase.FilterHotelRoomUseCase
+	updateHotelRoomUseCase    usecase.UpdateHotelRoomUseCase
+	getDetailHotelRoomUseCase usecase.GetDetailHotelRoomUseCase
 }
 
 func NewHotelRoomHandler(
@@ -27,12 +29,14 @@ func NewHotelRoomHandler(
 	createHotelRoomUseCase usecase.CreateHotelRoomUseCase,
 	filterHotelRoomUseCase usecase.FilterHotelRoomUseCase,
 	updateHotelRoomUseCase usecase.UpdateHotelRoomUseCase,
+	getDetailHotelRoomUseCase usecase.GetDetailHotelRoomUseCase,
 ) HotelRoomHandler {
 	return &hotelRoomHandler{
-		requestValidator:       requestValidator,
-		cache:                  cache,
-		createHotelRoomUseCase: createHotelRoomUseCase,
-		filterHotelRoomUseCase: filterHotelRoomUseCase,
-		updateHotelRoomUseCase: updateHotelRoomUseCase,
+		requestValidator:          requestValidator,
+		cache:                     cache,
+		createHotelRoomUseCase:    createHotelRoomUseCase,
+		filterHotelRoomUseCase:    filterHotelRoomUseCase,
+		updateHotelRoomUseCase:    updateHotelRoomUseCase,
+		getDetailHotelRoomUseCase: getDetailHotelRoomUseCase,
 	}
 }
