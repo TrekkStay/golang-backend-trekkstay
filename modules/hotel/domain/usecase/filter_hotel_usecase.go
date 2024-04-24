@@ -10,7 +10,7 @@ import (
 )
 
 type FilterHotelUseCase interface {
-	FilterHotel(ctx context.Context, filter entity.HotelFilterEntity, page, limit int) (*core.Pagination, error)
+	ExecuteFilterHotel(ctx context.Context, filter entity.HotelFilterEntity, page, limit int) (*core.Pagination, error)
 }
 
 type filterHotelUseCaseImpl struct {
@@ -25,11 +25,11 @@ func NewFilterHotelUseCase(readerRepo hotelReaderRepository) FilterHotelUseCase 
 	}
 }
 
-func (useCase filterHotelUseCaseImpl) FilterHotel(ctx context.Context,
+func (useCase filterHotelUseCaseImpl) ExecuteFilterHotel(ctx context.Context,
 	filter entity.HotelFilterEntity, page, limit int) (*core.Pagination, error) {
 	hotels, err := useCase.readerRepo.FindHotels(ctx, filter, page, limit)
 	if err != nil {
-		log.JsonLogger.Error("FilterHotel.find_hotels",
+		log.JsonLogger.Error("ExecuteFilterHotel.find_hotels",
 			slog.String("error", err.Error()),
 			slog.String("request_id", ctx.Value("X-Request-ID").(string)),
 		)

@@ -561,8 +561,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Hotel ID",
-                        "name": "hotel_room_id",
+                        "description": "Room ID",
+                        "name": "room_id",
                         "in": "path",
                         "required": true
                     }
@@ -779,6 +779,97 @@ const docTemplate = `{
                     "Hotel"
                 ],
                 "summary": "Get detail my hotel",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/hotel/search": {
+            "get": {
+                "description": "Search hotel",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Search hotel",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "x-order": "1",
+                        "name": "location_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "x-order": "2",
+                        "name": "price_order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "2024-04-24",
+                        "x-order": "3",
+                        "name": "check_in_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "2024-04-25",
+                        "x-order": "4",
+                        "name": "check_out_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "example": 2,
+                        "x-order": "5",
+                        "name": "adults",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "example": 1,
+                        "x-order": "6",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "example": 1,
+                        "x-order": "7",
+                        "name": "num_of_rooms",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

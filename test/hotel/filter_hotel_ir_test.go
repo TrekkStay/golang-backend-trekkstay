@@ -50,7 +50,7 @@ func TestIRFilterHotel(t *testing.T) {
 	})
 
 	name := "Anrizon"
-	_, err = useCase.FilterHotel(ctx, entity.HotelFilterEntity{
+	_, err = useCase.ExecuteFilterHotel(ctx, entity.HotelFilterEntity{
 		Name: &name,
 	}, 1, 10)
 

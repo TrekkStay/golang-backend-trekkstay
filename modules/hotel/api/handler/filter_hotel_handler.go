@@ -44,7 +44,7 @@ func (h hotelHandler) HandleFilterHotel(c *gin.Context) {
 		return
 	}
 
-	hotels, err = h.filterHotelUseCase.FilterHotel(
+	hotels, err = h.filterHotelUseCase.ExecuteFilterHotel(
 		c.Request.Context(),
 		mapper.ConvertFilterHotelReqToEntity(filterHotelReq),
 		filterHotelReq.Page,

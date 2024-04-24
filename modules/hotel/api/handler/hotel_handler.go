@@ -14,6 +14,7 @@ type HotelHandler interface {
 	HandleGetMyHotel(c *gin.Context)
 	HandleUpdateHotel(c *gin.Context)
 	HandleGetNearMeHotel(c *gin.Context)
+	HandleSearchHotel(c *gin.Context)
 }
 
 type hotelHandler struct {
@@ -25,6 +26,7 @@ type hotelHandler struct {
 	getMyHotelUseCase     usecase.GetMyHotelUseCase
 	updateHotelUseCase    usecase.UpdateHotelUseCase
 	getNearMeHotelUseCase usecase.GetNearMeHotelUseCase
+	searchHotelUseCase    usecase.SearchHotelUseCase
 }
 
 func NewHotelHandler(
@@ -36,6 +38,7 @@ func NewHotelHandler(
 	getMyHotelUseCase usecase.GetMyHotelUseCase,
 	updateHotelUseCase usecase.UpdateHotelUseCase,
 	getNearMeHotelUseCase usecase.GetNearMeHotelUseCase,
+	searchHotelUseCase usecase.SearchHotelUseCase,
 ) HotelHandler {
 	return &hotelHandler{
 		requestValidator:      requestValidator,
@@ -46,5 +49,6 @@ func NewHotelHandler(
 		getMyHotelUseCase:     getMyHotelUseCase,
 		updateHotelUseCase:    updateHotelUseCase,
 		getNearMeHotelUseCase: getNearMeHotelUseCase,
+		searchHotelUseCase:    searchHotelUseCase,
 	}
 }

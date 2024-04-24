@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 	"gorm.io/gorm"
+	"math"
+	"sort"
 	"trekkstay/core"
 	"trekkstay/modules/hotel/domain/entity"
 	database "trekkstay/pkgs/dbs/postgres"
@@ -100,6 +102,108 @@ func (repo hotelReaderRepositoryImpl) FindHotels(ctx context.Context,
 		Group("hotels.id").
 		Find(&hotels)
 
+	paging.Rows = hotels
+
+	return &paging, result.Error
+}
+
+func (repo hotelReaderRepositoryImpl) SearchHotel(ctx context.Context,
+	filter entity.HotelSearchEntity, page, limit int) (*core.Pagination, error) {
+	var paging core.Pagination
+	var hotels []entity.HotelEntity
+
+	if limit == 0 {
+		limit = 10
+	}
+
+	if page == 0 {
+		page = 1
+	}
+
+	paging.Limit = limit
+	paging.Page = page
+
+	code := ""
+	if filter.LocationCode != nil {
+		code = *filter.LocationCode
+	}
+
+	var result = repo.db.Executor.Raw(`
+		SELECT h.* FROM hotels h
+		WHERE
+		  EXISTS (
+			SELECT r.hotel_id FROM hotel_rooms r
+			WHERE
+			  r.hotel_id = h.id
+			  AND NOT EXISTS (
+				SELECT sum(res.quantity) FROM reservations res
+				WHERE
+				  res.room_id = r.id    
+				AND (res.check_in_date::DATE, res.check_out_date::DATE) OVERLAPS (?::DATE, ?::DATE)
+				GROUP BY res.room_id
+				HAVING sum(res.quantity) > r.quantity - ?
+			  )
+		  )
+		AND (h.province_code = ? OR h.district_code = ? OR h.ward_code = ?)
+		LIMIT ? OFFSET ?
+	`,
+		*filter.CheckInDate,
+		*filter.CheckOutDate,
+		*filter.NumOfRooms,
+		code, code, code,
+		limit, (page-1)*limit,
+	).Scan(&hotels)
+
+	for i := range hotels {
+		var province entity.ProvinceEntity
+		var district entity.DistrictEntity
+		var ward entity.WardEntity
+
+		repo.db.Executor.WithContext(ctx).Model(&entity.ProvinceEntity{}).Where("code = ?", hotels[i].ProvinceCode).First(&province)
+		repo.db.Executor.WithContext(ctx).Model(&entity.DistrictEntity{}).Where("code = ?", hotels[i].DistrictCode).First(&district)
+		repo.db.Executor.WithContext(ctx).Model(&entity.WardEntity{}).Where("code = ?", hotels[i].WardCode).First(&ward)
+
+		hotels[i].Province = province
+		hotels[i].District = district
+		hotels[i].Ward = ward
+
+		var rooms []entity.HotelRoomEntity
+		repo.db.Executor.WithContext(ctx).Model(&entity.HotelRoomEntity{}).
+			Where("hotel_id = ?", hotels[i].ID).
+			Limit(1).
+			Order("(hotel_rooms.original_price * hotel_rooms.discount_rate / 100) ASC").
+			Find(&rooms)
+
+		hotels[i].Rooms = rooms
+	}
+
+	// Sort price
+	if filter.PriceOrder != nil {
+		if *filter.PriceOrder == "asc" {
+			paging.Sort = "min_price ASC, hotels.created_at DESC"
+
+			sort.Slice(hotels, func(i, j int) bool {
+				// Get the price of the first room in each hotel for comparison
+				priceI := hotels[i].Rooms[0].OriginalPrice * hotels[i].Rooms[0].DiscountRate / 100
+				priceJ := hotels[j].Rooms[0].OriginalPrice * hotels[j].Rooms[0].DiscountRate / 100
+				// Compare the prices to determine the order
+				return priceI < priceJ
+			})
+		} else {
+			paging.Sort = "min_price DESC, hotels.created_at DESC"
+
+			sort.Slice(hotels, func(i, j int) bool {
+				// Get the price of the first room in each hotel for comparison
+				priceI := hotels[i].Rooms[0].OriginalPrice * hotels[i].Rooms[0].DiscountRate / 100
+				priceJ := hotels[j].Rooms[0].OriginalPrice * hotels[j].Rooms[0].DiscountRate / 100
+				// Compare the prices to determine the order
+				return priceI > priceJ
+			})
+		}
+	}
+
+	paging.TotalRows = int64(len(hotels))
+	paging.TotalPages = int(math.Ceil(float64(paging.TotalRows) / float64(limit)))
 	paging.Rows = hotels
 
 	return &paging, result.Error

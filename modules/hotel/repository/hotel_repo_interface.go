@@ -9,6 +9,7 @@ import (
 type HotelReaderRepository interface {
 	FindHotelByCondition(ctx context.Context, condition map[string]interface{}) (*entity.HotelEntity, error)
 	FindHotels(ctx context.Context, filter entity.HotelFilterEntity, page, limit int) (*core.Pagination, error)
+	SearchHotel(ctx context.Context, filter entity.HotelSearchEntity, page, limit int) (*core.Pagination, error)
 }
 
 type HotelWriterRepository interface {
