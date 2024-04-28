@@ -223,6 +223,34 @@ definitions:
     - quantity
     - type
     type: object
+  req.CreateReservationReq:
+    properties:
+      check_in_date:
+        type: string
+        x-order: "3"
+      check_out_date:
+        type: string
+        x-order: "4"
+      guest_info:
+        allOf:
+        - $ref: '#/definitions/req.GuestInfo'
+        x-order: "6"
+      promotion_code:
+        type: string
+        x-order: "2"
+      quantity:
+        type: integer
+        x-order: "5"
+      room_id:
+        type: string
+        x-order: "1"
+    required:
+    - check_in_date
+    - check_out_date
+    - guest_info
+    - quantity
+    - room_id
+    type: object
   req.CreateUserReq:
     properties:
       email:
@@ -241,6 +269,17 @@ definitions:
     - email
     - full_name
     - password
+    type: object
+  req.GuestInfo:
+    properties:
+      adults:
+        type: integer
+      children:
+        type: integer
+      contact:
+        type: string
+      full_name:
+        type: string
     type: object
   req.HotelFacilitiesJSON:
     properties:
@@ -1175,6 +1214,36 @@ paths:
       summary: List wards
       tags:
       - Region
+  /reservation/create:
+    post:
+      description: Create new reservation, requires authentication with user role
+      parameters:
+      - description: CreateReservationReq JSON
+        in: body
+        name: CreateReservationReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreateReservationReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Create new reservation
+      tags:
+      - Reservation
   /token/refresh-token:
     get:
       description: Get new access token and refresh token

@@ -1086,6 +1086,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/reservation/create": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create new reservation, requires authentication with user role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reservation"
+                ],
+                "summary": "Create new reservation",
+                "parameters": [
+                    {
+                        "description": "CreateReservationReq JSON",
+                        "name": "CreateReservationReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateReservationReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/token/refresh-token": {
             "get": {
                 "security": [
@@ -1715,6 +1763,46 @@ const docTemplate = `{
                 }
             }
         },
+        "req.CreateReservationReq": {
+            "type": "object",
+            "required": [
+                "check_in_date",
+                "check_out_date",
+                "guest_info",
+                "quantity",
+                "room_id"
+            ],
+            "properties": {
+                "room_id": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "promotion_code": {
+                    "type": "string",
+                    "x-order": "2"
+                },
+                "check_in_date": {
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "check_out_date": {
+                    "type": "string",
+                    "x-order": "4"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "x-order": "5"
+                },
+                "guest_info": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/req.GuestInfo"
+                        }
+                    ],
+                    "x-order": "6"
+                }
+            }
+        },
         "req.CreateUserReq": {
             "type": "object",
             "required": [
@@ -1738,6 +1826,23 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "x-order": "4"
+                }
+            }
+        },
+        "req.GuestInfo": {
+            "type": "object",
+            "properties": {
+                "adults": {
+                    "type": "integer"
+                },
+                "children": {
+                    "type": "integer"
+                },
+                "contact": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
                 }
             }
         },

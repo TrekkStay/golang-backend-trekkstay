@@ -18,6 +18,13 @@ type RoomJSON struct {
 	Images        MediaJSON `json:"images"`
 }
 
+type GuestInfoJSON struct {
+	FullName string `json:"full_name"`
+	Contact  string `json:"contact"`
+	Adults   int    `json:"adults"`
+	Children int    `json:"children"`
+}
+
 // ---------------------------- Media ----------------------------
 
 func (media *MediaJSON) Scan(value interface{}) error {
@@ -66,4 +73,29 @@ func (room *RoomJSON) Value() (driver.Value, error) {
 	}
 
 	return json.Marshal(room)
+}
+
+// ---------------------------- GuestInfo ----------------------------
+
+func (guestInfo *GuestInfoJSON) Scan(value interface{}) error {
+	bytes, ok := value.([]byte)
+	if !ok {
+		return fmt.Errorf(fmt.Sprint("Failed to unmarshal JSONB value", value))
+	}
+
+	var g GuestInfoJSON
+	if err := json.Unmarshal(bytes, &g); err != nil {
+		return err
+	}
+
+	*guestInfo = g
+	return nil
+}
+
+func (guestInfo *GuestInfoJSON) Value() (driver.Value, error) {
+	if guestInfo == nil {
+		return nil, nil
+	}
+
+	return json.Marshal(guestInfo)
 }

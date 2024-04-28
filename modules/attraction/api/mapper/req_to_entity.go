@@ -17,13 +17,13 @@ func ConvertCreateAttractionReqToEntity(req req.CreateAttractionReq) entity.Attr
 }
 
 func ConvertFilterAttractionReqToEntity(req req.FilterAttractionReq) entity.FilterAttractionEntity {
-	if len(req.LocationCode) != 2 {
+	if len(req.LocationCode) == 2 {
 		return entity.FilterAttractionEntity{
 			ProvinceCode: &req.LocationCode,
 		}
 	}
 
-	if len(req.LocationCode) != 3 {
+	if len(req.LocationCode) == 3 {
 		return entity.FilterAttractionEntity{
 			DistrictCode: &req.LocationCode,
 		}

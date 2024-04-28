@@ -7,6 +7,7 @@ import (
 	hotelEmpHandler "trekkstay/modules/hotel_emp/api/handler"
 	hotelRoomHandler "trekkstay/modules/hotel_room/api/handler"
 	regionHandler "trekkstay/modules/region/api/handler"
+	reservationHandler "trekkstay/modules/reservation/api/handler"
 	tokenHandler "trekkstay/modules/token/api/handler"
 	userHandler "trekkstay/modules/user/api/handler"
 	"trekkstay/pkgs/s3"
@@ -23,6 +24,7 @@ type RouteHandler struct {
 	UploadHandler      s3.UploadHandler
 	DestinationHandler destinationHandler.DestinationHandler
 	AttractionHandler  attractionHandler.AttractionHandler
+	ReservationHandle  reservationHandler.ReservationHandler
 }
 
 func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
@@ -36,6 +38,7 @@ func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
 	routeGroup = append(routeGroup, r.hotelRoomRoute())
 	routeGroup = append(routeGroup, r.destinationRoute())
 	routeGroup = append(routeGroup, r.attractionRoute())
+	routeGroup = append(routeGroup, r.reservationRoute())
 
 	return routeGroup
 }

@@ -32,7 +32,7 @@ func TestInsertReservation(t *testing.T) {
 	repo := NewReservationWriterRepository(*db)
 
 	t.Run("should insert reservation", func(t *testing.T) {
-		err := repo.InsertReservation(context.Background(), entity.ReservationEntity{
+		err := repo.InsertReservation(context.Background(), &entity.ReservationEntity{
 			RoomID:       "5e9847b7-72f4-4b04-97bf-afd8c08a5734",
 			UserID:       "c2761241-2b31-47ff-8674-22570d7b495a",
 			QRCodeURL:    "",

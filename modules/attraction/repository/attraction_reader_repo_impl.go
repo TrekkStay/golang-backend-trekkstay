@@ -46,6 +46,9 @@ func (repo attractionReaderRepositoryImpl) FindAttractions(ctx context.Context, 
 	txTotalRows := tx.Model(&entity.AttractionEntity{}).Scopes(scopeFunctions...)
 
 	if err := txTotalRows.
+		Preload("Province").
+		Preload("District").
+		Preload("Ward").
 		Find(&destinations).Error; err != nil {
 		return nil, err
 	}

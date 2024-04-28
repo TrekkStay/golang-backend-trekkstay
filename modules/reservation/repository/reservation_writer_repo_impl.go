@@ -16,7 +16,7 @@ func NewReservationWriterRepository(db database.Database) ReservationWriterRepos
 	return &reservationWriterRepositoryImpl{db: db}
 }
 
-func (repo reservationWriterRepositoryImpl) InsertReservation(ctx context.Context, reservation entity.ReservationEntity) error {
+func (repo reservationWriterRepositoryImpl) InsertReservation(ctx context.Context, reservation *entity.ReservationEntity) error {
 	return repo.db.Executor.
 		WithContext(ctx).
 		Create(&reservation).Error

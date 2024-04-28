@@ -49,6 +49,7 @@ func NewServer() (*server.HTTPServer, error) {
 		HotelRoomHandler:   routes.NewHotelRoomHandler(db, requestValidator),
 		DestinationHandler: routes.NewDestinationHandler(db, requestValidator),
 		AttractionHandler:  routes.NewAttractionHandler(db, requestValidator),
+		ReservationHandle:  routes.NewReservationHandler(db, requestValidator),
 	}
 
 	s.AddGroupRoutes(srv.InitGroupRoutes())
