@@ -29,3 +29,9 @@ func (repo reservationWriterRepositoryImpl) UpdateReservationStatus(ctx context.
 		Where("id = ?", reservationID).
 		Update("status", status).Error
 }
+
+func (repo reservationWriterRepositoryImpl) UpdateReservation(ctx context.Context, reservation entity.ReservationEntity) error {
+	return repo.db.Executor.
+		WithContext(ctx).
+		Save(&reservation).Error
+}

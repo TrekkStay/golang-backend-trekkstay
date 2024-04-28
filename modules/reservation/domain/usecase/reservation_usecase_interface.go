@@ -15,6 +15,7 @@ type ReservationReaderRepository interface {
 type ReservationWriterRepository interface {
 	InsertReservation(ctx context.Context, reservation *entity.ReservationEntity) error
 	UpdateReservationStatus(ctx context.Context, reservationID string, status string) error
+	UpdateReservation(ctx context.Context, reservation entity.ReservationEntity) error
 }
 
 type HotelRoomReaderRepository interface {

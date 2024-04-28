@@ -101,7 +101,7 @@ func (h *UploadHandler) UploadImageToS3(image image.Image) (*string, error) {
 		return nil, err
 	}
 
-	url := h.s3Config.S3CloudFront + imageName
+	url := h.s3Config.S3CloudFront + "/" + imageName
 	return &url, nil
 }
 
