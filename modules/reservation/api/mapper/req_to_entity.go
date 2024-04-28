@@ -19,3 +19,11 @@ func ConvertCreateReservationReqToEntity(req req.CreateReservationReq) entity.Re
 		},
 	}
 }
+
+func ConvertFilterReservationReqToEntity(req req.FilterReservationReq) entity.ReservationFilterEntity {
+	return entity.ReservationFilterEntity{
+		Status:  req.Status,
+		HotelID: req.HotelID,
+		Date:    req.Date,
+	}
+}

@@ -43,7 +43,7 @@ func (repo reservationReaderRepositoryImpl) FilterReservation(ctx context.Contex
 
 	var scopeFunctions []func(d *gorm.DB) *gorm.DB
 
-	if filter.UserID != nil {
+	if filter.UserID != nil && filter.HotelID == nil {
 		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
 			return d.Where("user_id = ?", *filter.UserID)
 		})
@@ -72,7 +72,6 @@ func (repo reservationReaderRepositoryImpl) FilterReservation(ctx context.Contex
 
 	result := tx.
 		Scopes(core.Paginate(&paging, txTotalRows)).
-		Preload("Room").
 		Preload("User").
 		Find(&reservations)
 

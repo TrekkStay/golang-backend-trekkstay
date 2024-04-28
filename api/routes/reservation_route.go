@@ -14,7 +14,7 @@ import (
 
 func NewReservationHandler(db *database.Database, requestValidator *validator.Validate) handler.ReservationHandler {
 	// Reservation Repository
-	//reservationRepoReader := repository.NewReservationReaderRepository(*db)
+	reservationRepoReader := repository.NewReservationReaderRepository(*db)
 	reservationRepoWriter := repository.NewReservationWriterRepository(*db)
 
 	// HotelRoom Repository
@@ -23,6 +23,7 @@ func NewReservationHandler(db *database.Database, requestValidator *validator.Va
 	return handler.NewReservationHandler(
 		requestValidator,
 		usecase.NewCreateReservationUseCase(hotelRoomRepoReader, reservationRepoWriter),
+		usecase.NewFilterReservationUseCase(reservationRepoReader),
 	)
 }
 
@@ -34,6 +35,14 @@ func (r *RouteHandler) reservationRoute() route.GroupRoute {
 				Path:    "/create",
 				Method:  method.POST,
 				Handler: r.ReservationHandle.HandleCreateReservation,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
+			},
+			{
+				Path:    "/filter",
+				Method:  method.GET,
+				Handler: r.ReservationHandle.HandleFilterReservation,
 				Middlewares: route.Middlewares(
 					middlewares.Authentication(),
 				),

@@ -1244,6 +1244,49 @@ paths:
       summary: Create new reservation
       tags:
       - Reservation
+  /reservation/filter:
+    get:
+      description: Filter reservation
+      parameters:
+      - in: query
+        name: hotel_id
+        type: string
+        x-order: "1"
+      - example: UPCOMING | COMPLETED | CANCELLED
+        in: query
+        name: status
+        type: string
+        x-order: "2"
+      - in: query
+        name: date
+        type: string
+        x-order: "3"
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Filter reservation
+      tags:
+      - Reservation
   /token/refresh-token:
     get:
       description: Get new access token and refresh token
