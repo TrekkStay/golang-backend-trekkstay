@@ -85,18 +85,9 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "name": "district_code",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "province_code",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "ward_code",
-                        "in": "query"
+                        "name": "location_code",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1457,22 +1448,36 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "district_code",
+                "lat",
+                "lng",
                 "name",
                 "province_code",
                 "ward_code"
             ],
             "properties": {
-                "district_code": {
-                    "type": "string"
-                },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "lat": {
+                    "type": "number",
+                    "x-order": "2"
+                },
+                "lng": {
+                    "type": "number",
+                    "x-order": "3"
                 },
                 "province_code": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "4"
+                },
+                "district_code": {
+                    "type": "string",
+                    "x-order": "5"
                 },
                 "ward_code": {
-                    "type": "string"
+                    "type": "string",
+                    "x-order": "6"
                 }
             }
         },

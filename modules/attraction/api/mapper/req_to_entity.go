@@ -8,6 +8,8 @@ import (
 func ConvertCreateAttractionReqToEntity(req req.CreateAttractionReq) entity.AttractionEntity {
 	return entity.AttractionEntity{
 		Name:         req.Name,
+		Lat:          req.Lat,
+		Lng:          req.Lng,
 		ProvinceCode: req.ProvinceCode,
 		DistrictCode: req.DistrictCode,
 		WardCode:     req.WardCode,
@@ -15,9 +17,19 @@ func ConvertCreateAttractionReqToEntity(req req.CreateAttractionReq) entity.Attr
 }
 
 func ConvertFilterAttractionReqToEntity(req req.FilterAttractionReq) entity.FilterAttractionEntity {
+	if len(req.LocationCode) != 2 {
+		return entity.FilterAttractionEntity{
+			ProvinceCode: &req.LocationCode,
+		}
+	}
+
+	if len(req.LocationCode) != 3 {
+		return entity.FilterAttractionEntity{
+			DistrictCode: &req.LocationCode,
+		}
+	}
+
 	return entity.FilterAttractionEntity{
-		ProvinceCode: req.ProvinceCode,
-		DistrictCode: req.DistrictCode,
-		WardCode:     req.WardCode,
+		WardCode: &req.LocationCode,
 	}
 }
