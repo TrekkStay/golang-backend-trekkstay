@@ -24,6 +24,7 @@ func NewReservationHandler(db *database.Database, requestValidator *validator.Va
 		requestValidator,
 		usecase.NewCreateReservationUseCase(hotelRoomRepoReader, reservationRepoWriter),
 		usecase.NewFilterReservationUseCase(reservationRepoReader),
+		usecase.NewGetDetailReservationUseCase(reservationRepoReader),
 	)
 }
 
@@ -43,6 +44,14 @@ func (r *RouteHandler) reservationRoute() route.GroupRoute {
 				Path:    "/filter",
 				Method:  method.GET,
 				Handler: r.ReservationHandle.HandleFilterReservation,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
+			},
+			{
+				Path:    "/:reservation_id",
+				Method:  method.GET,
+				Handler: r.ReservationHandle.HandleGetDetailReservation,
 				Middlewares: route.Middlewares(
 					middlewares.Authentication(),
 				),

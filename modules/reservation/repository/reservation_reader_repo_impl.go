@@ -23,7 +23,6 @@ func (repo reservationReaderRepositoryImpl) FindReservationByID(ctx context.Cont
 
 	if err := repo.db.Executor.
 		WithContext(ctx).
-		Preload("Room").
 		Preload("User").
 		Where("id = ?", reservationID).
 		First(&reservation).Error; err != nil {
