@@ -38,7 +38,7 @@ func (repo hotelEmpReaderRepositoryImpl) FindHotelEmpByHotelID(ctx context.Conte
 
 	if err := repo.db.Executor.
 		WithContext(ctx).
-		Where("hotel_id = ?", hotelID).
+		Where("hotel_id = ? AND role = ?", hotelID, "EMPLOYEE").
 		Find(&hotelEmployees).Error; err != nil {
 		return nil, err
 	}

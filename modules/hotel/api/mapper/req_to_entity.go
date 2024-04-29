@@ -95,12 +95,14 @@ func ConvertFilterHotelReqToEntity(req req.FilterHotelReq) entity.HotelFilterEnt
 
 func ConvertSearchHotelReqToEntity(req req.SearchHotelReq) entity.HotelSearchEntity {
 	return entity.HotelSearchEntity{
-		LocationCode: req.LocationCode,
-		PriceOrder:   req.PriceOrder,
-		CheckInDate:  req.CheckInDate,
-		CheckOutDate: req.CheckOutDate,
-		Adults:       req.Adults,
-		Children:     req.Children,
-		NumOfRooms:   req.NumOfRooms,
+		LocationCode:  req.LocationCode,
+		AttractionLat: req.AttractionLat,
+		AttractionLng: req.AttractionLng,
+		PriceOrder:    req.PriceOrder,
+		CheckInDate:   req.CheckInDate,
+		CheckOutDate:  req.CheckOutDate,
+		Adults:        req.Adults,
+		Children:      req.Children,
+		NumOfRooms:    req.NumOfRooms,
 	}
 }
