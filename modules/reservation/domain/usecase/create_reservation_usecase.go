@@ -1,13 +1,11 @@
 package usecase
 
 import (
-	"bytes"
 	"context"
-	"github.com/skip2/go-qrcode"
-	"image"
 	"trekkstay/core"
 	"trekkstay/modules/reservation/domain/entity"
 	"trekkstay/pkgs/s3"
+	"trekkstay/utils"
 )
 
 type CreateReservationUseCase interface {
@@ -32,22 +30,6 @@ func NewCreateReservationUseCase(
 		reservationWriterRepo: reservationWriterRepo,
 		uploadHandler:         uploadHandler,
 	}
-}
-
-func generateQRCode(text string) (image.Image, error) {
-	// Generate QR code
-	qr, err := qrcode.Encode(text, qrcode.Medium, 256)
-	if err != nil {
-		return nil, err
-	}
-
-	// Create image from QR code bytes
-	img, _, err := image.Decode(bytes.NewReader(qr))
-	if err != nil {
-		return nil, err
-	}
-
-	return img, nil
 }
 
 func (useCase createReservationUseCaseImpl) ExecuteCreateReservation(ctx context.Context,
@@ -75,7 +57,7 @@ func (useCase createReservationUseCaseImpl) ExecuteCreateReservation(ctx context
 		return nil, err
 	}
 
-	qrCode, _ := generateQRCode(reservation.ID)
+	qrCode, _ := utils.GenerateQRCode(reservation.ID)
 	url, err := useCase.uploadHandler.UploadImageToS3(qrCode)
 	(*reservation).QRCodeURL = *url
 
