@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"math"
 	"sort"
 	"trekkstay/core"
 	"trekkstay/modules/hotel/domain/entity"
@@ -49,6 +50,21 @@ func (useCase searchHotelUseCaseImpl) ExecuteSearchHotel(ctx context.Context, fi
 				hotelList[j].Coordinates.Lng,
 			)
 		})
+
+		for i := range hotelList {
+			hotelList[i].Attraction = new(entity.AttractionsJSON)
+			hotelList[i].Attraction.Distance = math.Round(utils.HaversineDistance(
+				*filter.AttractionLat,
+				*filter.AttractionLng,
+				hotelList[i].Coordinates.Lat,
+				hotelList[i].Coordinates.Lng,
+			)*1000) / 1000
+
+			if hotelList[i].Attraction.Distance == 0 {
+				hotelList[i].Attraction.Name = *filter.AttractionName
+				hotelList[i].Attraction.Distance = 0.001
+			}
+		}
 
 		hotels.Rows = hotelList
 	}

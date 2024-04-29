@@ -15,6 +15,11 @@ type CoordinatesJSON struct {
 	Lat float64 `json:"lat"`
 }
 
+type AttractionsJSON struct {
+	Name     string  `json:"name" gorm:"-"`
+	Distance float64 `json:"distance" gorm:"-"`
+}
+
 type HotelFacilitiesJSON struct {
 	FitnessCenter   bool `json:"fitness_center" gorm:"default:true"`
 	ConferenceRoom  bool `json:"conference_room" gorm:"default:true"`
