@@ -69,5 +69,9 @@ func (useCase searchHotelUseCaseImpl) ExecuteSearchHotel(ctx context.Context, fi
 		hotels.Rows = hotelList
 	}
 
+	if len(hotels.Rows.([]entity.HotelEntity)) == 0 {
+		hotels.Rows = []entity.HotelEntity{}
+	}
+
 	return hotels, nil
 }

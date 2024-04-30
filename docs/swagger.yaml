@@ -1056,35 +1056,47 @@ paths:
         name: location_code
         type: string
         x-order: "1"
-      - in: query
-        name: price_order
-        type: string
-        x-order: "2"
-      - example: "2024-04-24"
-        in: query
-        name: check_in_date
-        type: string
-        x-order: "3"
-      - example: "2024-04-25"
-        in: query
-        name: check_out_date
-        type: string
-        x-order: "4"
-      - example: 2
-        in: query
-        name: adults
-        type: integer
-        x-order: "5"
-      - example: 1
-        in: query
-        name: children
-        type: integer
-        x-order: "6"
       - example: 1
         in: query
         name: num_of_rooms
         type: integer
+        x-order: "10"
+      - in: query
+        name: attraction_lat
+        type: number
+        x-order: "2"
+      - in: query
+        name: attraction_lng
+        type: number
+        x-order: "3"
+      - in: query
+        name: attraction_name
+        type: string
+        x-order: "4"
+      - in: query
+        name: price_order
+        type: string
+        x-order: "5"
+      - example: "2024-04-24"
+        in: query
+        name: check_in_date
+        type: string
+        x-order: "6"
+      - example: "2024-04-25"
+        in: query
+        name: check_out_date
+        type: string
         x-order: "7"
+      - example: 2
+        in: query
+        name: adults
+        type: integer
+        x-order: "8"
+      - example: 1
+        in: query
+        name: children
+        type: integer
+        x-order: "9"
       - in: query
         name: limit
         type: integer

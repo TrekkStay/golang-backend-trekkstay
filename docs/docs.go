@@ -810,44 +810,62 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
+                        "type": "integer",
+                        "example": 1,
+                        "x-order": "10",
+                        "name": "num_of_rooms",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
                         "x-order": "2",
+                        "name": "attraction_lat",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "x-order": "3",
+                        "name": "attraction_lng",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "x-order": "4",
+                        "name": "attraction_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "x-order": "5",
                         "name": "price_order",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "example": "2024-04-24",
-                        "x-order": "3",
+                        "x-order": "6",
                         "name": "check_in_date",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "example": "2024-04-25",
-                        "x-order": "4",
+                        "x-order": "7",
                         "name": "check_out_date",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "example": 2,
-                        "x-order": "5",
+                        "x-order": "8",
                         "name": "adults",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "example": 1,
-                        "x-order": "6",
+                        "x-order": "9",
                         "name": "children",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "example": 1,
-                        "x-order": "7",
-                        "name": "num_of_rooms",
                         "in": "query"
                     },
                     {

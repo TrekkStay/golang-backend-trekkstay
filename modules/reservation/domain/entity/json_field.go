@@ -12,6 +12,8 @@ type MediaJSON struct {
 
 type RoomJSON struct {
 	HotelID       string    `json:"hotel_id"`
+	HotelName     string    `json:"hotel_name"`
+	Location      string    `json:"location"`
 	Type          string    `json:"type"`
 	OriginalPrice int       `json:"original_price"`
 	BookingPrice  int       `json:"booking_price"`

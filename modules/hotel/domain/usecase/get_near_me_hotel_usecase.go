@@ -39,5 +39,9 @@ func (useCase getNearMeHotelUseCaseImpl) ExecGetNearMeHotelUseCase(ctx context.C
 		}
 	}
 
+	if len(nearMeHotels) == 0 {
+		nearMeHotels = []entity.HotelEntity{}
+	}
+
 	return nearMeHotels, nil
 }

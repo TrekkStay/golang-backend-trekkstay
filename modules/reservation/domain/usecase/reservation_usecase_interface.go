@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"trekkstay/core"
+	hotel "trekkstay/modules/hotel/domain/entity"
 	room "trekkstay/modules/hotel_room/domain/entity"
 	"trekkstay/modules/reservation/domain/entity"
 )
@@ -21,4 +22,10 @@ type ReservationWriterRepository interface {
 type HotelRoomReaderRepository interface {
 	FindHotelRooms(ctx context.Context, filter room.HotelRoomFilterEntity) ([]room.HotelRoomEntity, error)
 	FindHotelRoomByCondition(ctx context.Context, condition map[string]interface{}) (*room.HotelRoomEntity, error)
+}
+
+type HotelReaderRepository interface {
+	FindHotelByCondition(ctx context.Context, condition map[string]interface{}) (*hotel.HotelEntity, error)
+	FindHotels(ctx context.Context, filter hotel.HotelFilterEntity, page, limit int) (*core.Pagination, error)
+	SearchHotel(ctx context.Context, filter hotel.HotelSearchEntity, page, limit int) (*core.Pagination, error)
 }
