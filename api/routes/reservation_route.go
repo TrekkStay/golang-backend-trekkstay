@@ -70,7 +70,7 @@ func (r *RouteHandler) reservationRoute() route.GroupRoute {
 			},
 			{
 				Path:    "/cancel/:reservation_id",
-				Method:  method.POST,
+				Method:  method.DELETE,
 				Handler: r.ReservationHandler.HandleCancelReservation,
 				Middlewares: route.Middlewares(
 					middlewares.Authentication(),

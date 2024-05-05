@@ -15,7 +15,7 @@ import (
 // @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
-// @Router       /reservation/cancel/{reservation_id} [post]
+// @Router       /reservation/cancel/{reservation_id} [delete]
 // @Security     JWT
 func (h reservationHandler) HandleCancelReservation(c *gin.Context) {
 	reservationID := c.Param("reservation_id")

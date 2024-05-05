@@ -53,6 +53,7 @@ func (repo reservationReaderRepositoryImpl) FilterReservation(ctx context.Contex
 
 	paging.Limit = limit
 	paging.Page = page
+	paging.Sort = "check_in_date asc"
 
 	var scopeFunctions []func(d *gorm.DB) *gorm.DB
 

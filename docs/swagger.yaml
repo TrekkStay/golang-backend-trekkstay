@@ -1475,7 +1475,7 @@ paths:
       tags:
       - Reservation
   /reservation/cancel/{reservation_id}:
-    post:
+    delete:
       description: Cancel reservation
       parameters:
       - description: Reservation ID

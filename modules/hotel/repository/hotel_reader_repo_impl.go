@@ -219,6 +219,23 @@ func (repo hotelReaderRepositoryImpl) SearchHotel(ctx context.Context,
 		}
 	}
 
+	// Calculate rating
+	for i := range hotels {
+		rating, avg := int64(0), float64(0)
+
+		repo.db.Executor.
+			WithContext(ctx).Table("ratings").Where("hotel_id = ?", hotels[i].ID).
+			Count(&rating)
+		repo.db.Executor.
+			Table("ratings").Where("hotel_id = ?", hotels[i].ID).
+			Select("AVG(point)").Row().Scan(&avg)
+
+		hotels[i].Rating = &entity.RatingJSON{
+			TotalReview: int(rating),
+			AvgPoint:    avg,
+		}
+	}
+
 	paging.TotalRows = int64(len(hotels))
 	paging.TotalPages = int(math.Ceil(float64(paging.TotalRows) / float64(limit)))
 	paging.Rows = hotels

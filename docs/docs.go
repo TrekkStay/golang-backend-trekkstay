@@ -1387,7 +1387,7 @@ const docTemplate = `{
             }
         },
         "/reservation/cancel/{reservation_id}": {
-            "post": {
+            "delete": {
                 "security": [
                     {
                         "JWT": []
