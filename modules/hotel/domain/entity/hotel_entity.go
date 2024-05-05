@@ -29,6 +29,7 @@ type HotelEntity struct {
 	Images      MediaJSON           `json:"images" gorm:"type:jsonb;default:null"`
 	// Calculated fields
 	Attraction *AttractionsJSON `json:"attraction,omitempty" gorm:"-"`
+	Rating     *RatingJSON      `json:"rating,omitempty" gorm:"-"`
 }
 
 func (HotelEntity) TableName() string {

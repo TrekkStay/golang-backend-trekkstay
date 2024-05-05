@@ -6,7 +6,6 @@ import (
 )
 
 type RatingReaderRepository interface {
-	CountRatingAndAveragePoint(ctx context.Context, hotelID string) (int64, int64, error)
 	FindRating(ctx context.Context, filter entity.RatingEntity) ([]entity.RatingEntity, error)
 }
 

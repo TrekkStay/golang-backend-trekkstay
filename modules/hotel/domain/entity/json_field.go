@@ -20,6 +20,11 @@ type AttractionsJSON struct {
 	Distance float64 `json:"distance" gorm:"-"`
 }
 
+type RatingJSON struct {
+	TotalReview int     `json:"total_review" gorm:"default:0"`
+	AvgPoint    float64 `json:"avg_point" gorm:"default:0"`
+}
+
 type HotelFacilitiesJSON struct {
 	FitnessCenter   bool `json:"fitness_center" gorm:"default:true"`
 	ConferenceRoom  bool `json:"conference_room" gorm:"default:true"`

@@ -1086,6 +1086,100 @@ const docTemplate = `{
                 }
             }
         },
+        "/rating/create": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create rating, requires authentication with user role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rating"
+                ],
+                "summary": "Create rating",
+                "parameters": [
+                    {
+                        "description": "CreateRatingReq JSON",
+                        "name": "CreateRatingReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreateRatingReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/rating/filter": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Filter rating by hotel id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rating"
+                ],
+                "summary": "Filter rating by hotel id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "hotel_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
@@ -2054,6 +2148,34 @@ const docTemplate = `{
                 "status": {
                     "type": "string",
                     "example": "PENDING"
+                }
+            }
+        },
+        "req.CreateRatingReq": {
+            "type": "object",
+            "required": [
+                "hotel_id"
+            ],
+            "properties": {
+                "hotel_id": {
+                    "type": "string",
+                    "x-order": "1"
+                },
+                "title": {
+                    "type": "string",
+                    "x-order": "2"
+                },
+                "type_of_traveler": {
+                    "type": "string",
+                    "x-order": "3"
+                },
+                "point": {
+                    "type": "integer",
+                    "x-order": "4"
+                },
+                "summary": {
+                    "type": "string",
+                    "x-order": "5"
                 }
             }
         },

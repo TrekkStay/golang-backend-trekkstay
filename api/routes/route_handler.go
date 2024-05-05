@@ -7,6 +7,7 @@ import (
 	hotelEmpHandler "trekkstay/modules/hotel_emp/api/handler"
 	hotelRoomHandler "trekkstay/modules/hotel_room/api/handler"
 	paymentHandler "trekkstay/modules/payment/api/handler"
+	ratingHandler "trekkstay/modules/rating/api/handler"
 	regionHandler "trekkstay/modules/region/api/handler"
 	reservationHandler "trekkstay/modules/reservation/api/handler"
 	tokenHandler "trekkstay/modules/token/api/handler"
@@ -27,6 +28,7 @@ type RouteHandler struct {
 	AttractionHandler  attractionHandler.AttractionHandler
 	ReservationHandler reservationHandler.ReservationHandler
 	PaymentHandler     paymentHandler.PaymentHandler
+	RatingHandler      ratingHandler.RatingHandler
 }
 
 func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
@@ -42,6 +44,7 @@ func (r *RouteHandler) InitGroupRoutes() []route.GroupRoute {
 	routeGroup = append(routeGroup, r.attractionRoute())
 	routeGroup = append(routeGroup, r.reservationRoute())
 	routeGroup = append(routeGroup, r.paymentRoute())
+	routeGroup = append(routeGroup, r.ratingRoute())
 
 	return routeGroup
 }

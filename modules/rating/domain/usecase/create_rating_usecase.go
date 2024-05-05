@@ -16,6 +16,10 @@ type createRatingUseCaseImpl struct {
 
 var _ CreateRatingUseCase = (*createRatingUseCaseImpl)(nil)
 
+func NewCreateRatingUseCase(ratingWriterRepo RatingWriterRepository) CreateRatingUseCase {
+	return &createRatingUseCaseImpl{ratingWriterRepo: ratingWriterRepo}
+}
+
 func (useCase createRatingUseCaseImpl) ExecuteCreateRating(ctx context.Context, rating entity.RatingEntity) error {
 	requester := ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester)
 	rating.UserID = requester.GetUserID()
