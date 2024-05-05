@@ -9,7 +9,7 @@ import (
 )
 
 type CreateHotelRoomUseCase interface {
-	ExecuteCreateHotelRoom(ctx context.Context, hotelRoomEntity entity.HotelRoomEntity) error
+	ExecuteCreateHotelRoom(ctx context.Context, hotelRoomEntity *entity.HotelRoomEntity) error
 }
 
 type createHotelRoomUseCaseImpl struct {
@@ -25,7 +25,7 @@ func NewCreateHotelRoomUseCase(writerRepo hotelRoomWriterRepository) CreateHotel
 }
 
 func (useCase createHotelRoomUseCaseImpl) ExecuteCreateHotelRoom(ctx context.Context,
-	hotelRoomEntity entity.HotelRoomEntity) error {
+	hotelRoomEntity *entity.HotelRoomEntity) error {
 	if err := useCase.writerRepo.InsertHotelRoom(ctx, hotelRoomEntity); err != nil {
 		log.JsonLogger.Error("ExecuteCreateHotelRoom.insert_hotel_room",
 			slog.String("error", err.Error()),

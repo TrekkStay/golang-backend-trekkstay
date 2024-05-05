@@ -1,4 +1,4 @@
--- Active: 1706096556975@@52.163.61.213@5432@trekkstay_db
+-- Active: 1713243008237@@175.41.168.200@5432@trekkstay_db
 INSERT INTO public.districts (code, name_vi, name_en, full_name_vi, full_name_en, province_code) VALUES ('760', '1', '1', 'Quận 1', 'District 1', '79');
 INSERT INTO public.districts (code, name_vi, name_en, full_name_vi, full_name_en, province_code) VALUES ('761', '12', '12', 'Quận 12', 'District 12', '79');
 INSERT INTO public.districts (code, name_vi, name_en, full_name_vi, full_name_en, province_code) VALUES ('770', '3', '3', 'Quận 3', 'District 3', '79');

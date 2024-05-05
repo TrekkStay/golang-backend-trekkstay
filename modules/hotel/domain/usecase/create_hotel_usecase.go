@@ -11,7 +11,7 @@ import (
 )
 
 type CreateHotelUseCase interface {
-	ExecuteCreateHotel(ctx context.Context, hotelEntity entity.HotelEntity) error
+	ExecuteCreateHotel(ctx context.Context, hotelEntity *entity.HotelEntity) error
 }
 
 type createHotelUseCaseImpl struct {
@@ -28,7 +28,7 @@ func NewCreateHotelUseCase(readerRepo hotelReaderRepository, writerRepo hotelWri
 	}
 }
 
-func (useCase createHotelUseCaseImpl) ExecuteCreateHotel(ctx context.Context, hotelEntity entity.HotelEntity) error {
+func (useCase createHotelUseCaseImpl) ExecuteCreateHotel(ctx context.Context, hotelEntity *entity.HotelEntity) error {
 	requester := ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester)
 
 	// Check permission

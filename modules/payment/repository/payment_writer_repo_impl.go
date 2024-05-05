@@ -30,7 +30,7 @@ func (repo paymentWriterRepositoryImpl) UpdatePaymentStatus(ctx context.Context,
 	if err := repo.db.Executor.
 		WithContext(ctx).
 		Model(&entity.PaymentEntity{}).
-		Where("id = ?", paymentID).
+		Where("reservation_id = ?", paymentID).
 		Update("status", status).Error; err != nil {
 		return err
 	}

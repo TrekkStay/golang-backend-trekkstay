@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"trekkstay/core"
 	"trekkstay/modules/payment/domain/entity"
 )
 
@@ -21,6 +22,10 @@ func NewCreatePaymentUseCase(paymentWriterRepo paymentWriterRepository) CreatePa
 
 func (useCase createPaymentUseCaseImpl) ExecuteCreatePaymentUseCase(ctx context.Context,
 	payment entity.PaymentEntity) (*entity.PaymentEntity, error) {
+	requester := ctx.Value(core.CurrentRequesterKeyStruct{}).(core.Requester)
+
+	payment.UserID = requester.GetUserID()
+
 	if err := useCase.paymentWriterRepo.InsertPayment(ctx, &payment); err != nil {
 		return nil, err
 	}

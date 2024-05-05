@@ -60,8 +60,8 @@ func (useCase searchHotelUseCaseImpl) ExecuteSearchHotel(ctx context.Context, fi
 				hotelList[i].Coordinates.Lng,
 			)*1000) / 1000
 
+			hotelList[i].Attraction.Name = *filter.AttractionName
 			if hotelList[i].Attraction.Distance == 0 {
-				hotelList[i].Attraction.Name = *filter.AttractionName
 				hotelList[i].Attraction.Distance = 0.001
 			}
 		}

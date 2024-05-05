@@ -13,7 +13,7 @@ type HotelReaderRepository interface {
 }
 
 type HotelWriterRepository interface {
-	InsertHotel(ctx context.Context, hotel entity.HotelEntity) error
+	InsertHotel(ctx context.Context, hotel *entity.HotelEntity) error
 	UpdateHotel(ctx context.Context, hotel entity.HotelEntity) error
 	DeleteHotel(ctx context.Context, hotelID string) error
 }

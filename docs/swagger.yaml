@@ -223,6 +223,20 @@ definitions:
     - quantity
     - type
     type: object
+  req.CreatePaymentReq:
+    properties:
+      amount:
+        example: 1000000
+        type: integer
+      method:
+        example: MOMO
+        type: string
+      reservation_id:
+        type: string
+      status:
+        example: PENDING
+        type: string
+    type: object
   req.CreateReservationReq:
     properties:
       check_in_date:
@@ -483,6 +497,14 @@ definitions:
     - quantity
     - type
     type: object
+  req.UpdatePaymentReq:
+    properties:
+      reservation_id:
+        type: string
+      status:
+        example: SUCCESS
+        type: string
+    type: object
   req.UpdateUserReq:
     properties:
       email:
@@ -514,7 +536,7 @@ definitions:
       status_code:
         type: integer
     type: object
-host: 52.163.61.213:8888
+host: 175.41.168.200:8888
 info:
   contact:
     email: support@trekkstay.com
@@ -1151,6 +1173,66 @@ paths:
       summary: Update hotel
       tags:
       - Hotel
+  /payment/create:
+    post:
+      description: Create new payment
+      parameters:
+      - description: CreatePaymentReq JSON
+        in: body
+        name: CreatePaymentReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.CreatePaymentReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Create new payment
+      tags:
+      - Payment
+  /payment/update:
+    patch:
+      description: Update payment
+      parameters:
+      - description: UpdatePaymentReq JSON
+        in: body
+        name: UpdatePaymentReq
+        required: true
+        schema:
+          $ref: '#/definitions/req.UpdatePaymentReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Update payment
+      tags:
+      - Payment
   /region/list-district:
     get:
       description: List all districts of a province
@@ -1253,6 +1335,35 @@ paths:
       security:
       - JWT: []
       summary: Get detail reservation
+      tags:
+      - Reservation
+  /reservation/cancel/{reservation_id}:
+    post:
+      description: Cancel reservation
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: reservation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Cancel reservation
       tags:
       - Reservation
   /reservation/create:

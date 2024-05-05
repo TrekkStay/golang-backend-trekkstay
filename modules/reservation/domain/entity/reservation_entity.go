@@ -15,6 +15,7 @@ type ReservationEntity struct {
 	GuestInfo    GuestInfoJSON `json:"guest_info" gorm:"type:json;column:guest_info;"`
 	Room         RoomJSON      `json:"room" gorm:"type:json;column:room;"`
 	User         UserEntity    `json:"user" gorm:"foreignKey:UserID;references:ID;"`
+	Payment      PaymentEntity `json:"payment" gorm:"foreignKey:ReservationID;references:ID;"`
 }
 
 func (ReservationEntity) TableName() string {

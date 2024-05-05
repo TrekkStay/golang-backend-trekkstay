@@ -1,4 +1,4 @@
--- Active: 1706096556975@@52.163.61.213@5432@trekkstay_db
+-- Active: 1713243008237@@175.41.168.200@5432@trekkstay_db
 INSERT INTO public.provinces (code, name_vi, name_en, full_name_vi, full_name_en) VALUES ('01', 'Hà Nội', 'Ha Noi', 'Thành phố Hà Nội', 'Ha Noi City');
 INSERT INTO public.provinces (code, name_vi, name_en, full_name_vi, full_name_en) VALUES ('26', 'Vĩnh Phúc', 'Vinh Phuc', 'Tỉnh Vĩnh Phúc', 'Vinh Phuc Province');
 INSERT INTO public.provinces (code, name_vi, name_en, full_name_vi, full_name_en) VALUES ('27', 'Bắc Ninh', 'Bac Ninh', 'Tỉnh Bắc Ninh', 'Bac Ninh Province');

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"gorm.io/gorm"
 	"trekkstay/core"
 	"trekkstay/modules/reservation/domain/entity"
@@ -24,6 +25,7 @@ func (repo reservationReaderRepositoryImpl) FindReservationByID(ctx context.Cont
 	if err := repo.db.Executor.
 		WithContext(ctx).
 		Preload("User").
+		Preload("Payment").
 		Where("id = ?", reservationID).
 		First(&reservation).Error; err != nil {
 		return nil, err
@@ -55,8 +57,9 @@ func (repo reservationReaderRepositoryImpl) FilterReservation(ctx context.Contex
 	}
 
 	if filter.HotelID != nil {
+		fmt.Print("filter.HotelID: ", *filter.HotelID)
 		scopeFunctions = append(scopeFunctions, func(d *gorm.DB) *gorm.DB {
-			return d.Where("(room->>'hotel_id')::string = ?", *filter.HotelID)
+			return d.Where("(room->>'hotel_id')::text = ?", *filter.HotelID)
 		})
 	}
 
@@ -72,6 +75,7 @@ func (repo reservationReaderRepositoryImpl) FilterReservation(ctx context.Contex
 	result := tx.
 		Scopes(core.Paginate(&paging, txTotalRows)).
 		Preload("User").
+		Preload("Payment").
 		Find(&reservations)
 
 	paging.Rows = reservations

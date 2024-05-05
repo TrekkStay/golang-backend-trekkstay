@@ -17,7 +17,7 @@ func NewHotelWriterRepository(db database.Database) HotelWriterRepository {
 }
 
 // InsertHotel implements HotelWriterRepository interface
-func (repo hotelWriterRepositoryImpl) InsertHotel(ctx context.Context, hotel entity.HotelEntity) error {
+func (repo hotelWriterRepositoryImpl) InsertHotel(ctx context.Context, hotel *entity.HotelEntity) error {
 	// Begin a transaction
 	tx := repo.db.Executor.Begin().WithContext(ctx)
 

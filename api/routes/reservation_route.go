@@ -36,6 +36,7 @@ func NewReservationHandler(db *database.Database, requestValidator *validator.Va
 			hotelRepoReader, reservationRepoWriter, s3.NewS3Upload(s3Config)),
 		usecase.NewFilterReservationUseCase(reservationRepoReader),
 		usecase.NewGetDetailReservationUseCase(reservationRepoReader),
+		usecase.NewCancelReservationUseCase(reservationRepoWriter),
 	)
 }
 
@@ -46,7 +47,7 @@ func (r *RouteHandler) reservationRoute() route.GroupRoute {
 			{
 				Path:    "/create",
 				Method:  method.POST,
-				Handler: r.ReservationHandle.HandleCreateReservation,
+				Handler: r.ReservationHandler.HandleCreateReservation,
 				Middlewares: route.Middlewares(
 					middlewares.Authentication(),
 				),
@@ -54,7 +55,7 @@ func (r *RouteHandler) reservationRoute() route.GroupRoute {
 			{
 				Path:    "/filter",
 				Method:  method.GET,
-				Handler: r.ReservationHandle.HandleFilterReservation,
+				Handler: r.ReservationHandler.HandleFilterReservation,
 				Middlewares: route.Middlewares(
 					middlewares.Authentication(),
 				),
@@ -62,7 +63,15 @@ func (r *RouteHandler) reservationRoute() route.GroupRoute {
 			{
 				Path:    "/:reservation_id",
 				Method:  method.GET,
-				Handler: r.ReservationHandle.HandleGetDetailReservation,
+				Handler: r.ReservationHandler.HandleGetDetailReservation,
+				Middlewares: route.Middlewares(
+					middlewares.Authentication(),
+				),
+			},
+			{
+				Path:    "/cancel/:reservation_id",
+				Method:  method.POST,
+				Handler: r.ReservationHandler.HandleCancelReservation,
 				Middlewares: route.Middlewares(
 					middlewares.Authentication(),
 				),

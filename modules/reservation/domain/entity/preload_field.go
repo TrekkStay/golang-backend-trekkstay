@@ -1,11 +1,11 @@
 package entity
 
 type PaymentEntity struct {
-	ID            string `json:"id" gorm:"column:id;"`
-	ReservationID string `json:"reservation_id" gorm:"column:reservation_id;"`
-	Amount        int    `json:"amount" gorm:"column:amount;"`
-	Method        string `json:"method" gorm:"column:method;"`
-	Status        string `json:"status" gorm:"column:status;"`
+	ReservationID string `json:"reservation_id"`
+	UserID        string `json:"user_id"`
+	Amount        int    `json:"amount"`
+	Method        string `json:"method"`
+	Status        string `json:"status"`
 }
 
 type UserEntity struct {

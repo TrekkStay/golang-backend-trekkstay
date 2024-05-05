@@ -990,6 +990,102 @@ const docTemplate = `{
                 }
             }
         },
+        "/payment/create": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create new payment",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Create new payment",
+                "parameters": [
+                    {
+                        "description": "CreatePaymentReq JSON",
+                        "name": "CreatePaymentReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.CreatePaymentReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment/update": {
+            "patch": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Update payment",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Update payment",
+                "parameters": [
+                    {
+                        "description": "UpdatePaymentReq JSON",
+                        "name": "UpdatePaymentReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/req.UpdatePaymentReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/region/list-district": {
             "get": {
                 "description": "List all districts of a province",
@@ -1079,6 +1175,52 @@ const docTemplate = `{
                         "description": "District code",
                         "name": "district_code",
                         "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/reservation/cancel/{reservation_id}": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Cancel reservation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reservation"
+                ],
+                "summary": "Cancel reservation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Reservation ID",
+                        "name": "reservation_id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -1895,6 +2037,26 @@ const docTemplate = `{
                 }
             }
         },
+        "req.CreatePaymentReq": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer",
+                    "example": 1000000
+                },
+                "method": {
+                    "type": "string",
+                    "example": "MOMO"
+                },
+                "reservation_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "PENDING"
+                }
+            }
+        },
         "req.CreateReservationReq": {
             "type": "object",
             "required": [
@@ -2280,6 +2442,18 @@ const docTemplate = `{
                 }
             }
         },
+        "req.UpdatePaymentReq": {
+            "type": "object",
+            "properties": {
+                "reservation_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "SUCCESS"
+                }
+            }
+        },
         "req.UpdateUserReq": {
             "type": "object",
             "properties": {
@@ -2339,7 +2513,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "v0.0.1",
-	Host:             "52.163.61.213:8888",
+	Host:             "175.41.168.200:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Trekkstay - Hotel Booking System API",

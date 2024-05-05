@@ -43,13 +43,15 @@ func (h hotelRoomHandler) HandleCreateHotelRoom(c *gin.Context) {
 		panic(res.ErrFieldValidationFailed(err))
 	}
 
+	hotel := mapper.ConvertCreateHotelRoomReqToEntity(createHotelRoomReq)
+
 	// Create hotel room
 	if err := h.createHotelRoomUseCase.ExecuteCreateHotelRoom(
 		c.Request.Context(),
-		mapper.ConvertCreateHotelRoomReqToEntity(createHotelRoomReq),
+		&hotel,
 	); err != nil {
 		panic(err)
 	}
 
-	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", nil))
+	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", hotel.HotelID))
 }

@@ -11,7 +11,7 @@ type HotelRoomReaderRepository interface {
 }
 
 type HotelRoomWriterRepository interface {
-	InsertHotelRoom(ctx context.Context, room entity.HotelRoomEntity) error
+	InsertHotelRoom(ctx context.Context, room *entity.HotelRoomEntity) error
 	UpdateHotelRoom(ctx context.Context, room entity.HotelRoomEntity) error
 	DeleteHotelRoom(ctx context.Context, roomID string) error
 }

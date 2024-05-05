@@ -52,7 +52,7 @@ func (useCase createReservationUseCaseImpl) ExecuteCreateReservation(ctx context
 	// Retrieve room information
 	(*reservation).Room.HotelID = (*room).HotelID
 	(*reservation).Room.HotelName = (*hotel).Name
-	(*reservation).Room.Location = (*hotel).District.NameEn
+	(*reservation).Room.Location = (*hotel).District.FullNameEn + " - " + (*hotel).Province.NameEn
 	(*reservation).Room.Type = (*room).Type
 	(*reservation).Room.OriginalPrice = (*room).OriginalPrice
 	(*reservation).Room.Images = entity.MediaJSON((*room).Images)

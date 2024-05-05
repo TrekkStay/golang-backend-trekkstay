@@ -18,7 +18,7 @@ func NewHotelRoomWriterRepository(db database.Database) HotelRoomWriterRepositor
 	}
 }
 
-func (repo hotelRoomWriterRepositoryImpl) InsertHotelRoom(ctx context.Context, room entity.HotelRoomEntity) error {
+func (repo hotelRoomWriterRepositoryImpl) InsertHotelRoom(ctx context.Context, room *entity.HotelRoomEntity) error {
 	return repo.db.Executor.
 		WithContext(ctx).
 		Create(&room).Error

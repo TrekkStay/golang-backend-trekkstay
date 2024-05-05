@@ -49,13 +49,15 @@ func (h hotelHandler) HandleCreatHotel(c *gin.Context) {
 	ctx := context.WithValue(c.Request.Context(), core.CurrentRequesterKeyStruct{},
 		c.MustGet(core.CurrentRequesterKeyString).(core.Requester))
 
+	hotel := mapper.ConvertCreateHotelReqToEntity(createHotelReq)
+
 	// Create hotel
 	if err := h.createHotelUseCase.ExecuteCreateHotel(
 		ctx,
-		mapper.ConvertCreateHotelReqToEntity(createHotelReq),
+		&hotel,
 	); err != nil {
 		panic(err)
 	}
 
-	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", nil))
+	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", hotel.ID))
 }

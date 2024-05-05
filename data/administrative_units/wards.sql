@@ -1,4 +1,4 @@
--- Active: 1706096556975@@52.163.61.213@5432@trekkstay_db
+-- Active: 1713243008237@@175.41.168.200@5432@trekkstay_db
 INSERT INTO public.wards (code, name_vi, name_en, full_name_vi, full_name_en, district_code) VALUES ('27337', '06', '06', 'Phường 06', 'Ward 06', '774');
 INSERT INTO public.wards (code, name_vi, name_en, full_name_vi, full_name_en, district_code) VALUES ('27340', '10', '10', 'Phường 10', 'Ward 10', '774');
 INSERT INTO public.wards (code, name_vi, name_en, full_name_vi, full_name_en, district_code) VALUES ('27259', '13', '13', 'Phường 13', 'Ward 13', '773');
