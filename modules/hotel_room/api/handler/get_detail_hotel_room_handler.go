@@ -18,7 +18,7 @@ import (
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /hotel-room/{hotel_room_id} [get]
 func (h hotelRoomHandler) HandleGetDetailHotelRoom(c *gin.Context) {
-	hotelRoomID := c.Param("room_id")
+	hotelRoomID := c.Param("hotel_room_id")
 
 	if hotelRoomID == "" {
 		panic(res.ErrInvalidRequest(errors.New("room's id is required")))
