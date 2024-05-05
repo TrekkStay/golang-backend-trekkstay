@@ -12,6 +12,7 @@ type HotelRoomHandler interface {
 	HandleFilterHotelRoom(c *gin.Context)
 	HandleUpdateHotelRoom(c *gin.Context)
 	HandleGetDetailHotelRoom(c *gin.Context)
+	HandleDeleteHotelRoom(c *gin.Context)
 }
 
 type hotelRoomHandler struct {
@@ -21,6 +22,7 @@ type hotelRoomHandler struct {
 	filterHotelRoomUseCase    usecase.FilterHotelRoomUseCase
 	updateHotelRoomUseCase    usecase.UpdateHotelRoomUseCase
 	getDetailHotelRoomUseCase usecase.GetDetailHotelRoomUseCase
+	deleteHotelRoomUseCase    usecase.DeleteHotelRoomUseCase
 }
 
 func NewHotelRoomHandler(
@@ -30,6 +32,7 @@ func NewHotelRoomHandler(
 	filterHotelRoomUseCase usecase.FilterHotelRoomUseCase,
 	updateHotelRoomUseCase usecase.UpdateHotelRoomUseCase,
 	getDetailHotelRoomUseCase usecase.GetDetailHotelRoomUseCase,
+	deleteHotelRoomUseCase usecase.DeleteHotelRoomUseCase,
 ) HotelRoomHandler {
 	return &hotelRoomHandler{
 		requestValidator:          requestValidator,
@@ -38,5 +41,6 @@ func NewHotelRoomHandler(
 		filterHotelRoomUseCase:    filterHotelRoomUseCase,
 		updateHotelRoomUseCase:    updateHotelRoomUseCase,
 		getDetailHotelRoomUseCase: getDetailHotelRoomUseCase,
+		deleteHotelRoomUseCase:    deleteHotelRoomUseCase,
 	}
 }

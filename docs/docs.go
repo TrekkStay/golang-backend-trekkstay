@@ -580,6 +580,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel-room/{room_id}": {
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Delete hotel room, requires authentication with owner role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Room"
+                ],
+                "summary": "Delete hotel room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "room_id",
+                        "name": "room_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hotel/create": {
             "post": {
                 "security": [
