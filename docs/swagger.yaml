@@ -677,6 +677,35 @@ paths:
       summary: List destination
       tags:
       - Destination
+  /hotel-emp/{employee_id}:
+    delete:
+      description: Delete hotel employee, requires authentication with owner role
+      parameters:
+      - description: employee_id
+        in: path
+        name: employee_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.ErrorResponse'
+      security:
+      - JWT: []
+      summary: Delete hotel employee
+      tags:
+      - Hotel Employee
   /hotel-emp/create-emp:
     post:
       description: Create new hotel employee account, require hotel owner permission
@@ -832,8 +861,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             $ref: '#/definitions/res.SuccessResponse'
         "400":

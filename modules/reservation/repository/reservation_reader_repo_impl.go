@@ -31,6 +31,18 @@ func (repo reservationReaderRepositoryImpl) FindReservationByID(ctx context.Cont
 		return nil, err
 	}
 
+	var count int64 = 0
+
+	repo.db.Executor.Table("ratings").
+		Where("hotel_id = ? AND user_id = ?", reservation.Room.HotelID, reservation.UserID).
+		Count(&count)
+
+	if count > 0 {
+		reservation.IsRated = true
+	}
+
+	reservation.IsRated = false
+
 	return &reservation, nil
 }
 
@@ -77,6 +89,20 @@ func (repo reservationReaderRepositoryImpl) FilterReservation(ctx context.Contex
 		Preload("User").
 		Preload("Payment").
 		Find(&reservations)
+
+	for i := range reservations {
+		var count int64 = 0
+
+		repo.db.Executor.Table("ratings").
+			Where("hotel_id = ? AND user_id = ?", reservations[i].Room.HotelID, reservations[i].UserID).
+			Count(&count)
+
+		if count > 0 {
+			reservations[i].IsRated = true
+		} else {
+			reservations[i].IsRated = false
+		}
+	}
 
 	paging.Rows = reservations
 

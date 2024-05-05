@@ -11,6 +11,7 @@ type HotelEmpHandler interface {
 	HandleCreateHotelOwner(c *gin.Context)
 	HandleLoginHotelEmp(c *gin.Context)
 	HandleFilterHotelEmp(c *gin.Context)
+	HandleDeleteHotelEmp(c *gin.Context)
 }
 
 type hotelEmpHandler struct {
@@ -19,6 +20,7 @@ type hotelEmpHandler struct {
 	createHotelOwnerUseCase usecase.CreateHotelOwnerUseCase
 	loginHotelEmpUseCase    usecase.LoginHotelEmpUseCase
 	filterHotelEmpUseCase   usecase.FilterHotelEmpUseCase
+	deleteHotelEmpUseCase   usecase.DeleteHotelEmpUseCase
 }
 
 func NewHotelEmpHandler(
@@ -27,6 +29,7 @@ func NewHotelEmpHandler(
 	createHotelOwnerUseCase usecase.CreateHotelOwnerUseCase,
 	loginHotelEmpUseCase usecase.LoginHotelEmpUseCase,
 	filterHotelEmpUseCase usecase.FilterHotelEmpUseCase,
+	deleteHotelEmpUseCase usecase.DeleteHotelEmpUseCase,
 ) HotelEmpHandler {
 	return &hotelEmpHandler{
 		requestValidator:        requestValidator,
@@ -34,5 +37,6 @@ func NewHotelEmpHandler(
 		createHotelOwnerUseCase: createHotelOwnerUseCase,
 		loginHotelEmpUseCase:    loginHotelEmpUseCase,
 		filterHotelEmpUseCase:   filterHotelEmpUseCase,
+		deleteHotelEmpUseCase:   deleteHotelEmpUseCase,
 	}
 }

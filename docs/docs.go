@@ -372,6 +372,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/hotel-emp/{employee_id}": {
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Delete hotel employee, requires authentication with owner role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hotel Employee"
+                ],
+                "summary": "Delete hotel employee",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "employee_id",
+                        "name": "employee_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hotel-room/create": {
             "post": {
                 "security": [
@@ -605,8 +651,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/res.SuccessResponse"
                         }

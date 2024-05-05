@@ -12,7 +12,7 @@ import (
 // @Tags         Hotel Room
 // @Produce      json
 // @Param        room_id path string true "room_id"
-// @Success      201 {object}  	res.SuccessResponse
+// @Success      200 {object}  	res.SuccessResponse
 // @failure		 400 {object} 	res.ErrorResponse
 // @failure		 500 {object} 	res.ErrorResponse
 // @Router       /hotel-room/{room_id} [delete]
@@ -26,5 +26,5 @@ func (h hotelRoomHandler) HandleDeleteHotelRoom(c *gin.Context) {
 		panic(err)
 	}
 
-	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusCreated, "success", nil))
+	res.ResponseSuccess(c, res.NewSuccessResponse(http.StatusOK, "success", nil))
 }

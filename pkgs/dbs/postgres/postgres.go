@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"gorm.io/gorm/logger"
 	"os"
 	"strconv"
 	"trekkstay/pkgs/dbs/postgres/migration"
@@ -56,6 +57,7 @@ func NewDatabase(conn Connection) (*Database, error) {
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
+		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
 		log.JsonLogger.Error(err.Error())
